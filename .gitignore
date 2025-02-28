@@ -1,0 +1,73 @@
+# Archivos generados por el sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de registro de Unity
+*.log
+
+# Archivos de construcción
+Build/
+Builds/
+[Bb]uild/
+
+# Archivos de caché de Unity
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+
+# Archivos de usuario
+UserSettings/
+*.userprefs
+*.csproj
+*.pidb
+*.suo
+*.user
+*.userosscache
+*.sln
+*.swp
+*.tmp
+*.user
+*.userprefs
+*.pidb.meta
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# Archivos de integración continua
+[Uu]ser[Ss]ettings/
+*.pidb
+*.suo
+*.user
+*.userosscache
+*.sln
+*.swp
+*.tmp
+*.user
+*.userprefs
+*.pidb.meta
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# Archivos de paquetes
+[Pp]ackages/manifest.json
+[Pp]ackages/packages-lock.json
+
+# Archivos de configuración de IDEs
+.vscode/
+.idea/
+*.code-workspace
+
+# Archivos de la tienda de activos de Unity
+[Uu]ser[Ss]ettings/AssetStoreTools*
+
+# Archivos de configuración de plataformas específicas
+*.vsconfig
+.vscode/
+.idea/
+*.code-workspace
