@@ -104,7 +104,7 @@ $RECYCLE.BIN/
 *.msp
 *.lnk
 
-Survival/Library/ArtifactDB
+Survival\Library\ArtifactDB
 
 
 # Linux
