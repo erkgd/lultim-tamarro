@@ -2,7 +2,7 @@
 ### Configuración Unity
 ### -----------------------------------
 # Directorios críticos
-/Library/*
+*/Library/*
 !/Library/Artifacts/
 
 /[Tt]emp/
