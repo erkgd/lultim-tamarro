@@ -104,6 +104,9 @@ $RECYCLE.BIN/
 *.msp
 *.lnk
 
+Survival/Library/ArtifactDB
+
+
 # Linux
 *~
 .directory
@@ -116,7 +119,7 @@ $RECYCLE.BIN/
 /[Tt]humbs/
 /[Cc]ache/
 /[Tt]rash/
-/[Aa]rtifactDB/
+
 *.sw?
 *.swo
 *.swn
@@ -125,7 +128,7 @@ $RECYCLE.BIN/
 *.temp
 *.TMP
 *.tempFile
-
+*.dylib
 ### -----------------------------------
 ### Paquetes y dependencias
 ### -----------------------------------
