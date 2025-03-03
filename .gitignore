@@ -3,7 +3,6 @@
 ### -----------------------------------
 # Directorios críticos
 */Library/*
-!/Library/Artifacts/
 
 /[Tt]emp/
 /[Oo]bj/
