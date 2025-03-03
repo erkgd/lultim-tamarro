@@ -116,6 +116,7 @@ $RECYCLE.BIN/
 /[Tt]humbs/
 /[Cc]ache/
 /[Tt]rash/
+/[Aa]rtifactDB/
 *.sw?
 *.swo
 *.swn
