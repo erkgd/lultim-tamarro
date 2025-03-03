@@ -104,7 +104,6 @@ $RECYCLE.BIN/
 *.msp
 *.lnk
 
-Survival\Library\ArtifactDB
 
 
 # Linux
@@ -119,6 +118,7 @@ Survival\Library\ArtifactDB
 /[Tt]humbs/
 /[Cc]ache/
 /[Tt]rash/
+
 
 *.sw?
 *.swo
