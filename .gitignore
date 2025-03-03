@@ -2,8 +2,9 @@
 ### Configuración Unity
 ### -----------------------------------
 # Directorios críticos
-/[Ll]ibrary/
-!Library/Artifacts/   # Se mantiene esta carpeta en el repo
+/Library/*
+!/Library/Artifacts/
+
 /[Tt]emp/
 /[Oo]bj/
 /[Bb]uild/
