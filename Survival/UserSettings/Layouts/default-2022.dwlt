@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 989
   m_ShowMode: 4
-  m_Title: Game
+  m_Title: Scene
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -501,9 +501,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 24210100
-      m_LastClickedID: 74020
-      m_ExpandedIDs: 4016feff8a230100
+      m_SelectedIDs: 2a700000
+      m_LastClickedID: 28714
+      m_ExpandedIDs: 0efbffffd26e0000e66f0000f66f0000f6700000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1022,7 +1022,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Low Poly Map
+    - Assets/Logos
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -1030,16 +1030,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Low Poly Map
+  - Assets/Logos
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\dfern\Documents\GitHub\lultim-tamarro\Survival
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 17}
-    m_SelectedIDs: 74070000
-    m_LastClickedID: 1908
-    m_ExpandedIDs: 00000000bc06000000ca9a3b
+    m_SelectedIDs: 40750000
+    m_LastClickedID: 30016
+    m_ExpandedIDs: 000000009e73000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1067,7 +1067,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000bc060000
+    m_ExpandedIDs: 000000009e730000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1095,7 +1095,7 @@ MonoBehaviour:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
     m_HadKeyboardFocusLastEvent: 0
-    m_ExpandedInstanceIDs: c6230000d8a40000b0830000d68500006684000008be05003cbc00003eb800006093000092940000009c0000029c0000cae00000767100002c6d00007a7000009e6c00009680000000000000
+    m_ExpandedInstanceIDs: c6230000d8a40000b0830000d68500006684000008be05003cbc00003eb800006093000092940000009c0000029c0000cae00000767100002c6d00007a7000009e6c0000968000000000000040750000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
