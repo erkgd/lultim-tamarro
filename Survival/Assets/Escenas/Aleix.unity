@@ -8301,6 +8301,7 @@ GameObject:
   - component: {fileID: 1397710365}
   - component: {fileID: 1397710364}
   - component: {fileID: 1397710363}
+  - component: {fileID: 1397710366}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -8408,6 +8409,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &1397710366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1397710362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 834372490f67fa34581ff5360189d93e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duracioDiaEnSegons: 300
+  cicleActiu: 1
+  llumSolar: {fileID: 1397710364}
 --- !u!1001 &1411541886
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13365,6 +13381,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Character
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 18d8b09ba437dd24e8694f40f14200ad,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 6325374578682623666, guid: 18d8b09ba437dd24e8694f40f14200ad,
         type: 3}
