@@ -12,6 +12,9 @@ Survival/[Uu]ser[Ss]ettings/
 Survival/[Mm]emoryCaptures/
 Survival/[Nn]uget/
 
+#configuració del entorn
+Survival/UserSettings/
+
 # Archivos generados por Unity
 *.pidb
 *.pidb.meta
