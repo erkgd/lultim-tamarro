@@ -1,34 +1,45 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class InteractuarAmbArbre : MonoBehaviour
 {
-    // Radi per detectar si el personatge està prou a prop
     public float radi = 4.0f;
-    // Prefab del nou arbre que s'utilitzarà per reemplaçar l'arbre actual
     public GameObject arbreNou;
-    // Referència al transform del personatge
     public Transform personatge;
+
+    // Cache del quadrat del radi per evitar càlculs de arrels quadrades
+    private float radiQuadrat;
+
+    private void Start()
+    {
+        // Validació de referències
+        if (personatge == null)
+        {
+            Debug.LogWarning("Personatge no assignat a " + gameObject.name);
+        }
+        
+        // Pre-calculem el quadrat del radi
+        radiQuadrat = radi * radi;
+    }
 
     void Update()
     {
-        // Detectem el clic esquerre del ratolí
-        if (Input.GetMouseButtonDown(0))
+        // Sortir ràpidament si no hi ha clic o falta el personatge
+        if (!Input.GetMouseButtonDown(0) || personatge == null) return;
+        
+        // Utilitzar sqrMagnitude en comptes de Vector3.Distance per millor rendiment
+        if ((personatge.position - transform.position).sqrMagnitude < radiQuadrat)
         {
-            // Es verifica si el personatge està dins del radi definit respecte a l'arbre.
-            if (Vector3.Distance(personatge.position, transform.position) < radi)
-            {
-                if (arbreNou != null)
-                {
-                    // Instanciem el nou arbre a la mateixa posició i rotació que l'arbre actual
-                    GameObject nouArbreInstanciat = Instantiate(arbreNou, transform.position, transform.rotation);
-                    // Copiem també l'escala per mantenir el mateix tamany
-                    nouArbreInstanciat.transform.localScale = transform.localScale;
-                }
-                // Destruïm l'arbre original
-                Destroy(gameObject);
-            }
+            ReemplaçarArbre();
         }
+    }
+    
+    private void ReemplaçarArbre()
+    {
+        if (arbreNou != null)
+        {
+            GameObject nouArbreInstanciat = Instantiate(arbreNou, transform.position, transform.rotation);
+            nouArbreInstanciat.transform.localScale = transform.localScale;
+        }
+        Destroy(gameObject);
     }
 }
