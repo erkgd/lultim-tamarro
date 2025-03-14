@@ -105,8 +105,16 @@ public class SistemaVida : MonoBehaviour
         {
             animator.SetBool("senseVida", true); // Activem l'animació per indicar que el personatge ha mort  
             Debug.Log($"{gameObject.name} DIET"); // Registra el missatge de mort
+
+            // Obtenim la duració de l'animació de mort
+            float duracioAnimacio = animator.GetCurrentAnimatorStateInfo(0).length;
+
+            // Esperem a que l'animació acabi
+            yield return new WaitForSeconds(duracioAnimacio);
+
+            // Desactivem el GameObject
+            gameObject.SetActive(false);
         }
-        return null;
 
         // Parem els controls al jugador perquè no es mogui mentres estigui mort  
         //playerInput.enabled = false;
