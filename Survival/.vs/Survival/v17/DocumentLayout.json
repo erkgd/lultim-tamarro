@@ -1,18 +1,26 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\dfern\\Documents\\GitHub\\lultim-tamarro\\Survival\\",
+  "WorkspaceRootPath": "C:\\Users\\Fabio\\Desktop\\UDA\\lultim-tamarro\\Survival\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{71DC3803-2807-D23D-8BFD-5A0FEC7F391E}|Assembly-CSharp.csproj|C:\\Users\\dfern\\Documents\\GitHub\\lultim-tamarro\\Survival\\assets\\scripts\\vida.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{71DC3803-2807-D23D-8BFD-5A0FEC7F391E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\vida.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{71DC3803-2807-D23D-8BFD-5A0FEC7F391E}|Assembly-CSharp.csproj|C:\\Users\\Fabio\\Desktop\\UDA\\lultim-tamarro\\Survival\\assets\\scripts\\sistemavida.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{71DC3803-2807-D23D-8BFD-5A0FEC7F391E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\sistemavida.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{71DC3803-2807-D23D-8BFD-5A0FEC7F391E}|Assembly-CSharp.csproj|C:\\Users\\dfern\\Documents\\GitHub\\lultim-tamarro\\Survival\\assets\\scripts\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{71DC3803-2807-D23D-8BFD-5A0FEC7F391E}|Assembly-CSharp.csproj|c:\\users\\fabio\\desktop\\uda\\lultim-tamarro\\survival\\assets\\scripts\\sistemaatac.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{71DC3803-2807-D23D-8BFD-5A0FEC7F391E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\sistemaatac.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{71DC3803-2807-D23D-8BFD-5A0FEC7F391E}|Assembly-CSharp.csproj|C:\\Users\\Fabio\\Desktop\\UDA\\lultim-tamarro\\Survival\\assets\\scripts\\movimentenemics.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{71DC3803-2807-D23D-8BFD-5A0FEC7F391E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\movimentenemics.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{71DC3803-2807-D23D-8BFD-5A0FEC7F391E}|Assembly-CSharp.csproj|C:\\Users\\Fabio\\Desktop\\UDA\\lultim-tamarro\\Survival\\assets\\scripts\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{71DC3803-2807-D23D-8BFD-5A0FEC7F391E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{71DC3803-2807-D23D-8BFD-5A0FEC7F391E}|Assembly-CSharp.csproj|c:\\users\\dfern\\documents\\github\\lultim-tamarro\\survival\\assets\\scripts\\vidauimod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{71DC3803-2807-D23D-8BFD-5A0FEC7F391E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\vidauimod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{71DC3803-2807-D23D-8BFD-5A0FEC7F391E}|Assembly-CSharp.csproj|c:\\users\\fabio\\desktop\\uda\\lultim-tamarro\\survival\\assets\\scripts\\sistemaatacpersonatge.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{71DC3803-2807-D23D-8BFD-5A0FEC7F391E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\sistemaatacpersonatge.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,52 +30,71 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Vida.cs",
-              "DocumentMoniker": "C:\\Users\\dfern\\Documents\\GitHub\\lultim-tamarro\\Survival\\Assets\\Scripts\\Vida.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Vida.cs",
-              "ToolTip": "C:\\Users\\dfern\\Documents\\GitHub\\lultim-tamarro\\Survival\\Assets\\Scripts\\Vida.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Vida.cs",
-              "ViewState": "AgIAAC8AAAAAAAAAAAAwwEoAAAAxAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-13T18:47:32.398Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            }
-          ]
-        },
-        {
-          "DockedWidth": 200,
           "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "VidaUIMod.cs",
-              "DocumentMoniker": "C:\\Users\\dfern\\Documents\\GitHub\\lultim-tamarro\\Survival\\Assets\\Scripts\\VidaUIMod.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\VidaUIMod.cs",
-              "ToolTip": "C:\\Users\\dfern\\Documents\\GitHub\\lultim-tamarro\\Survival\\Assets\\Scripts\\VidaUIMod.cs",
-              "RelativeToolTip": "Assets\\Scripts\\VidaUIMod.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADMAAAAZAAAAAAAAAA==",
+              "DocumentIndex": 4,
+              "Title": "SistemaAtacPersonatge.cs",
+              "DocumentMoniker": "C:\\Users\\Fabio\\Desktop\\UDA\\lultim-tamarro\\Survival\\Assets\\Scripts\\SistemaAtacPersonatge.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\SistemaAtacPersonatge.cs",
+              "ToolTip": "C:\\Users\\Fabio\\Desktop\\UDA\\lultim-tamarro\\Survival\\Assets\\Scripts\\SistemaAtacPersonatge.cs",
+              "RelativeToolTip": "Assets\\Scripts\\SistemaAtacPersonatge.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAgwDkAAABOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-13T19:03:56.198Z",
+              "WhenOpened": "2025-03-14T22:41:18.598Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SistemaVida.cs",
+              "DocumentMoniker": "C:\\Users\\Fabio\\Desktop\\UDA\\lultim-tamarro\\Survival\\Assets\\Scripts\\SistemaVida.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\SistemaVida.cs",
+              "ToolTip": "C:\\Users\\Fabio\\Desktop\\UDA\\lultim-tamarro\\Survival\\Assets\\Scripts\\SistemaVida.cs",
+              "RelativeToolTip": "Assets\\Scripts\\SistemaVida.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABgAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-14T16:45:13.763Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "PlayerController.cs",
+              "DocumentMoniker": "C:\\Users\\Fabio\\Desktop\\UDA\\lultim-tamarro\\Survival\\Assets\\Scripts\\PlayerController.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\PlayerController.cs",
+              "ToolTip": "C:\\Users\\Fabio\\Desktop\\UDA\\lultim-tamarro\\Survival\\Assets\\Scripts\\PlayerController.cs",
+              "RelativeToolTip": "Assets\\Scripts\\PlayerController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-14T18:24:05.811Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MovimentEnemics.cs",
+              "DocumentMoniker": "C:\\Users\\Fabio\\Desktop\\UDA\\lultim-tamarro\\Survival\\Assets\\Scripts\\MovimentEnemics.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\MovimentEnemics.cs",
+              "ToolTip": "C:\\Users\\Fabio\\Desktop\\UDA\\lultim-tamarro\\Survival\\Assets\\Scripts\\MovimentEnemics.cs",
+              "RelativeToolTip": "Assets\\Scripts\\MovimentEnemics.cs",
+              "ViewState": "AgIAAJIAAAAAAAAAAAAwwDMAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-14T12:06:27.856Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "PlayerController.cs",
-              "DocumentMoniker": "C:\\Users\\dfern\\Documents\\GitHub\\lultim-tamarro\\Survival\\Assets\\Scripts\\PlayerController.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\PlayerController.cs",
-              "ToolTip": "C:\\Users\\dfern\\Documents\\GitHub\\lultim-tamarro\\Survival\\Assets\\Scripts\\PlayerController.cs",
-              "RelativeToolTip": "Assets\\Scripts\\PlayerController.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAA1wA8AAAAAAAAAAAAAAA==",
+              "Title": "SistemaAtac.cs",
+              "DocumentMoniker": "C:\\Users\\Fabio\\Desktop\\UDA\\lultim-tamarro\\Survival\\Assets\\Scripts\\SistemaAtac.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\SistemaAtac.cs",
+              "ToolTip": "C:\\Users\\Fabio\\Desktop\\UDA\\lultim-tamarro\\Survival\\Assets\\Scripts\\SistemaAtac.cs",
+              "RelativeToolTip": "Assets\\Scripts\\SistemaAtac.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-25T11:06:50.584Z",
+              "WhenOpened": "2025-03-14T12:04:00.994Z",
               "EditorCaption": ""
             }
           ]
