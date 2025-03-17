@@ -1105,7 +1105,6 @@ MonoBehaviour:
   tempsEsperaPatrulla: 1
   currentState: 0
   rangPerseguir: 10
-  rangPerdrePista: 15
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
@@ -3758,6 +3757,10 @@ PrefabInstance:
     - target: {fileID: 1931298151966786, guid: 928a1377c1cd4515b208fef3a396b8ea, type: 3}
       propertyPath: m_Name
       value: SlimePBR
+      objectReference: {fileID: 0}
+    - target: {fileID: 1931298151966786, guid: 928a1377c1cd4515b208fef3a396b8ea, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 4047972025199878, guid: 928a1377c1cd4515b208fef3a396b8ea, type: 3}
       propertyPath: m_LocalScale.x
@@ -8026,7 +8029,6 @@ MonoBehaviour:
   tempsEsperaPatrulla: 1
   currentState: 0
   rangPerseguir: 10
-  rangPerdrePista: 15
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
@@ -13110,6 +13112,10 @@ PrefabInstance:
     - target: {fileID: 1524411113276028, guid: e2aafa8770d34a9591b41bedf4e318ba, type: 3}
       propertyPath: m_Name
       value: TurtleShellPBR
+      objectReference: {fileID: 0}
+    - target: {fileID: 1524411113276028, guid: e2aafa8770d34a9591b41bedf4e318ba, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 4544219117696442, guid: e2aafa8770d34a9591b41bedf4e318ba, type: 3}
       propertyPath: m_LocalScale.x
