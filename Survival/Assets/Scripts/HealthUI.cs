@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
-public class VidaUI : MonoBehaviour
+public class HealthUI : MonoBehaviour
 {
     public enum DisplayType
     {
@@ -45,13 +45,6 @@ public class VidaUI : MonoBehaviour
         UpdateHeartsUI();
     }
 
-
-    public void UpdateHealth(int vidaActual)
-    {
-        currentLife = vidaActual;
-        UpdateHeartsUI();
-    }
-
     private List<Image> GetHeartList()
     {
         return displayType == DisplayType.Type1 ? heartImagesType1 : heartImagesType2;
@@ -72,6 +65,22 @@ public class VidaUI : MonoBehaviour
         }
     }
 
+    public void IncreaseLife()
+    {
+        currentLife++;
+        int maxLife = GetHeartList().Count * 2;
+        if (currentLife > maxLife)
+            currentLife = maxLife;
+        UpdateHeartsUI();
+    }
+
+    public void DecreaseLife()
+    {
+        currentLife--;
+        if (currentLife < 0)
+            currentLife = 0;
+        UpdateHeartsUI();
+    }
 
     // Función que alterna el modo de visualización entre Type1 y Type2
     public void ToggleDisplayType()
