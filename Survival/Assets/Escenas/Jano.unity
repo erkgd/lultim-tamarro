@@ -5043,6 +5043,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1521177035039436, guid: e2aafa8770d34a9591b41bedf4e318ba, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 1524411113276028, guid: e2aafa8770d34a9591b41bedf4e318ba, type: 3}
       propertyPath: m_Name
       value: TurtleShellPBR
@@ -5151,7 +5155,6 @@ MonoBehaviour:
   tempsEsperaPatrulla: 1
   currentState: 0
   rangPerseguir: 10
-  rangPerdrePista: 15
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
@@ -6183,6 +6186,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1592125234692788, guid: 928a1377c1cd4515b208fef3a396b8ea, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 1931298151966786, guid: 928a1377c1cd4515b208fef3a396b8ea, type: 3}
       propertyPath: m_Name
       value: SlimePBR
@@ -6312,7 +6319,6 @@ MonoBehaviour:
   tempsEsperaPatrulla: 1
   currentState: 0
   rangPerseguir: 10
-  rangPerdrePista: 15
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
@@ -12816,8 +12822,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0ae5c77d2cfd774b9cda3e807de9d72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxLife: 12
-  currentLife: 0
 --- !u!65 &1881079369
 BoxCollider:
   m_ObjectHideFlags: 0
