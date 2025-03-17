@@ -25,7 +25,8 @@ public class PlayerMovement : MonoBehaviour
         float v = Input.GetAxis("Vertical");
 
         // Nueva dirección de movimiento que mezcla ambos ejes
-        Vector3 movementDirection = new Vector3(h + v, 0, v - h);
+        //Vector3 movementDirection = new Vector3(h + v, 0, v - h);
+        Vector3 movementDirection = new (h + v, 0, v - h);      // Expressió alternativa
         float magnitude = Mathf.Clamp01(movementDirection.magnitude);
 
         // Si Shift está presionado, duplica la velocidad
