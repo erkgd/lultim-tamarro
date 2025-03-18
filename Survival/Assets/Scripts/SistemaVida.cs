@@ -22,7 +22,7 @@ public class SistemaVida : MonoBehaviour
 
         // Si el personatge cont� el tag "Player", li assignem 6 de vida m�xima, sin� 3
         if (gameObject.CompareTag("Player"))
-            SetVidaMaxima(6);
+            SetVidaMaxima(12);
         else
             SetVidaMaxima(3);
 
