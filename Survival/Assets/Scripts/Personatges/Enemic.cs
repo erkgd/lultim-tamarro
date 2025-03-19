@@ -20,6 +20,8 @@ public class Enemic : MonoBehaviour, IVida, IAtacant
     [SerializeField] private int dany = 1;
     [SerializeField] private float rangAtacar = 2.0f;
     [SerializeField] private float tempsEntreAtacs = 2.0f;
+    [SerializeField] private float forcaKnockback = 7f;
+    [SerializeField] private float tempsEsperaPostAtac = 1.5f;
     private float comptadorAtacs = 0f;
     private bool atacant = false;
 
@@ -265,19 +267,46 @@ public class Enemic : MonoBehaviour, IVida, IAtacant
         // Apliquem dany al jugador si està a rang
         if (jugador != null)
         {
+            // Calculamos la dirección del knockback (desde el enemigo hacia el jugador)
+            Vector3 direccioKnockback = (jugador.position - transform.position).normalized;
+            direccioKnockback.y = 0; // Mantenemos el knockback horizontal
+            
             IVida vidaJugador = jugador.GetComponent<IVida>();
             if (vidaJugador != null)
             {
                 vidaJugador.DecrementarVida(dany, gameObject.name);
+                
+                // Aplicamos el knockback al jugador
+                Jugador jugadorScript = jugador.GetComponent<Jugador>();
+                if (jugadorScript != null)
+                {
+                    jugadorScript.RecibirKnockback(direccioKnockback, forcaKnockback);
+                }
             }
         }
 
-        // Esperem un moment
+        // Esperem un moment per a l'animació d'atac
         yield return new WaitForSeconds(0.5f);
+        
+        // Pausa adicional después del ataque - el enemigo se queda quieto
+        animator.SetFloat("VelocitatMoviment", 0f); // Si tienes este parámetro en tu animator
+        
+        // Esperamos el tiempo configurado
+        yield return new WaitForSeconds(tempsEsperaPostAtac);
         
         // Reactivem el moviment de l'agent
         agent.isStopped = false;
         atacant = false;
+        
+        // Opcional: cambiar velocidad según estado actual
+        if (estatActual == AIState.PERSEGUIR)
+        {
+            agent.speed = velocitatPersecucio;
+        }
+        else
+        {
+            agent.speed = velocitatNormal;
+        }
     }
     #endregion
 

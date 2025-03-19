@@ -3132,25 +3132,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe2fb9f8892cdd747bebe00496863805, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  puntsMoviment: {fileID: 805943663}
-  puntActual: 0
-  tempsEsperaPatrulla: 1
-  contadorEspera: 0
-  enemic: {fileID: 0}
-  sistemaAtac: {fileID: 0}
-  sistemaVida: {fileID: 0}
-  currentState: 0
-  rangPerseguir: 10
-  velocitatNormal: 3.5
-  velocitatPersecucio: 20
-  tempsSospita: 3
-  tempsUltimaVegadaVist: 0
-  ultimaPosicioVista: {x: 0, y: 0, z: 0}
-  rangAtacar: 8
-  tempsEntreAtacs: 0
-  comptadorAtacs: 0
-  animador: {fileID: 0}
-  player: {fileID: 0}
 --- !u!195 &145640345
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -3185,9 +3166,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157ba9dd13e4a724eb0c3ae658394222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  player: {fileID: 0}
-  sistemaVidaJugador: {fileID: 0}
 --- !u!114 &145640348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3200,15 +3178,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2f0db2641f32043b8d7879d5e13bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  playerInput: {fileID: 0}
-  vidaUI: {fileID: 0}
-  Cortinilla: {fileID: 0}
-  vidaActual: 0
-  vidaMaxima: 0
-  tempsInvencibilitat: 1.5
-  esInvencible: 0
-  mostrarDebug: 1
 --- !u!1001 &145796922
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4385,6 +4354,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2418a197ddf815d4a99795de8ff69ded, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  efecteInvencibilitat: {fileID: 0}
   vidaActual: 0
   vidaMaxima: 12
   tempsInvencibilitat: 1.5
@@ -4392,7 +4362,11 @@ MonoBehaviour:
   velocitatRotacio: 120
   velocitatCorrer: 10
   dany: 2
+  rangAtacar: 2
+  tempsEntreAtacs: 2
   tempsAtac: 0.3
+  forcaKnockback: 10
+  duracioKnockback: 0.25
 --- !u!114 &176789811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7811,25 +7785,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe2fb9f8892cdd747bebe00496863805, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  puntsMoviment: {fileID: 1951976918}
-  puntActual: 0
-  tempsEsperaPatrulla: 1
-  contadorEspera: 0
-  enemic: {fileID: 0}
-  sistemaAtac: {fileID: 0}
-  sistemaVida: {fileID: 0}
-  currentState: 0
-  rangPerseguir: 10
-  velocitatNormal: 3.5
-  velocitatPersecucio: 20
-  tempsSospita: 3
-  tempsUltimaVegadaVist: 0
-  ultimaPosicioVista: {x: 0, y: 0, z: 0}
-  rangAtacar: 8
-  tempsEntreAtacs: 0
-  comptadorAtacs: 0
-  animador: {fileID: 0}
-  player: {fileID: 0}
 --- !u!195 &291202804
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -7864,9 +7819,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157ba9dd13e4a724eb0c3ae658394222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  player: {fileID: 0}
-  sistemaVidaJugador: {fileID: 0}
 --- !u!114 &291202807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7879,15 +7831,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2f0db2641f32043b8d7879d5e13bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  playerInput: {fileID: 0}
-  vidaUI: {fileID: 0}
-  Cortinilla: {fileID: 0}
-  vidaActual: 0
-  vidaMaxima: 0
-  tempsInvencibilitat: 1.5
-  esInvencible: 0
-  mostrarDebug: 1
 --- !u!1001 &294033643
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9329,25 +9272,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe2fb9f8892cdd747bebe00496863805, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  puntsMoviment: {fileID: 2091547882}
-  puntActual: 0
-  tempsEsperaPatrulla: 1
-  contadorEspera: 0
-  enemic: {fileID: 0}
-  sistemaAtac: {fileID: 0}
-  sistemaVida: {fileID: 0}
-  currentState: 0
-  rangPerseguir: 10
-  velocitatNormal: 3.5
-  velocitatPersecucio: 20
-  tempsSospita: 3
-  tempsUltimaVegadaVist: 0
-  ultimaPosicioVista: {x: 0, y: 0, z: 0}
-  rangAtacar: 8
-  tempsEntreAtacs: 0
-  comptadorAtacs: 0
-  animador: {fileID: 0}
-  player: {fileID: 0}
 --- !u!195 &339304611
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -9382,9 +9306,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157ba9dd13e4a724eb0c3ae658394222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  player: {fileID: 0}
-  sistemaVidaJugador: {fileID: 0}
 --- !u!114 &339304614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9397,15 +9318,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2f0db2641f32043b8d7879d5e13bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  playerInput: {fileID: 0}
-  vidaUI: {fileID: 0}
-  Cortinilla: {fileID: 0}
-  vidaActual: 0
-  vidaMaxima: 0
-  tempsInvencibilitat: 1.5
-  esInvencible: 0
-  mostrarDebug: 1
 --- !u!1001 &340737791
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9910,25 +9822,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe2fb9f8892cdd747bebe00496863805, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  puntsMoviment: {fileID: 769249254}
-  puntActual: 0
-  tempsEsperaPatrulla: 1
-  contadorEspera: 0
-  enemic: {fileID: 0}
-  sistemaAtac: {fileID: 0}
-  sistemaVida: {fileID: 0}
-  currentState: 0
-  rangPerseguir: 10
-  velocitatNormal: 3.5
-  velocitatPersecucio: 20
-  tempsSospita: 3
-  tempsUltimaVegadaVist: 0
-  ultimaPosicioVista: {x: 0, y: 0, z: 0}
-  rangAtacar: 8
-  tempsEntreAtacs: 0
-  comptadorAtacs: 0
-  animador: {fileID: 0}
-  player: {fileID: 0}
 --- !u!195 &350771632
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -9963,15 +9856,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2f0db2641f32043b8d7879d5e13bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  playerInput: {fileID: 0}
-  vidaUI: {fileID: 0}
-  Cortinilla: {fileID: 0}
-  vidaActual: 0
-  vidaMaxima: 0
-  tempsInvencibilitat: 1.5
-  esInvencible: 0
-  mostrarDebug: 1
 --- !u!114 &350771635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9984,9 +9868,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157ba9dd13e4a724eb0c3ae658394222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  player: {fileID: 0}
-  sistemaVidaJugador: {fileID: 0}
 --- !u!1 &357836859 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: c5bb25ec5731c094a9476f6d7603d5ff,
@@ -10523,13 +10404,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d4ccd90cccd22742b7e81c7933e6bdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  puntA: {fileID: 378216990}
-  puntB: {fileID: 378216990}
-  "nomEscenaDest\xED": Escena Principal
-  "posicioDest\xED": {x: 0, y: 0, z: 0}
-  etiquetaJugador: Player
-  distanciaDeteccion: 0.7
-  dibuixarLineaEnEditor: 1
 --- !u!114 &378216992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10542,13 +10416,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d4ccd90cccd22742b7e81c7933e6bdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  puntA: {fileID: 0}
-  puntB: {fileID: 0}
-  "nomEscenaDest\xED": 
-  "posicioDest\xED": {x: 0, y: 0, z: 0}
-  etiquetaJugador: Player
-  distanciaDeteccion: 0.7
-  dibuixarLineaEnEditor: 1
 --- !u!1 &388079793
 GameObject:
   m_ObjectHideFlags: 0
@@ -10778,140 +10645,6 @@ CapsuleCollider:
   m_Height: 1.3976785
   m_Direction: 1
   m_Center: {x: 0, y: 0.69883925, z: 0}
---- !u!1 &392279005
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 392279006}
-  - component: {fileID: 392279008}
-  - component: {fileID: 392279007}
-  m_Layer: 5
-  m_Name: Text (TMP)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &392279006
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 392279005}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1962173391}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &392279007
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 392279005}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_text: Bajar Vida
-  m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_fontSharedMaterials: []
-  m_fontMaterial: {fileID: 0}
-  m_fontMaterials: []
-  m_fontColor32:
-    serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
-  m_enableVertexGradient: 0
-  m_colorMode: 3
-  m_fontColorGradient:
-    topLeft: {r: 1, g: 1, b: 1, a: 1}
-    topRight: {r: 1, g: 1, b: 1, a: 1}
-    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
-    bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
-  m_tintAllSprites: 0
-  m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: -1183493901
-  m_overrideHtmlColors: 0
-  m_faceColor:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
-  m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
-  m_fontStyle: 0
-  m_HorizontalAlignment: 2
-  m_VerticalAlignment: 512
-  m_textAlignment: 65535
-  m_characterSpacing: 0
-  m_wordSpacing: 0
-  m_lineSpacing: 0
-  m_lineSpacingMax: 0
-  m_paragraphSpacing: 0
-  m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
-  m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
-  m_linkedTextComponent: {fileID: 0}
-  parentLinkedComponent: {fileID: 0}
-  m_enableKerning: 1
-  m_enableExtraPadding: 0
-  checkPaddingRequired: 0
-  m_isRichText: 1
-  m_parseCtrlCharacters: 1
-  m_isOrthographic: 1
-  m_isCullingEnabled: 0
-  m_horizontalMapping: 0
-  m_verticalMapping: 0
-  m_uvLineOffset: 0
-  m_geometrySortingOrder: 0
-  m_IsTextObjectScaleStatic: 0
-  m_VertexBufferAutoSizeReduction: 0
-  m_useMaxVisibleDescender: 1
-  m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
-  m_isUsingLegacyAnimationComponent: 0
-  m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_baseMaterial: {fileID: 0}
-  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!222 &392279008
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 392279005}
-  m_CullTransparentMesh: 1
 --- !u!1 &392532376 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: c5bb25ec5731c094a9476f6d7603d5ff,
@@ -11973,25 +11706,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe2fb9f8892cdd747bebe00496863805, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  puntsMoviment: {fileID: 1932159291}
-  puntActual: 0
-  tempsEsperaPatrulla: 1
-  contadorEspera: 0
-  enemic: {fileID: 0}
-  sistemaAtac: {fileID: 0}
-  sistemaVida: {fileID: 0}
-  currentState: 0
-  rangPerseguir: 10
-  velocitatNormal: 3.5
-  velocitatPersecucio: 20
-  tempsSospita: 3
-  tempsUltimaVegadaVist: 0
-  ultimaPosicioVista: {x: 0, y: 0, z: 0}
-  rangAtacar: 8
-  tempsEntreAtacs: 0
-  comptadorAtacs: 0
-  animador: {fileID: 0}
-  player: {fileID: 0}
 --- !u!195 &429344373
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -12026,9 +11740,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157ba9dd13e4a724eb0c3ae658394222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  player: {fileID: 0}
-  sistemaVidaJugador: {fileID: 0}
 --- !u!114 &429344376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12041,15 +11752,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2f0db2641f32043b8d7879d5e13bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  playerInput: {fileID: 0}
-  vidaUI: {fileID: 0}
-  Cortinilla: {fileID: 0}
-  vidaActual: 0
-  vidaMaxima: 0
-  tempsInvencibilitat: 1.5
-  esInvencible: 0
-  mostrarDebug: 1
 --- !u!1001 &429478213
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18277,25 +17979,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe2fb9f8892cdd747bebe00496863805, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  puntsMoviment: {fileID: 1396013371}
-  puntActual: 0
-  tempsEsperaPatrulla: 1
-  contadorEspera: 0
-  enemic: {fileID: 0}
-  sistemaAtac: {fileID: 0}
-  sistemaVida: {fileID: 0}
-  currentState: 0
-  rangPerseguir: 10
-  velocitatNormal: 3.5
-  velocitatPersecucio: 20
-  tempsSospita: 3
-  tempsUltimaVegadaVist: 0
-  ultimaPosicioVista: {x: 0, y: 0, z: 0}
-  rangAtacar: 8
-  tempsEntreAtacs: 0
-  comptadorAtacs: 0
-  animador: {fileID: 0}
-  player: {fileID: 0}
 --- !u!195 &634157685
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -18330,9 +18013,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157ba9dd13e4a724eb0c3ae658394222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  player: {fileID: 0}
-  sistemaVidaJugador: {fileID: 0}
 --- !u!114 &634157688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18345,15 +18025,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2f0db2641f32043b8d7879d5e13bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  playerInput: {fileID: 0}
-  vidaUI: {fileID: 0}
-  Cortinilla: {fileID: 0}
-  vidaActual: 0
-  vidaMaxima: 0
-  tempsInvencibilitat: 1.5
-  esInvencible: 0
-  mostrarDebug: 1
 --- !u!1001 &636724822
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27427,25 +27098,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe2fb9f8892cdd747bebe00496863805, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  puntsMoviment: {fileID: 1285121318}
-  puntActual: 0
-  tempsEsperaPatrulla: 1
-  contadorEspera: 0
-  enemic: {fileID: 0}
-  sistemaAtac: {fileID: 0}
-  sistemaVida: {fileID: 0}
-  currentState: 0
-  rangPerseguir: 10
-  velocitatNormal: 3.5
-  velocitatPersecucio: 20
-  tempsSospita: 3
-  tempsUltimaVegadaVist: 0
-  ultimaPosicioVista: {x: 0, y: 0, z: 0}
-  rangAtacar: 8
-  tempsEntreAtacs: 0
-  comptadorAtacs: 0
-  animador: {fileID: 0}
-  player: {fileID: 0}
 --- !u!195 &968480984
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -27480,9 +27132,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157ba9dd13e4a724eb0c3ae658394222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  player: {fileID: 0}
-  sistemaVidaJugador: {fileID: 0}
 --- !u!114 &968480987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27495,15 +27144,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2f0db2641f32043b8d7879d5e13bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  playerInput: {fileID: 0}
-  vidaUI: {fileID: 0}
-  Cortinilla: {fileID: 0}
-  vidaActual: 0
-  vidaMaxima: 0
-  tempsInvencibilitat: 1.5
-  esInvencible: 0
-  mostrarDebug: 1
 --- !u!1 &974631026 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: c5bb25ec5731c094a9476f6d7603d5ff,
@@ -28117,25 +27757,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe2fb9f8892cdd747bebe00496863805, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  puntsMoviment: {fileID: 1847322424}
-  puntActual: 0
-  tempsEsperaPatrulla: 1
-  contadorEspera: 0
-  enemic: {fileID: 0}
-  sistemaAtac: {fileID: 0}
-  sistemaVida: {fileID: 0}
-  currentState: 0
-  rangPerseguir: 10
-  velocitatNormal: 3.5
-  velocitatPersecucio: 20
-  tempsSospita: 3
-  tempsUltimaVegadaVist: 0
-  ultimaPosicioVista: {x: 0, y: 0, z: 0}
-  rangAtacar: 8
-  tempsEntreAtacs: 0
-  comptadorAtacs: 0
-  animador: {fileID: 0}
-  player: {fileID: 0}
 --- !u!195 &992157066
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -28170,9 +27791,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157ba9dd13e4a724eb0c3ae658394222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  player: {fileID: 0}
-  sistemaVidaJugador: {fileID: 0}
 --- !u!114 &992157069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28185,15 +27803,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2f0db2641f32043b8d7879d5e13bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  playerInput: {fileID: 0}
-  vidaUI: {fileID: 0}
-  Cortinilla: {fileID: 0}
-  vidaActual: 0
-  vidaMaxima: 0
-  tempsInvencibilitat: 1.5
-  esInvencible: 0
-  mostrarDebug: 1
 --- !u!1001 &992362613
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31599,7 +31208,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1142221899}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9c575ff67c9da247a081f6f8907998b, type: 3}
   m_Name: 
@@ -31607,27 +31216,23 @@ MonoBehaviour:
   displayType: 0
   currentLife: 12
   heartImagesType1:
-  - {fileID: 957942068}
-  - {fileID: 957942068}
-  - {fileID: 957942068}
-  - {fileID: 957942068}
-  - {fileID: 957942068}
-  - {fileID: 957942068}
-  - {fileID: 957942068}
-  - {fileID: 957942068}
-  - {fileID: 957942068}
-  - {fileID: 957942068}
+  - {fileID: 1856871780}
+  - {fileID: 388079796}
+  - {fileID: 580050519}
+  - {fileID: 965206749}
+  - {fileID: 1210460785}
+  - {fileID: 874521806}
   heartImagesType2:
   - {fileID: 957942068}
-  - {fileID: 957942068}
-  - {fileID: 957942068}
-  - {fileID: 957942068}
-  - {fileID: 957942068}
-  - {fileID: 957942068}
-  - {fileID: 957942068}
-  - {fileID: 957942068}
-  - {fileID: 957942068}
-  - {fileID: 957942068}
+  - {fileID: 1068005958}
+  - {fileID: 2009687805}
+  - {fileID: 201828787}
+  - {fileID: 1773003591}
+  - {fileID: 2134307822}
+  - {fileID: 413954868}
+  - {fileID: 198033484}
+  - {fileID: 1289439966}
+  - {fileID: 5039652}
   fullHeartSprite: {fileID: 21300000, guid: c489fc1876db8f049a870038320984bd, type: 3}
   halfHeartSprite: {fileID: 21300000, guid: 1a1c1e82ef75bb8438eedf67933d50d7, type: 3}
   emptyHeartSprite: {fileID: 21300000, guid: 72b60fcaa90a7a64ca5567e3f04bb675, type: 3}
@@ -31647,16 +31252,22 @@ MonoBehaviour:
   currentLife: 12
   heartImagesType1:
   - {fileID: 1856871780}
-  - {fileID: 1856871780}
-  - {fileID: 1856871780}
-  - {fileID: 1856871780}
-  - {fileID: 1856871780}
+  - {fileID: 388079796}
+  - {fileID: 580050519}
+  - {fileID: 965206749}
+  - {fileID: 1210460785}
+  - {fileID: 874521806}
   heartImagesType2:
-  - {fileID: 1856871780}
-  - {fileID: 1856871780}
-  - {fileID: 1856871780}
-  - {fileID: 1856871780}
-  - {fileID: 1856871780}
+  - {fileID: 957942068}
+  - {fileID: 1068005958}
+  - {fileID: 2009687805}
+  - {fileID: 201828787}
+  - {fileID: 1773003591}
+  - {fileID: 2134307822}
+  - {fileID: 413954868}
+  - {fileID: 198033484}
+  - {fileID: 1289439966}
+  - {fileID: 5039652}
   fullHeartSprite: {fileID: 21300000, guid: c489fc1876db8f049a870038320984bd, type: 3}
   halfHeartSprite: {fileID: 21300000, guid: 1a1c1e82ef75bb8438eedf67933d50d7, type: 3}
   emptyHeartSprite: {fileID: 21300000, guid: 72b60fcaa90a7a64ca5567e3f04bb675, type: 3}
@@ -31692,6 +31303,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   imatgeCortinilla: {fileID: 1490267870}
+  materialCortinilla: {fileID: 2100000, guid: 4e91cabcdae8c6544beb880975da1f74, type: 2}
   duradaEfecte: 2
   corbaTransicio:
     serializedVersion: 2
@@ -31717,7 +31329,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  materialCercle: {fileID: 2100000, guid: 4e91cabcdae8c6544beb880975da1f74, type: 2}
   inverseEffect: 1
 --- !u!1001 &1148558805
 PrefabInstance:
@@ -32199,25 +31810,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe2fb9f8892cdd747bebe00496863805, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  puntsMoviment: {fileID: 225123846}
-  puntActual: 0
-  tempsEsperaPatrulla: 1
-  contadorEspera: 0
-  enemic: {fileID: 0}
-  sistemaAtac: {fileID: 0}
-  sistemaVida: {fileID: 0}
-  currentState: 0
-  rangPerseguir: 10
-  velocitatNormal: 3.5
-  velocitatPersecucio: 20
-  tempsSospita: 3
-  tempsUltimaVegadaVist: 0
-  ultimaPosicioVista: {x: 0, y: 0, z: 0}
-  rangAtacar: 8
-  tempsEntreAtacs: 0
-  comptadorAtacs: 0
-  animador: {fileID: 0}
-  player: {fileID: 0}
 --- !u!195 &1173018022
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -32252,9 +31844,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157ba9dd13e4a724eb0c3ae658394222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  player: {fileID: 0}
-  sistemaVidaJugador: {fileID: 0}
 --- !u!114 &1173018025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32267,15 +31856,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2f0db2641f32043b8d7879d5e13bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  playerInput: {fileID: 0}
-  vidaUI: {fileID: 0}
-  Cortinilla: {fileID: 0}
-  vidaActual: 0
-  vidaMaxima: 0
-  tempsInvencibilitat: 1.5
-  esInvencible: 0
-  mostrarDebug: 1
 --- !u!1001 &1178823746
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32403,139 +31983,6 @@ CapsuleCollider:
   m_Height: 1.3976785
   m_Direction: 1
   m_Center: {x: 0, y: 0.69883925, z: 0}
---- !u!1 &1179662197
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1179662198}
-  - component: {fileID: 1179662201}
-  - component: {fileID: 1179662200}
-  - component: {fileID: 1179662199}
-  m_Layer: 5
-  m_Name: ToggleDisplayType
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1179662198
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1179662197}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1559109746}
-  m_Father: {fileID: 1708293554}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 80, y: 80}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1179662199
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1179662197}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 1179662200}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: HealthUI, Assembly-CSharp
-        m_MethodName: ToggleDisplayType
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &1179662200
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1179662197}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &1179662201
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1179662197}
-  m_CullTransparentMesh: 1
 --- !u!1 &1187886588 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: c5bb25ec5731c094a9476f6d7603d5ff,
@@ -37532,139 +36979,6 @@ CapsuleCollider:
   m_Height: 1.3976785
   m_Direction: 1
   m_Center: {x: 0, y: 0.69883925, z: 0}
---- !u!1 &1347276094
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1347276095}
-  - component: {fileID: 1347276098}
-  - component: {fileID: 1347276097}
-  - component: {fileID: 1347276096}
-  m_Layer: 5
-  m_Name: IncreaseLifeButton
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1347276095
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1347276094}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 2098042695}
-  m_Father: {fileID: 1708293554}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 80, y: 80}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1347276096
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1347276094}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 1347276097}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: HealthUI, Assembly-CSharp
-        m_MethodName: IncreaseLife
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &1347276097
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1347276094}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &1347276098
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1347276094}
-  m_CullTransparentMesh: 1
 --- !u!1 &1348246465 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: c5bb25ec5731c094a9476f6d7603d5ff,
@@ -42925,7 +42239,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1142221902}
-  - {fileID: 1708293554}
   - {fileID: 1748644701}
   - {fileID: 140668300}
   - {fileID: 1490267869}
@@ -43986,140 +43299,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.0000002, y: 0.3, z: 0.20000003}
   m_Center: {x: 0, y: 0.15, z: 0.4000001}
---- !u!1 &1559109745
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1559109746}
-  - component: {fileID: 1559109748}
-  - component: {fileID: 1559109747}
-  m_Layer: 5
-  m_Name: Text (TMP)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1559109746
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1559109745}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1179662198}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1559109747
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1559109745}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_text: Toggle Type
-  m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_fontSharedMaterials: []
-  m_fontMaterial: {fileID: 0}
-  m_fontMaterials: []
-  m_fontColor32:
-    serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
-  m_enableVertexGradient: 0
-  m_colorMode: 3
-  m_fontColorGradient:
-    topLeft: {r: 1, g: 1, b: 1, a: 1}
-    topRight: {r: 1, g: 1, b: 1, a: 1}
-    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
-    bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
-  m_tintAllSprites: 0
-  m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: -1183493901
-  m_overrideHtmlColors: 0
-  m_faceColor:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
-  m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
-  m_fontStyle: 0
-  m_HorizontalAlignment: 2
-  m_VerticalAlignment: 512
-  m_textAlignment: 65535
-  m_characterSpacing: 0
-  m_wordSpacing: 0
-  m_lineSpacing: 0
-  m_lineSpacingMax: 0
-  m_paragraphSpacing: 0
-  m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
-  m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
-  m_linkedTextComponent: {fileID: 0}
-  parentLinkedComponent: {fileID: 0}
-  m_enableKerning: 1
-  m_enableExtraPadding: 0
-  checkPaddingRequired: 0
-  m_isRichText: 1
-  m_parseCtrlCharacters: 1
-  m_isOrthographic: 1
-  m_isCullingEnabled: 0
-  m_horizontalMapping: 0
-  m_verticalMapping: 0
-  m_uvLineOffset: 0
-  m_geometrySortingOrder: 0
-  m_IsTextObjectScaleStatic: 0
-  m_VertexBufferAutoSizeReduction: 0
-  m_useMaxVisibleDescender: 1
-  m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
-  m_isUsingLegacyAnimationComponent: 0
-  m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_baseMaterial: {fileID: 0}
-  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!222 &1559109748
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1559109745}
-  m_CullTransparentMesh: 1
 --- !u!1 &1561779346 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: c5bb25ec5731c094a9476f6d7603d5ff,
@@ -48222,71 +47401,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 501503683}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1708293553
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1708293554}
-  - component: {fileID: 1708293555}
-  m_Layer: 5
-  m_Name: Buttons
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1708293554
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1708293553}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1962173391}
-  - {fileID: 1347276095}
-  - {fileID: 1179662198}
-  m_Father: {fileID: 1539864585}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -172, y: -391}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1708293555
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1708293553}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  m_ChildAlignment: 0
-  m_Spacing: 10
-  m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
-  m_ReverseArrangement: 0
 --- !u!1001 &1709048379
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -49256,25 +48370,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe2fb9f8892cdd747bebe00496863805, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  puntsMoviment: {fileID: 1099581426}
-  puntActual: 0
-  tempsEsperaPatrulla: 1
-  contadorEspera: 0
-  enemic: {fileID: 0}
-  sistemaAtac: {fileID: 0}
-  sistemaVida: {fileID: 0}
-  currentState: 0
-  rangPerseguir: 10
-  velocitatNormal: 3.5
-  velocitatPersecucio: 20
-  tempsSospita: 3
-  tempsUltimaVegadaVist: 0
-  ultimaPosicioVista: {x: 0, y: 0, z: 0}
-  rangAtacar: 8
-  tempsEntreAtacs: 0
-  comptadorAtacs: 0
-  animador: {fileID: 0}
-  player: {fileID: 0}
 --- !u!195 &1759152051
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -49309,9 +48404,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157ba9dd13e4a724eb0c3ae658394222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  player: {fileID: 0}
-  sistemaVidaJugador: {fileID: 0}
 --- !u!114 &1759152054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49324,15 +48416,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2f0db2641f32043b8d7879d5e13bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  playerInput: {fileID: 0}
-  vidaUI: {fileID: 0}
-  Cortinilla: {fileID: 0}
-  vidaActual: 0
-  vidaMaxima: 0
-  tempsInvencibilitat: 1.5
-  esInvencible: 0
-  mostrarDebug: 1
 --- !u!4 &1762167064 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3be8d662abe722848bd6e252716c555a,
@@ -51276,11 +50359,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19b182c968776e7418dec0b59d799a09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vidaActual: 0
+  vidaActual: 3
   vidaMaxima: 3
   dany: 1
   rangAtacar: 2
   tempsEntreAtacs: 2
+  forcaKnockback: 7
+  tempsEsperaPostAtac: 0.5
   puntsMoviment: {fileID: 12472021}
   tempsEsperaPatrulla: 1
   rangPerseguir: 10
@@ -51633,25 +50718,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe2fb9f8892cdd747bebe00496863805, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  puntsMoviment: {fileID: 624664073}
-  puntActual: 0
-  tempsEsperaPatrulla: 1
-  contadorEspera: 0
-  enemic: {fileID: 0}
-  sistemaAtac: {fileID: 0}
-  sistemaVida: {fileID: 0}
-  currentState: 0
-  rangPerseguir: 10
-  velocitatNormal: 3.5
-  velocitatPersecucio: 20
-  tempsSospita: 3
-  tempsUltimaVegadaVist: 0
-  ultimaPosicioVista: {x: 0, y: 0, z: 0}
-  rangAtacar: 8
-  tempsEntreAtacs: 0
-  comptadorAtacs: 0
-  animador: {fileID: 0}
-  player: {fileID: 0}
 --- !u!195 &1827641450
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -51686,9 +50752,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157ba9dd13e4a724eb0c3ae658394222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  player: {fileID: 0}
-  sistemaVidaJugador: {fileID: 0}
 --- !u!114 &1827641453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51701,15 +50764,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2f0db2641f32043b8d7879d5e13bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  playerInput: {fileID: 0}
-  vidaUI: {fileID: 0}
-  Cortinilla: {fileID: 0}
-  vidaActual: 0
-  vidaMaxima: 0
-  tempsInvencibilitat: 1.5
-  esInvencible: 0
-  mostrarDebug: 1
 --- !u!1001 &1827930676
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51888,25 +50942,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe2fb9f8892cdd747bebe00496863805, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  puntsMoviment: {fileID: 2020841209}
-  puntActual: 0
-  tempsEsperaPatrulla: 1
-  contadorEspera: 0
-  enemic: {fileID: 0}
-  sistemaAtac: {fileID: 0}
-  sistemaVida: {fileID: 0}
-  currentState: 0
-  rangPerseguir: 10
-  velocitatNormal: 3.5
-  velocitatPersecucio: 20
-  tempsSospita: 3
-  tempsUltimaVegadaVist: 0
-  ultimaPosicioVista: {x: 0, y: 0, z: 0}
-  rangAtacar: 8
-  tempsEntreAtacs: 0
-  comptadorAtacs: 0
-  animador: {fileID: 0}
-  player: {fileID: 0}
 --- !u!195 &1827930682
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -51941,9 +50976,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157ba9dd13e4a724eb0c3ae658394222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  player: {fileID: 0}
-  sistemaVidaJugador: {fileID: 0}
 --- !u!114 &1827930685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51956,15 +50988,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2f0db2641f32043b8d7879d5e13bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  playerInput: {fileID: 0}
-  vidaUI: {fileID: 0}
-  Cortinilla: {fileID: 0}
-  vidaActual: 0
-  vidaMaxima: 0
-  tempsInvencibilitat: 1.5
-  esInvencible: 0
-  mostrarDebug: 1
 --- !u!1001 &1832003672
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -52322,25 +51345,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe2fb9f8892cdd747bebe00496863805, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  puntsMoviment: {fileID: 1965499576}
-  puntActual: 0
-  tempsEsperaPatrulla: 1
-  contadorEspera: 0
-  enemic: {fileID: 0}
-  sistemaAtac: {fileID: 0}
-  sistemaVida: {fileID: 0}
-  currentState: 0
-  rangPerseguir: 10
-  velocitatNormal: 3.5
-  velocitatPersecucio: 20
-  tempsSospita: 3
-  tempsUltimaVegadaVist: 0
-  ultimaPosicioVista: {x: 0, y: 0, z: 0}
-  rangAtacar: 8
-  tempsEntreAtacs: 0
-  comptadorAtacs: 0
-  animador: {fileID: 0}
-  player: {fileID: 0}
 --- !u!195 &1837954333
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -52375,9 +51379,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157ba9dd13e4a724eb0c3ae658394222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  player: {fileID: 0}
-  sistemaVidaJugador: {fileID: 0}
 --- !u!114 &1837954336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52390,15 +51391,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2f0db2641f32043b8d7879d5e13bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  playerInput: {fileID: 0}
-  vidaUI: {fileID: 0}
-  Cortinilla: {fileID: 0}
-  vidaActual: 0
-  vidaMaxima: 0
-  tempsInvencibilitat: 1.5
-  esInvencible: 0
-  mostrarDebug: 1
 --- !u!1001 &1839822490
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -54016,25 +53008,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe2fb9f8892cdd747bebe00496863805, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  puntsMoviment: {fileID: 1018374422}
-  puntActual: 0
-  tempsEsperaPatrulla: 1
-  contadorEspera: 0
-  enemic: {fileID: 0}
-  sistemaAtac: {fileID: 0}
-  sistemaVida: {fileID: 0}
-  currentState: 0
-  rangPerseguir: 10
-  velocitatNormal: 3.5
-  velocitatPersecucio: 20
-  tempsSospita: 3
-  tempsUltimaVegadaVist: 0
-  ultimaPosicioVista: {x: 0, y: 0, z: 0}
-  rangAtacar: 8
-  tempsEntreAtacs: 0
-  comptadorAtacs: 0
-  animador: {fileID: 0}
-  player: {fileID: 0}
 --- !u!195 &1894290358
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -54069,9 +53042,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157ba9dd13e4a724eb0c3ae658394222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  player: {fileID: 0}
-  sistemaVidaJugador: {fileID: 0}
 --- !u!114 &1894290361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54084,15 +53054,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2f0db2641f32043b8d7879d5e13bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  playerInput: {fileID: 0}
-  vidaUI: {fileID: 0}
-  Cortinilla: {fileID: 0}
-  vidaActual: 0
-  vidaMaxima: 0
-  tempsInvencibilitat: 1.5
-  esInvencible: 0
-  mostrarDebug: 1
 --- !u!1001 &1896834697
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -55336,25 +54297,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe2fb9f8892cdd747bebe00496863805, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  puntsMoviment: {fileID: 362244700}
-  puntActual: 0
-  tempsEsperaPatrulla: 1
-  contadorEspera: 0
-  enemic: {fileID: 0}
-  sistemaAtac: {fileID: 0}
-  sistemaVida: {fileID: 0}
-  currentState: 0
-  rangPerseguir: 10
-  velocitatNormal: 3.5
-  velocitatPersecucio: 20
-  tempsSospita: 3
-  tempsUltimaVegadaVist: 0
-  ultimaPosicioVista: {x: 0, y: 0, z: 0}
-  rangAtacar: 8
-  tempsEntreAtacs: 0
-  comptadorAtacs: 0
-  animador: {fileID: 0}
-  player: {fileID: 0}
 --- !u!195 &1932064909
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -55389,9 +54331,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157ba9dd13e4a724eb0c3ae658394222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  player: {fileID: 0}
-  sistemaVidaJugador: {fileID: 0}
 --- !u!114 &1932064912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55404,15 +54343,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2f0db2641f32043b8d7879d5e13bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  playerInput: {fileID: 0}
-  vidaUI: {fileID: 0}
-  Cortinilla: {fileID: 0}
-  vidaActual: 0
-  vidaMaxima: 0
-  tempsInvencibilitat: 1.5
-  esInvencible: 0
-  mostrarDebug: 1
 --- !u!1 &1932159290
 GameObject:
   m_ObjectHideFlags: 0
@@ -55518,25 +54448,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe2fb9f8892cdd747bebe00496863805, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  puntsMoviment: {fileID: 1506764816}
-  puntActual: 0
-  tempsEsperaPatrulla: 1
-  contadorEspera: 0
-  enemic: {fileID: 0}
-  sistemaAtac: {fileID: 0}
-  sistemaVida: {fileID: 0}
-  currentState: 0
-  rangPerseguir: 10
-  velocitatNormal: 3.5
-  velocitatPersecucio: 20
-  tempsSospita: 3
-  tempsUltimaVegadaVist: 0
-  ultimaPosicioVista: {x: 0, y: 0, z: 0}
-  rangAtacar: 8
-  tempsEntreAtacs: 0
-  comptadorAtacs: 0
-  animador: {fileID: 0}
-  player: {fileID: 0}
 --- !u!195 &1932678123
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -55571,15 +54482,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2f0db2641f32043b8d7879d5e13bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  playerInput: {fileID: 0}
-  vidaUI: {fileID: 0}
-  Cortinilla: {fileID: 0}
-  vidaActual: 0
-  vidaMaxima: 0
-  tempsInvencibilitat: 1.5
-  esInvencible: 0
-  mostrarDebug: 1
 --- !u!114 &1932678126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55592,9 +54494,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157ba9dd13e4a724eb0c3ae658394222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  player: {fileID: 0}
-  sistemaVidaJugador: {fileID: 0}
 --- !u!1001 &1933853305
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -56487,139 +55386,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 225123846}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1962173390
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1962173391}
-  - component: {fileID: 1962173394}
-  - component: {fileID: 1962173393}
-  - component: {fileID: 1962173392}
-  m_Layer: 5
-  m_Name: DecreaseLifeButton
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1962173391
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1962173390}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 392279006}
-  m_Father: {fileID: 1708293554}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 80, y: 80}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1962173392
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1962173390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 1962173393}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: HealthUI, Assembly-CSharp
-        m_MethodName: DecreaseLife
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &1962173393
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1962173390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &1962173394
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1962173390}
-  m_CullTransparentMesh: 1
 --- !u!1001 &1962481444
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -60826,25 +59592,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe2fb9f8892cdd747bebe00496863805, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  puntsMoviment: {fileID: 1359247517}
-  puntActual: 0
-  tempsEsperaPatrulla: 1
-  contadorEspera: 0
-  enemic: {fileID: 0}
-  sistemaAtac: {fileID: 0}
-  sistemaVida: {fileID: 0}
-  currentState: 0
-  rangPerseguir: 10
-  velocitatNormal: 3.5
-  velocitatPersecucio: 20
-  tempsSospita: 3
-  tempsUltimaVegadaVist: 0
-  ultimaPosicioVista: {x: 0, y: 0, z: 0}
-  rangAtacar: 8
-  tempsEntreAtacs: 0
-  comptadorAtacs: 0
-  animador: {fileID: 0}
-  player: {fileID: 0}
 --- !u!195 &2089631149
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -60879,15 +59626,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2f0db2641f32043b8d7879d5e13bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  playerInput: {fileID: 0}
-  vidaUI: {fileID: 0}
-  Cortinilla: {fileID: 0}
-  vidaActual: 0
-  vidaMaxima: 0
-  tempsInvencibilitat: 1.5
-  esInvencible: 0
-  mostrarDebug: 1
 --- !u!114 &2089631152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60900,9 +59638,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157ba9dd13e4a724eb0c3ae658394222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  player: {fileID: 0}
-  sistemaVidaJugador: {fileID: 0}
 --- !u!1 &2091547881
 GameObject:
   m_ObjectHideFlags: 0
@@ -61255,140 +59990,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1932678120}
   m_SourcePrefab: {fileID: 100100000, guid: 928a1377c1cd4515b208fef3a396b8ea, type: 3}
---- !u!1 &2098042694
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2098042695}
-  - component: {fileID: 2098042697}
-  - component: {fileID: 2098042696}
-  m_Layer: 5
-  m_Name: Text (TMP)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &2098042695
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2098042694}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1347276095}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2098042696
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2098042694}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_text: Subir Vida
-  m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_fontSharedMaterials: []
-  m_fontMaterial: {fileID: 0}
-  m_fontMaterials: []
-  m_fontColor32:
-    serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
-  m_enableVertexGradient: 0
-  m_colorMode: 3
-  m_fontColorGradient:
-    topLeft: {r: 1, g: 1, b: 1, a: 1}
-    topRight: {r: 1, g: 1, b: 1, a: 1}
-    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
-    bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
-  m_tintAllSprites: 0
-  m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: -1183493901
-  m_overrideHtmlColors: 0
-  m_faceColor:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
-  m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
-  m_fontStyle: 0
-  m_HorizontalAlignment: 2
-  m_VerticalAlignment: 512
-  m_textAlignment: 65535
-  m_characterSpacing: 0
-  m_wordSpacing: 0
-  m_lineSpacing: 0
-  m_lineSpacingMax: 0
-  m_paragraphSpacing: 0
-  m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
-  m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
-  m_linkedTextComponent: {fileID: 0}
-  parentLinkedComponent: {fileID: 0}
-  m_enableKerning: 1
-  m_enableExtraPadding: 0
-  checkPaddingRequired: 0
-  m_isRichText: 1
-  m_parseCtrlCharacters: 1
-  m_isOrthographic: 1
-  m_isCullingEnabled: 0
-  m_horizontalMapping: 0
-  m_verticalMapping: 0
-  m_uvLineOffset: 0
-  m_geometrySortingOrder: 0
-  m_IsTextObjectScaleStatic: 0
-  m_VertexBufferAutoSizeReduction: 0
-  m_useMaxVisibleDescender: 1
-  m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
-  m_isUsingLegacyAnimationComponent: 0
-  m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_baseMaterial: {fileID: 0}
-  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!222 &2098042697
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2098042694}
-  m_CullTransparentMesh: 1
 --- !u!1001 &2100000714
 PrefabInstance:
   m_ObjectHideFlags: 0
