@@ -4,95 +4,103 @@ using UnityEngine.UI;
 
 public class Cortinilla : MonoBehaviour
 {
+    [Header("Referències")]
     [SerializeField] private Image imatgeCortinilla;
-    [SerializeField] private float duradaEfecte = 2.0f;
-    [SerializeField] private AnimationCurve corbaTransicio;
-    [SerializeField] private Material materialCercle;
-    [SerializeField] private bool inverseEffect = true; // Canviat a true perquè tanqui primer
+    [SerializeField] private Material materialCortinilla;
 
+    [Header("Configuració")]
+    [SerializeField] private float duradaEfecte = 1.5f;
+    [SerializeField] private AnimationCurve corbaTransicio;
+    [SerializeField] private bool inverseEffect = true; // Si és true, l'efecte va des de fora cap a dins (tancament)
+
+    // Propietat del shader
     private static readonly int RadioProperty = Shader.PropertyToID("_Radius");
     
-    private void Awake() // Canviat a Awake per garantir que s'inicialitza abans
+    // Control para activar solo una vez
+    private bool yaSeHaMostrado = false;
+
+    private void Awake()
     {
-        Debug.Log("Cortinilla inicialitzada");
-        
+        // Comprobem que tenim la imatge
         if (imatgeCortinilla == null)
         {
-            Debug.LogError("Error: imatgeCortinilla no assignada!");
-            return;
+            imatgeCortinilla = GetComponent<Image>();
         }
         
-        if (materialCercle == null)
+        // Comprovem que tenim el material
+        if (imatgeCortinilla != null && materialCortinilla != null)
         {
-            Debug.LogError("Error: materialCercle no assignat!");
-            return;
+            // Creem una instància del material per no modificar l'original
+            imatgeCortinilla.material = new Material(materialCortinilla);
         }
         
-        // Assegurem que la imatge està utilitzant el material correcte
-        imatgeCortinilla.material = new Material(materialCercle); // Crear instància del material
-        
-        // Configurem el radi inicial
-        if (inverseEffect)
-            imatgeCortinilla.material.SetFloat(RadioProperty, 1f); // Cercle completament obert
-        else
-            imatgeCortinilla.material.SetFloat(RadioProperty, 0f); // Cercle completament tancat
-            
-        // Ocultem la imatge inicialment
-        imatgeCortinilla.gameObject.SetActive(false);
+        // Ocultem la cortinilla inicialment
+        if (imatgeCortinilla != null)
+        {
+            imatgeCortinilla.gameObject.SetActive(false);
+        }
     }
 
+    // Mètode públic per mostrar la cortinilla
     public void MostrarCortinilla()
     {
-        Debug.Log("MostrarCortinilla cridat");
-        
-        if (imatgeCortinilla == null)
+        // Si ya se ha mostrado una vez, no lo volvemos a hacer
+        if (yaSeHaMostrado)
         {
-            Debug.LogError("Error: imatgeCortinilla és null!");
+            Debug.Log("Cortinilla: Ya se ha mostrado anteriormente, no se volverá a mostrar");
             return;
         }
         
-        imatgeCortinilla.gameObject.SetActive(true);
-        StartCoroutine(AnimarCortinilla());
-    }
-    void Update() 
-    {
-        if (Input.GetKeyDown(KeyCode.T)) // Tecla T per provar
-        { 
-            Debug.Log("Iniciant animació de cortinilla");
-            MostrarCortinilla();
+        // Activem el GameObject
+        if (imatgeCortinilla != null)
+        {
+            imatgeCortinilla.gameObject.SetActive(true);
+            StartCoroutine(AnimarCortinilla());
+            
+            // Marcamos que ya se ha mostrado
+            yaSeHaMostrado = true;
+        }
+        else
+        {
+            Debug.LogError("Cortinilla: No s'ha trobat la imatge de la cortinilla");
         }
     }
+    
+    // Método para resetear la cortinilla (usar solo en casos específicos)
+    public void ResetearCortinilla()
+    {
+        yaSeHaMostrado = false;
+    }
+
+    // Corrutina per a l'animació
     private IEnumerator AnimarCortinilla()
     {
-        Debug.Log("Iniciant animació de cortinilla");
         float tempsInici = Time.time;
         float percentatgeCompletat = 0f;
         
-        // Guardem el valor inicial i final
+        // Valor inicial i final del radi
         float radiInicial = inverseEffect ? 1f : 0f;
         float radiFinal = inverseEffect ? 0f : 1f;
         
-        // Ens assegurem que comencem amb el valor correcte
+        // Establim el valor inicial
         imatgeCortinilla.material.SetFloat(RadioProperty, radiInicial);
         
-        // Animem el radi del cercle
+        // Animem el radi
         while (percentatgeCompletat < 1.0f)
         {
             percentatgeCompletat = (Time.time - tempsInici) / duradaEfecte;
-            percentatgeCompletat = Mathf.Clamp01(percentatgeCompletat); // Limitem entre 0 i 1
+            percentatgeCompletat = Mathf.Clamp01(percentatgeCompletat);
             
-            // Interpolem linealment entre el radi inicial i final
-            float valorRadi = Mathf.Lerp(radiInicial, radiFinal, percentatgeCompletat);
+            // Utilitzem la corba de transició per a una animació més suau
+            float valorAnimacio = corbaTransicio.Evaluate(percentatgeCompletat);
+            float valorRadi = Mathf.Lerp(radiInicial, radiFinal, valorAnimacio);
             
-            // Apliquem el valor al shader
             imatgeCortinilla.material.SetFloat(RadioProperty, valorRadi);
-            Debug.Log($"Radi: {valorRadi} (Percentatge: {percentatgeCompletat:0.00})");
             
             yield return null;
         }
         
-        // Assegurem que acabi amb el valor exacte final
+        // Assegurem que acaba amb el valor exacte
         imatgeCortinilla.material.SetFloat(RadioProperty, radiFinal);
-        Debug.Log("Animació de cortinilla completada");
     }
 }
