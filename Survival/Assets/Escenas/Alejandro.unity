@@ -3133,14 +3133,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puntsMoviment: {fileID: 805943663}
+  puntActual: 0
   tempsEsperaPatrulla: 1
+  contadorEspera: 0
+  enemic: {fileID: 0}
+  sistemaAtac: {fileID: 0}
+  sistemaVida: {fileID: 0}
   currentState: 0
   rangPerseguir: 10
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
+  tempsUltimaVegadaVist: 0
+  ultimaPosicioVista: {x: 0, y: 0, z: 0}
   rangAtacar: 8
   tempsEntreAtacs: 0
+  comptadorAtacs: 0
+  animador: {fileID: 0}
+  player: {fileID: 0}
 --- !u!195 &145640345
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -3175,6 +3185,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157ba9dd13e4a724eb0c3ae658394222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  player: {fileID: 0}
+  sistemaVidaJugador: {fileID: 0}
 --- !u!114 &145640348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3187,8 +3200,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2f0db2641f32043b8d7879d5e13bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  playerInput: {fileID: 0}
+  vidaUI: {fileID: 0}
+  Cortinilla: {fileID: 0}
   vidaActual: 0
   vidaMaxima: 0
+  tempsInvencibilitat: 1.5
+  esInvencible: 0
+  mostrarDebug: 1
 --- !u!1001 &145796922
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4314,10 +4334,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 18d8b09ba437dd24e8694f40f14200ad,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 176789813}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 18d8b09ba437dd24e8694f40f14200ad,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 176789810}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 18d8b09ba437dd24e8694f40f14200ad,
         type: 3}
@@ -4366,12 +4382,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 176789807}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96ecee4bdc33f9346957c8dc3dd87d8c, type: 3}
+  m_Script: {fileID: 11500000, guid: 2418a197ddf815d4a99795de8ff69ded, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 7
-  rotationSpeed: 720
-  jumpSpeed: 0
+  vidaActual: 0
+  vidaMaxima: 12
+  tempsInvencibilitat: 1.5
+  velocitat: 5
+  velocitatRotacio: 120
+  velocitatCorrer: 10
+  dany: 2
+  tempsAtac: 0.3
 --- !u!114 &176789811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4429,20 +4450,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.84, z: 0}
---- !u!114 &176789813
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 176789807}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d2f0db2641f32043b8d7879d5e13bc4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  vidaActual: 0
-  vidaMaxima: 0
 --- !u!1001 &177018089
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7805,14 +7812,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puntsMoviment: {fileID: 1951976918}
+  puntActual: 0
   tempsEsperaPatrulla: 1
+  contadorEspera: 0
+  enemic: {fileID: 0}
+  sistemaAtac: {fileID: 0}
+  sistemaVida: {fileID: 0}
   currentState: 0
   rangPerseguir: 10
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
+  tempsUltimaVegadaVist: 0
+  ultimaPosicioVista: {x: 0, y: 0, z: 0}
   rangAtacar: 8
   tempsEntreAtacs: 0
+  comptadorAtacs: 0
+  animador: {fileID: 0}
+  player: {fileID: 0}
 --- !u!195 &291202804
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -7847,6 +7864,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157ba9dd13e4a724eb0c3ae658394222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  player: {fileID: 0}
+  sistemaVidaJugador: {fileID: 0}
 --- !u!114 &291202807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7859,8 +7879,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2f0db2641f32043b8d7879d5e13bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  playerInput: {fileID: 0}
+  vidaUI: {fileID: 0}
+  Cortinilla: {fileID: 0}
   vidaActual: 0
   vidaMaxima: 0
+  tempsInvencibilitat: 1.5
+  esInvencible: 0
+  mostrarDebug: 1
 --- !u!1001 &294033643
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9303,14 +9330,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puntsMoviment: {fileID: 2091547882}
+  puntActual: 0
   tempsEsperaPatrulla: 1
+  contadorEspera: 0
+  enemic: {fileID: 0}
+  sistemaAtac: {fileID: 0}
+  sistemaVida: {fileID: 0}
   currentState: 0
   rangPerseguir: 10
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
+  tempsUltimaVegadaVist: 0
+  ultimaPosicioVista: {x: 0, y: 0, z: 0}
   rangAtacar: 8
   tempsEntreAtacs: 0
+  comptadorAtacs: 0
+  animador: {fileID: 0}
+  player: {fileID: 0}
 --- !u!195 &339304611
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -9345,6 +9382,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157ba9dd13e4a724eb0c3ae658394222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  player: {fileID: 0}
+  sistemaVidaJugador: {fileID: 0}
 --- !u!114 &339304614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9357,8 +9397,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2f0db2641f32043b8d7879d5e13bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  playerInput: {fileID: 0}
+  vidaUI: {fileID: 0}
+  Cortinilla: {fileID: 0}
   vidaActual: 0
   vidaMaxima: 0
+  tempsInvencibilitat: 1.5
+  esInvencible: 0
+  mostrarDebug: 1
 --- !u!1001 &340737791
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9864,14 +9911,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puntsMoviment: {fileID: 769249254}
+  puntActual: 0
   tempsEsperaPatrulla: 1
+  contadorEspera: 0
+  enemic: {fileID: 0}
+  sistemaAtac: {fileID: 0}
+  sistemaVida: {fileID: 0}
   currentState: 0
   rangPerseguir: 10
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
+  tempsUltimaVegadaVist: 0
+  ultimaPosicioVista: {x: 0, y: 0, z: 0}
   rangAtacar: 8
   tempsEntreAtacs: 0
+  comptadorAtacs: 0
+  animador: {fileID: 0}
+  player: {fileID: 0}
 --- !u!195 &350771632
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -9906,8 +9963,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2f0db2641f32043b8d7879d5e13bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  playerInput: {fileID: 0}
+  vidaUI: {fileID: 0}
+  Cortinilla: {fileID: 0}
   vidaActual: 0
   vidaMaxima: 0
+  tempsInvencibilitat: 1.5
+  esInvencible: 0
+  mostrarDebug: 1
 --- !u!114 &350771635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9920,6 +9984,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157ba9dd13e4a724eb0c3ae658394222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  player: {fileID: 0}
+  sistemaVidaJugador: {fileID: 0}
 --- !u!1 &357836859 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: c5bb25ec5731c094a9476f6d7603d5ff,
@@ -11907,14 +11974,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puntsMoviment: {fileID: 1932159291}
+  puntActual: 0
   tempsEsperaPatrulla: 1
+  contadorEspera: 0
+  enemic: {fileID: 0}
+  sistemaAtac: {fileID: 0}
+  sistemaVida: {fileID: 0}
   currentState: 0
   rangPerseguir: 10
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
+  tempsUltimaVegadaVist: 0
+  ultimaPosicioVista: {x: 0, y: 0, z: 0}
   rangAtacar: 8
   tempsEntreAtacs: 0
+  comptadorAtacs: 0
+  animador: {fileID: 0}
+  player: {fileID: 0}
 --- !u!195 &429344373
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -11949,6 +12026,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157ba9dd13e4a724eb0c3ae658394222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  player: {fileID: 0}
+  sistemaVidaJugador: {fileID: 0}
 --- !u!114 &429344376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11961,8 +12041,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2f0db2641f32043b8d7879d5e13bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  playerInput: {fileID: 0}
+  vidaUI: {fileID: 0}
+  Cortinilla: {fileID: 0}
   vidaActual: 0
   vidaMaxima: 0
+  tempsInvencibilitat: 1.5
+  esInvencible: 0
+  mostrarDebug: 1
 --- !u!1001 &429478213
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18191,14 +18278,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puntsMoviment: {fileID: 1396013371}
+  puntActual: 0
   tempsEsperaPatrulla: 1
+  contadorEspera: 0
+  enemic: {fileID: 0}
+  sistemaAtac: {fileID: 0}
+  sistemaVida: {fileID: 0}
   currentState: 0
   rangPerseguir: 10
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
+  tempsUltimaVegadaVist: 0
+  ultimaPosicioVista: {x: 0, y: 0, z: 0}
   rangAtacar: 8
   tempsEntreAtacs: 0
+  comptadorAtacs: 0
+  animador: {fileID: 0}
+  player: {fileID: 0}
 --- !u!195 &634157685
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -18233,6 +18330,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157ba9dd13e4a724eb0c3ae658394222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  player: {fileID: 0}
+  sistemaVidaJugador: {fileID: 0}
 --- !u!114 &634157688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18245,8 +18345,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2f0db2641f32043b8d7879d5e13bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  playerInput: {fileID: 0}
+  vidaUI: {fileID: 0}
+  Cortinilla: {fileID: 0}
   vidaActual: 0
   vidaMaxima: 0
+  tempsInvencibilitat: 1.5
+  esInvencible: 0
+  mostrarDebug: 1
 --- !u!1001 &636724822
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22103,11 +22210,15 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: c5bb25ec5731c094a9476f6d7603d5ff,
         type: 3}
       propertyPath: m_Name
-      value: tree-pine-small (34)
+      value: ArbrePinya1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: c5bb25ec5731c094a9476f6d7603d5ff,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 839741935}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c5bb25ec5731c094a9476f6d7603d5ff,
         type: 3}
@@ -23044,6 +23155,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a6c7cabb26d10534199d525362b96114,
     type: 3}
   m_PrefabInstance: {fileID: 2074788181}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &839741935 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: dc10ec4eb4c32754d88c67062fe48c44,
+    type: 3}
+  m_PrefabInstance: {fileID: 1501758187}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &840907310 stripped
 GameObject:
@@ -27311,14 +27428,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puntsMoviment: {fileID: 1285121318}
+  puntActual: 0
   tempsEsperaPatrulla: 1
+  contadorEspera: 0
+  enemic: {fileID: 0}
+  sistemaAtac: {fileID: 0}
+  sistemaVida: {fileID: 0}
   currentState: 0
   rangPerseguir: 10
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
+  tempsUltimaVegadaVist: 0
+  ultimaPosicioVista: {x: 0, y: 0, z: 0}
   rangAtacar: 8
   tempsEntreAtacs: 0
+  comptadorAtacs: 0
+  animador: {fileID: 0}
+  player: {fileID: 0}
 --- !u!195 &968480984
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -27353,6 +27480,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157ba9dd13e4a724eb0c3ae658394222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  player: {fileID: 0}
+  sistemaVidaJugador: {fileID: 0}
 --- !u!114 &968480987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27365,8 +27495,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2f0db2641f32043b8d7879d5e13bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  playerInput: {fileID: 0}
+  vidaUI: {fileID: 0}
+  Cortinilla: {fileID: 0}
   vidaActual: 0
   vidaMaxima: 0
+  tempsInvencibilitat: 1.5
+  esInvencible: 0
+  mostrarDebug: 1
 --- !u!1 &974631026 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: c5bb25ec5731c094a9476f6d7603d5ff,
@@ -27981,14 +28118,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puntsMoviment: {fileID: 1847322424}
+  puntActual: 0
   tempsEsperaPatrulla: 1
+  contadorEspera: 0
+  enemic: {fileID: 0}
+  sistemaAtac: {fileID: 0}
+  sistemaVida: {fileID: 0}
   currentState: 0
   rangPerseguir: 10
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
+  tempsUltimaVegadaVist: 0
+  ultimaPosicioVista: {x: 0, y: 0, z: 0}
   rangAtacar: 8
   tempsEntreAtacs: 0
+  comptadorAtacs: 0
+  animador: {fileID: 0}
+  player: {fileID: 0}
 --- !u!195 &992157066
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -28023,6 +28170,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157ba9dd13e4a724eb0c3ae658394222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  player: {fileID: 0}
+  sistemaVidaJugador: {fileID: 0}
 --- !u!114 &992157069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28035,8 +28185,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2f0db2641f32043b8d7879d5e13bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  playerInput: {fileID: 0}
+  vidaUI: {fileID: 0}
+  Cortinilla: {fileID: 0}
   vidaActual: 0
   vidaMaxima: 0
+  tempsInvencibilitat: 1.5
+  esInvencible: 0
+  mostrarDebug: 1
 --- !u!1001 &992362613
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31427,6 +31584,7 @@ GameObject:
   - component: {fileID: 1142221902}
   - component: {fileID: 1142221900}
   - component: {fileID: 1142221901}
+  - component: {fileID: 1142221904}
   m_Layer: 5
   m_Name: UIManager
   m_TagString: Untagged
@@ -31443,29 +31601,33 @@ MonoBehaviour:
   m_GameObject: {fileID: 1142221899}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83ada7b7bb0b3ee478c4299a4cc5d615, type: 3}
+  m_Script: {fileID: 11500000, guid: f9c575ff67c9da247a081f6f8907998b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   displayType: 0
   currentLife: 12
   heartImagesType1:
-  - {fileID: 1856871780}
-  - {fileID: 388079796}
-  - {fileID: 580050519}
-  - {fileID: 965206749}
-  - {fileID: 1210460785}
-  - {fileID: 874521806}
+  - {fileID: 957942068}
+  - {fileID: 957942068}
+  - {fileID: 957942068}
+  - {fileID: 957942068}
+  - {fileID: 957942068}
+  - {fileID: 957942068}
+  - {fileID: 957942068}
+  - {fileID: 957942068}
+  - {fileID: 957942068}
+  - {fileID: 957942068}
   heartImagesType2:
   - {fileID: 957942068}
-  - {fileID: 1068005958}
-  - {fileID: 2009687805}
-  - {fileID: 201828787}
-  - {fileID: 1773003591}
-  - {fileID: 2134307822}
-  - {fileID: 413954868}
-  - {fileID: 198033484}
-  - {fileID: 1289439966}
-  - {fileID: 5039652}
+  - {fileID: 957942068}
+  - {fileID: 957942068}
+  - {fileID: 957942068}
+  - {fileID: 957942068}
+  - {fileID: 957942068}
+  - {fileID: 957942068}
+  - {fileID: 957942068}
+  - {fileID: 957942068}
+  - {fileID: 957942068}
   fullHeartSprite: {fileID: 21300000, guid: c489fc1876db8f049a870038320984bd, type: 3}
   halfHeartSprite: {fileID: 21300000, guid: 1a1c1e82ef75bb8438eedf67933d50d7, type: 3}
   emptyHeartSprite: {fileID: 21300000, guid: 72b60fcaa90a7a64ca5567e3f04bb675, type: 3}
@@ -31478,29 +31640,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1142221899}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37236bbb4f7b06e498fc57d4e4ff9f9a, type: 3}
+  m_Script: {fileID: 11500000, guid: afd97b4bdc9b6294e9b2e47c05a54691, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   displayType: 0
   currentLife: 12
   heartImagesType1:
   - {fileID: 1856871780}
-  - {fileID: 388079796}
-  - {fileID: 580050519}
-  - {fileID: 965206749}
-  - {fileID: 1210460785}
-  - {fileID: 874521806}
+  - {fileID: 1856871780}
+  - {fileID: 1856871780}
+  - {fileID: 1856871780}
+  - {fileID: 1856871780}
   heartImagesType2:
-  - {fileID: 957942068}
-  - {fileID: 1068005958}
-  - {fileID: 2009687805}
-  - {fileID: 201828787}
-  - {fileID: 1773003591}
-  - {fileID: 2134307822}
-  - {fileID: 413954868}
-  - {fileID: 198033484}
-  - {fileID: 1289439966}
-  - {fileID: 5039652}
+  - {fileID: 1856871780}
+  - {fileID: 1856871780}
+  - {fileID: 1856871780}
+  - {fileID: 1856871780}
+  - {fileID: 1856871780}
   fullHeartSprite: {fileID: 21300000, guid: c489fc1876db8f049a870038320984bd, type: 3}
   halfHeartSprite: {fileID: 21300000, guid: 1a1c1e82ef75bb8438eedf67933d50d7, type: 3}
   emptyHeartSprite: {fileID: 21300000, guid: 72b60fcaa90a7a64ca5567e3f04bb675, type: 3}
@@ -31523,6 +31679,46 @@ RectTransform:
   m_AnchoredPosition: {x: -433.09998, y: -227}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1142221904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1142221899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a0280fbbb51d19428b3df2212c108e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  imatgeCortinilla: {fileID: 1490267870}
+  duradaEfecte: 2
+  corbaTransicio:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.18055725
+      value: 0.0047302246
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1.097229
+      value: 1.0047188
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  materialCercle: {fileID: 2100000, guid: 4e91cabcdae8c6544beb880975da1f74, type: 2}
+  inverseEffect: 1
 --- !u!1001 &1148558805
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32004,14 +32200,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puntsMoviment: {fileID: 225123846}
+  puntActual: 0
   tempsEsperaPatrulla: 1
+  contadorEspera: 0
+  enemic: {fileID: 0}
+  sistemaAtac: {fileID: 0}
+  sistemaVida: {fileID: 0}
   currentState: 0
   rangPerseguir: 10
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
+  tempsUltimaVegadaVist: 0
+  ultimaPosicioVista: {x: 0, y: 0, z: 0}
   rangAtacar: 8
   tempsEntreAtacs: 0
+  comptadorAtacs: 0
+  animador: {fileID: 0}
+  player: {fileID: 0}
 --- !u!195 &1173018022
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -32046,6 +32252,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157ba9dd13e4a724eb0c3ae658394222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  player: {fileID: 0}
+  sistemaVidaJugador: {fileID: 0}
 --- !u!114 &1173018025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32058,8 +32267,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2f0db2641f32043b8d7879d5e13bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  playerInput: {fileID: 0}
+  vidaUI: {fileID: 0}
+  Cortinilla: {fileID: 0}
   vidaActual: 0
   vidaMaxima: 0
+  tempsInvencibilitat: 1.5
+  esInvencible: 0
+  mostrarDebug: 1
 --- !u!1001 &1178823746
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32270,7 +32486,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1142221900}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: HealthUI, Assembly-CSharp
         m_MethodName: ToggleDisplayType
         m_Mode: 1
@@ -37399,7 +37615,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1142221900}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: HealthUI, Assembly-CSharp
         m_MethodName: IncreaseLife
         m_Mode: 1
@@ -41423,6 +41639,81 @@ CapsuleCollider:
   m_Height: 1.3976785
   m_Direction: 1
   m_Center: {x: 0, y: 0.69883925, z: 0}
+--- !u!1 &1490267868
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1490267869}
+  - component: {fileID: 1490267871}
+  - component: {fileID: 1490267870}
+  m_Layer: 5
+  m_Name: ImageCortinilla
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1490267869
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1490267868}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1539864585}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -26.979, y: -12.488}
+  m_SizeDelta: {x: 1654, y: 924.15}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1490267870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1490267868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1490267871
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1490267868}
+  m_CullTransparentMesh: 1
 --- !u!1 &1494112529 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 123e3bd90f890624b9a8d0c2b4b61739,
@@ -41744,6 +42035,94 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 2059570536}
   m_SourcePrefab: {fileID: 100100000, guid: 3be8d662abe722848bd6e252716c555a, type: 3}
+--- !u!1001 &1501758187
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 533071952}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: dc10ec4eb4c32754d88c67062fe48c44,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.21405004
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: dc10ec4eb4c32754d88c67062fe48c44,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.21405004
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: dc10ec4eb4c32754d88c67062fe48c44,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.21405004
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: dc10ec4eb4c32754d88c67062fe48c44,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -7.19879
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: dc10ec4eb4c32754d88c67062fe48c44,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.224
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: dc10ec4eb4c32754d88c67062fe48c44,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -4.6016684
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: dc10ec4eb4c32754d88c67062fe48c44,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: dc10ec4eb4c32754d88c67062fe48c44,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: dc10ec4eb4c32754d88c67062fe48c44,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: dc10ec4eb4c32754d88c67062fe48c44,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: dc10ec4eb4c32754d88c67062fe48c44,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: dc10ec4eb4c32754d88c67062fe48c44,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: dc10ec4eb4c32754d88c67062fe48c44,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: dc10ec4eb4c32754d88c67062fe48c44,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: badde2e4a5620a9478607fcccd0f2130, type: 2}
+    - target: {fileID: 919132149155446097, guid: dc10ec4eb4c32754d88c67062fe48c44,
+        type: 3}
+      propertyPath: m_Name
+      value: Pinya
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: dc10ec4eb4c32754d88c67062fe48c44, type: 3}
 --- !u!1001 &1504671713
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42549,6 +42928,7 @@ RectTransform:
   - {fileID: 1708293554}
   - {fileID: 1748644701}
   - {fileID: 140668300}
+  - {fileID: 1490267869}
   m_Father: {fileID: 1594038860}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -48877,14 +49257,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puntsMoviment: {fileID: 1099581426}
+  puntActual: 0
   tempsEsperaPatrulla: 1
+  contadorEspera: 0
+  enemic: {fileID: 0}
+  sistemaAtac: {fileID: 0}
+  sistemaVida: {fileID: 0}
   currentState: 0
   rangPerseguir: 10
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
+  tempsUltimaVegadaVist: 0
+  ultimaPosicioVista: {x: 0, y: 0, z: 0}
   rangAtacar: 8
   tempsEntreAtacs: 0
+  comptadorAtacs: 0
+  animador: {fileID: 0}
+  player: {fileID: 0}
 --- !u!195 &1759152051
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -48919,6 +49309,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157ba9dd13e4a724eb0c3ae658394222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  player: {fileID: 0}
+  sistemaVidaJugador: {fileID: 0}
 --- !u!114 &1759152054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48931,8 +49324,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2f0db2641f32043b8d7879d5e13bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  playerInput: {fileID: 0}
+  vidaUI: {fileID: 0}
+  Cortinilla: {fileID: 0}
   vidaActual: 0
   vidaMaxima: 0
+  tempsInvencibilitat: 1.5
+  esInvencible: 0
+  mostrarDebug: 1
 --- !u!4 &1762167064 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3be8d662abe722848bd6e252716c555a,
@@ -50809,27 +51209,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1822140513
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1822140510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe2fb9f8892cdd747bebe00496863805, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  puntsMoviment: {fileID: 12472021}
-  tempsEsperaPatrulla: 1
-  currentState: 0
-  rangPerseguir: 10
-  velocitatNormal: 3.5
-  velocitatPersecucio: 20
-  tempsSospita: 3
-  rangAtacar: 8
-  tempsEntreAtacs: 0
 --- !u!195 &1822140514
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -50894,23 +51273,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1822140510}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d2f0db2641f32043b8d7879d5e13bc4, type: 3}
+  m_Script: {fileID: 11500000, guid: 19b182c968776e7418dec0b59d799a09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   vidaActual: 0
-  vidaMaxima: 0
---- !u!114 &1822140519
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1822140510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 157ba9dd13e4a724eb0c3ae658394222, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  vidaMaxima: 3
+  dany: 1
+  rangAtacar: 2
+  tempsEntreAtacs: 2
+  puntsMoviment: {fileID: 12472021}
+  tempsEsperaPatrulla: 1
+  rangPerseguir: 10
+  velocitatNormal: 3.5
+  velocitatPersecucio: 20
+  tempsSospita: 3
+  estatActual: 0
 --- !u!1001 &1823608898
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51257,14 +51634,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puntsMoviment: {fileID: 624664073}
+  puntActual: 0
   tempsEsperaPatrulla: 1
+  contadorEspera: 0
+  enemic: {fileID: 0}
+  sistemaAtac: {fileID: 0}
+  sistemaVida: {fileID: 0}
   currentState: 0
   rangPerseguir: 10
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
+  tempsUltimaVegadaVist: 0
+  ultimaPosicioVista: {x: 0, y: 0, z: 0}
   rangAtacar: 8
   tempsEntreAtacs: 0
+  comptadorAtacs: 0
+  animador: {fileID: 0}
+  player: {fileID: 0}
 --- !u!195 &1827641450
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -51299,6 +51686,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157ba9dd13e4a724eb0c3ae658394222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  player: {fileID: 0}
+  sistemaVidaJugador: {fileID: 0}
 --- !u!114 &1827641453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51311,8 +51701,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2f0db2641f32043b8d7879d5e13bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  playerInput: {fileID: 0}
+  vidaUI: {fileID: 0}
+  Cortinilla: {fileID: 0}
   vidaActual: 0
   vidaMaxima: 0
+  tempsInvencibilitat: 1.5
+  esInvencible: 0
+  mostrarDebug: 1
 --- !u!1001 &1827930676
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51492,14 +51889,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puntsMoviment: {fileID: 2020841209}
+  puntActual: 0
   tempsEsperaPatrulla: 1
+  contadorEspera: 0
+  enemic: {fileID: 0}
+  sistemaAtac: {fileID: 0}
+  sistemaVida: {fileID: 0}
   currentState: 0
   rangPerseguir: 10
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
+  tempsUltimaVegadaVist: 0
+  ultimaPosicioVista: {x: 0, y: 0, z: 0}
   rangAtacar: 8
   tempsEntreAtacs: 0
+  comptadorAtacs: 0
+  animador: {fileID: 0}
+  player: {fileID: 0}
 --- !u!195 &1827930682
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -51534,6 +51941,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157ba9dd13e4a724eb0c3ae658394222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  player: {fileID: 0}
+  sistemaVidaJugador: {fileID: 0}
 --- !u!114 &1827930685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51546,8 +51956,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2f0db2641f32043b8d7879d5e13bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  playerInput: {fileID: 0}
+  vidaUI: {fileID: 0}
+  Cortinilla: {fileID: 0}
   vidaActual: 0
   vidaMaxima: 0
+  tempsInvencibilitat: 1.5
+  esInvencible: 0
+  mostrarDebug: 1
 --- !u!1001 &1832003672
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51906,14 +52323,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puntsMoviment: {fileID: 1965499576}
+  puntActual: 0
   tempsEsperaPatrulla: 1
+  contadorEspera: 0
+  enemic: {fileID: 0}
+  sistemaAtac: {fileID: 0}
+  sistemaVida: {fileID: 0}
   currentState: 0
   rangPerseguir: 10
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
+  tempsUltimaVegadaVist: 0
+  ultimaPosicioVista: {x: 0, y: 0, z: 0}
   rangAtacar: 8
   tempsEntreAtacs: 0
+  comptadorAtacs: 0
+  animador: {fileID: 0}
+  player: {fileID: 0}
 --- !u!195 &1837954333
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -51948,6 +52375,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157ba9dd13e4a724eb0c3ae658394222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  player: {fileID: 0}
+  sistemaVidaJugador: {fileID: 0}
 --- !u!114 &1837954336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51960,8 +52390,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2f0db2641f32043b8d7879d5e13bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  playerInput: {fileID: 0}
+  vidaUI: {fileID: 0}
+  Cortinilla: {fileID: 0}
   vidaActual: 0
   vidaMaxima: 0
+  tempsInvencibilitat: 1.5
+  esInvencible: 0
+  mostrarDebug: 1
 --- !u!1001 &1839822490
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -53580,14 +54017,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puntsMoviment: {fileID: 1018374422}
+  puntActual: 0
   tempsEsperaPatrulla: 1
+  contadorEspera: 0
+  enemic: {fileID: 0}
+  sistemaAtac: {fileID: 0}
+  sistemaVida: {fileID: 0}
   currentState: 0
   rangPerseguir: 10
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
+  tempsUltimaVegadaVist: 0
+  ultimaPosicioVista: {x: 0, y: 0, z: 0}
   rangAtacar: 8
   tempsEntreAtacs: 0
+  comptadorAtacs: 0
+  animador: {fileID: 0}
+  player: {fileID: 0}
 --- !u!195 &1894290358
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -53622,6 +54069,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157ba9dd13e4a724eb0c3ae658394222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  player: {fileID: 0}
+  sistemaVidaJugador: {fileID: 0}
 --- !u!114 &1894290361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53634,8 +54084,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2f0db2641f32043b8d7879d5e13bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  playerInput: {fileID: 0}
+  vidaUI: {fileID: 0}
+  Cortinilla: {fileID: 0}
   vidaActual: 0
   vidaMaxima: 0
+  tempsInvencibilitat: 1.5
+  esInvencible: 0
+  mostrarDebug: 1
 --- !u!1001 &1896834697
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -54880,14 +55337,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puntsMoviment: {fileID: 362244700}
+  puntActual: 0
   tempsEsperaPatrulla: 1
+  contadorEspera: 0
+  enemic: {fileID: 0}
+  sistemaAtac: {fileID: 0}
+  sistemaVida: {fileID: 0}
   currentState: 0
   rangPerseguir: 10
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
+  tempsUltimaVegadaVist: 0
+  ultimaPosicioVista: {x: 0, y: 0, z: 0}
   rangAtacar: 8
   tempsEntreAtacs: 0
+  comptadorAtacs: 0
+  animador: {fileID: 0}
+  player: {fileID: 0}
 --- !u!195 &1932064909
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -54922,6 +55389,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157ba9dd13e4a724eb0c3ae658394222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  player: {fileID: 0}
+  sistemaVidaJugador: {fileID: 0}
 --- !u!114 &1932064912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54934,8 +55404,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2f0db2641f32043b8d7879d5e13bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  playerInput: {fileID: 0}
+  vidaUI: {fileID: 0}
+  Cortinilla: {fileID: 0}
   vidaActual: 0
   vidaMaxima: 0
+  tempsInvencibilitat: 1.5
+  esInvencible: 0
+  mostrarDebug: 1
 --- !u!1 &1932159290
 GameObject:
   m_ObjectHideFlags: 0
@@ -55042,14 +55519,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puntsMoviment: {fileID: 1506764816}
+  puntActual: 0
   tempsEsperaPatrulla: 1
+  contadorEspera: 0
+  enemic: {fileID: 0}
+  sistemaAtac: {fileID: 0}
+  sistemaVida: {fileID: 0}
   currentState: 0
   rangPerseguir: 10
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
+  tempsUltimaVegadaVist: 0
+  ultimaPosicioVista: {x: 0, y: 0, z: 0}
   rangAtacar: 8
   tempsEntreAtacs: 0
+  comptadorAtacs: 0
+  animador: {fileID: 0}
+  player: {fileID: 0}
 --- !u!195 &1932678123
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -55084,8 +55571,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2f0db2641f32043b8d7879d5e13bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  playerInput: {fileID: 0}
+  vidaUI: {fileID: 0}
+  Cortinilla: {fileID: 0}
   vidaActual: 0
   vidaMaxima: 0
+  tempsInvencibilitat: 1.5
+  esInvencible: 0
+  mostrarDebug: 1
 --- !u!114 &1932678126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55098,6 +55592,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157ba9dd13e4a724eb0c3ae658394222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  player: {fileID: 0}
+  sistemaVidaJugador: {fileID: 0}
 --- !u!1001 &1933853305
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -55307,19 +55804,11 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1931298151966786, guid: 928a1377c1cd4515b208fef3a396b8ea,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1822140519}
-    - targetCorrespondingSourceObject: {fileID: 1931298151966786, guid: 928a1377c1cd4515b208fef3a396b8ea,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1822140518}
     - targetCorrespondingSourceObject: {fileID: 1931298151966786, guid: 928a1377c1cd4515b208fef3a396b8ea,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1822140514}
-    - targetCorrespondingSourceObject: {fileID: 1931298151966786, guid: 928a1377c1cd4515b208fef3a396b8ea,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1822140513}
     - targetCorrespondingSourceObject: {fileID: 1931298151966786, guid: 928a1377c1cd4515b208fef3a396b8ea,
         type: 3}
       insertIndex: -1
@@ -56081,7 +56570,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1142221900}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: HealthUI, Assembly-CSharp
         m_MethodName: DecreaseLife
         m_Mode: 1
@@ -60338,14 +60827,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puntsMoviment: {fileID: 1359247517}
+  puntActual: 0
   tempsEsperaPatrulla: 1
+  contadorEspera: 0
+  enemic: {fileID: 0}
+  sistemaAtac: {fileID: 0}
+  sistemaVida: {fileID: 0}
   currentState: 0
   rangPerseguir: 10
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
+  tempsUltimaVegadaVist: 0
+  ultimaPosicioVista: {x: 0, y: 0, z: 0}
   rangAtacar: 8
   tempsEntreAtacs: 0
+  comptadorAtacs: 0
+  animador: {fileID: 0}
+  player: {fileID: 0}
 --- !u!195 &2089631149
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -60380,8 +60879,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2f0db2641f32043b8d7879d5e13bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  playerInput: {fileID: 0}
+  vidaUI: {fileID: 0}
+  Cortinilla: {fileID: 0}
   vidaActual: 0
   vidaMaxima: 0
+  tempsInvencibilitat: 1.5
+  esInvencible: 0
+  mostrarDebug: 1
 --- !u!114 &2089631152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60394,6 +60900,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157ba9dd13e4a724eb0c3ae658394222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  player: {fileID: 0}
+  sistemaVidaJugador: {fileID: 0}
 --- !u!1 &2091547881
 GameObject:
   m_ObjectHideFlags: 0
