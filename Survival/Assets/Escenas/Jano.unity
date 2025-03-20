@@ -5043,9 +5043,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1521177035039436, guid: e2aafa8770d34a9591b41bedf4e318ba, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 1524411113276028, guid: e2aafa8770d34a9591b41bedf4e318ba, type: 3}
       propertyPath: m_Name
       value: TurtleShellPBR
+      objectReference: {fileID: 0}
+    - target: {fileID: 1524411113276028, guid: e2aafa8770d34a9591b41bedf4e318ba, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 4544219117696442, guid: e2aafa8770d34a9591b41bedf4e318ba, type: 3}
       propertyPath: m_LocalScale.x
@@ -5144,6 +5152,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puntsMoviment: {fileID: 103319874}
+  tempsEsperaPatrulla: 1
+  currentState: 0
+  rangPerseguir: 10
+  velocitatNormal: 3.5
+  velocitatPersecucio: 20
+  tempsSospita: 3
+  rangAtacar: 8
+  tempsEntreAtacs: 0
 --- !u!195 &799859152
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -5181,7 +5197,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -6170,9 +6186,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1592125234692788, guid: 928a1377c1cd4515b208fef3a396b8ea, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 1931298151966786, guid: 928a1377c1cd4515b208fef3a396b8ea, type: 3}
       propertyPath: m_Name
       value: SlimePBR
+      objectReference: {fileID: 0}
+    - target: {fileID: 1931298151966786, guid: 928a1377c1cd4515b208fef3a396b8ea, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 4047972025199878, guid: 928a1377c1cd4515b208fef3a396b8ea, type: 3}
       propertyPath: m_LocalScale.x
@@ -6273,7 +6297,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -6292,6 +6316,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puntsMoviment: {fileID: 502446301}
+  tempsEsperaPatrulla: 1
+  currentState: 0
+  rangPerseguir: 10
+  velocitatNormal: 3.5
+  velocitatPersecucio: 20
+  tempsSospita: 3
+  rangAtacar: 8
+  tempsEntreAtacs: 0
 --- !u!195 &945198213
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -12629,6 +12661,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Character
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 18d8b09ba437dd24e8694f40f14200ad,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 6325374578682623666, guid: 18d8b09ba437dd24e8694f40f14200ad,
         type: 3}
       propertyPath: m_LocalRotation.x
@@ -12654,11 +12691,19 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 18d8b09ba437dd24e8694f40f14200ad,
         type: 3}
       insertIndex: -1
+      addedObject: {fileID: 1881079368}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 18d8b09ba437dd24e8694f40f14200ad,
+        type: 3}
+      insertIndex: -1
       addedObject: {fileID: 1881079365}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 18d8b09ba437dd24e8694f40f14200ad,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1881079364}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 18d8b09ba437dd24e8694f40f14200ad,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1881079369}
   m_SourcePrefab: {fileID: 100100000, guid: 18d8b09ba437dd24e8694f40f14200ad, type: 3}
 --- !u!1 &1881079362 stripped
 GameObject:
@@ -12765,6 +12810,39 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.84, z: 0}
+--- !u!114 &1881079368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1881079362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0ae5c77d2cfd774b9cda3e807de9d72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &1881079369
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1881079362}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.6772003, y: 4.1944356, z: 1.75035}
+  m_Center: {x: -0.024720669, y: 1.5972178, z: 0.17349291}
 --- !u!1001 &1901987021
 PrefabInstance:
   m_ObjectHideFlags: 0
