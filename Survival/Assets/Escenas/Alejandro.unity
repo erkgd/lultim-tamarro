@@ -2964,7 +2964,6 @@ MonoBehaviour:
   tempsEsperaPatrulla: 1
   currentState: 0
   rangPerseguir: 10
-  rangPerdrePista: 15
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
@@ -7381,7 +7380,6 @@ MonoBehaviour:
   tempsEsperaPatrulla: 1
   currentState: 0
   rangPerseguir: 10
-  rangPerdrePista: 15
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
@@ -8786,7 +8784,6 @@ MonoBehaviour:
   tempsEsperaPatrulla: 1
   currentState: 0
   rangPerseguir: 10
-  rangPerdrePista: 15
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
@@ -9306,7 +9303,6 @@ MonoBehaviour:
   tempsEsperaPatrulla: 1
   currentState: 0
   rangPerseguir: 10
-  rangPerdrePista: 15
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
@@ -9864,8 +9860,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   puntA: {fileID: 378216990}
   puntB: {fileID: 378216990}
-  "nomEscenaDest\xED": Escena Principal
-  "posicioDest\xED": {x: 0, y: 0, z: 0}
+  "nomEscenaDest\xED": David
+  "posicioDest\xED": {x: -2, y: 18, z: 52}
   etiquetaJugador: Player
   distanciaDeteccion: 0.7
   dibuixarLineaEnEditor: 1
@@ -10978,7 +10974,6 @@ MonoBehaviour:
   tempsEsperaPatrulla: 1
   currentState: 0
   rangPerseguir: 10
-  rangPerdrePista: 15
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
@@ -17127,7 +17122,6 @@ MonoBehaviour:
   tempsEsperaPatrulla: 1
   currentState: 0
   rangPerseguir: 10
-  rangPerdrePista: 15
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
@@ -25892,7 +25886,6 @@ MonoBehaviour:
   tempsEsperaPatrulla: 1
   currentState: 0
   rangPerseguir: 10
-  rangPerdrePista: 15
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
@@ -26537,7 +26530,6 @@ MonoBehaviour:
   tempsEsperaPatrulla: 1
   currentState: 0
   rangPerseguir: 10
-  rangPerdrePista: 15
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
@@ -30326,7 +30318,6 @@ MonoBehaviour:
   tempsEsperaPatrulla: 1
   currentState: 0
   rangPerseguir: 10
-  rangPerdrePista: 15
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
@@ -46267,7 +46258,6 @@ MonoBehaviour:
   tempsEsperaPatrulla: 1
   currentState: 0
   rangPerseguir: 10
-  rangPerdrePista: 15
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
@@ -48077,7 +48067,6 @@ MonoBehaviour:
   tempsEsperaPatrulla: 1
   currentState: 0
   rangPerseguir: 10
-  rangPerdrePista: 15
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
@@ -48487,7 +48476,6 @@ MonoBehaviour:
   tempsEsperaPatrulla: 1
   currentState: 0
   rangPerseguir: 10
-  rangPerdrePista: 15
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
@@ -48689,7 +48677,6 @@ MonoBehaviour:
   tempsEsperaPatrulla: 1
   currentState: 0
   rangPerseguir: 10
-  rangPerdrePista: 15
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
@@ -49070,7 +49057,6 @@ MonoBehaviour:
   tempsEsperaPatrulla: 1
   currentState: 0
   rangPerseguir: 10
-  rangPerdrePista: 15
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
@@ -50609,7 +50595,6 @@ MonoBehaviour:
   tempsEsperaPatrulla: 1
   currentState: 0
   rangPerseguir: 10
-  rangPerdrePista: 15
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
@@ -51884,7 +51869,6 @@ MonoBehaviour:
   tempsEsperaPatrulla: 1
   currentState: 0
   rangPerseguir: 10
-  rangPerdrePista: 15
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
@@ -52021,7 +52005,6 @@ MonoBehaviour:
   tempsEsperaPatrulla: 1
   currentState: 0
   rangPerseguir: 10
-  rangPerdrePista: 15
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
@@ -57049,7 +57032,6 @@ MonoBehaviour:
   tempsEsperaPatrulla: 1
   currentState: 0
   rangPerseguir: 10
-  rangPerdrePista: 15
   velocitatNormal: 3.5
   velocitatPersecucio: 20
   tempsSospita: 3
