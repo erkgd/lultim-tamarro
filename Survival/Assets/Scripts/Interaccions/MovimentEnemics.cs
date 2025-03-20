@@ -112,7 +112,7 @@ public class MovimentEnemics : MonoBehaviour
                     // Fem el atac amb un trigger.
                     if (animador != null)
                     {
-                        // animador.SetTrigger("Atacar");
+                        animador.SetTrigger("Atacar");
                         // Aquí es cridaria a la funció de atacar del jugador
                         sistemaAtac.AplicarDany(1, gameObject.name);
                     }
