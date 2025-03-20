@@ -1,0 +1,50 @@
+	
+- - - - - - - - - - - - - - - - - - - - - Little SnowGirl lowpoly- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+This pack contains 3d low poly Model of a cute Snow Girl
+
+Technical Details:-
+		- Model(s) : Snow Girl
+		- Vertex count : 3226
+		- Tris count :  6384
+		- Unwrapped : Yes
+		- Texture Variations : 4 (PBR)
+		- Animations : 6 (Idle, Look, Run, Head up, Click, Melt)
+		- Used Material(s) : Unity Standard Material
+		- Texture maps : Albedo/Base Color, Normal, Metalic Smoothness
+		- Texture Size : 2048(.png)
+		
+
+Features:-
+	- Lowpoly
+	- Animations included
+	- Colliders attached
+	- PBR HQ Textures
+	- Include many color variations
+	- Mobile, AR supported
+
+Folder details:-
+
+	Materials : Where the materials for the model located.
+	
+	Meshes : Contain FBX format of the 3d model.
+	
+	Textures : Contains Textures, that are in (.PNG) file format
+	
+	(Other folders - Prefabs, Scenes, Animations)
+
+
+
+How to use:-
+	
+	Simply drag and drop the prefab to your scene and use it.
+	(Prefab(s) located under 
+	Asset >  Snow_Girl > Prefabs).
+
+..................................................................................
+
+About Me : "SR Studios Kerala", Indie Game developer & 3D Artist from Alappuzha, Kerala, India
+
+Contact : srstudioskerala@gmail.com
+
+................Thank you for downloading this package................................
