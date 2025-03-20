@@ -12,6 +12,7 @@ public class CicleDiaNit : MonoBehaviour
     [Header("Configuració")]
     [SerializeField] private float duracioDiaEnSegons = 300f;  // 300 segons (5 min) que tardarà el sol en fer 360º
     [SerializeField] private bool cicleActiu = true;
+    [SerializeField] private bool efecteColorActiu = true;  // Opción para activar/desactivar el cambio de color
 
     [Header("Referències")]
     [SerializeField] private Light llumSolar;
@@ -39,14 +40,22 @@ public class CicleDiaNit : MonoBehaviour
 
     private void ActualitzarColorLlum(float angle)
     {
-        // Canvia a colors càlids per a l'alba i el capvespre
-        if (angle < 180f)
+        if (efecteColorActiu)
         {
-            llumSolar.color = Color.Lerp(Color.red, Color.white, angle / 180f);
+            // Canvia a colors càlids per a l'alba i el capvespre
+            if (angle < 180f)
+            {
+                llumSolar.color = Color.Lerp(Color.red, Color.white, angle / 180f);
+            }
+            else
+            {
+                llumSolar.color = Color.Lerp(Color.white, Color.blue, (angle - 180f) / 180f);
+            }
         }
         else
         {
-            llumSolar.color = Color.Lerp(Color.white, Color.blue, (angle - 180f) / 180f);
+            // Si el efecto de color está desactivado, mantener un color blanco constante
+            llumSolar.color = Color.white;
         }
     }
 
