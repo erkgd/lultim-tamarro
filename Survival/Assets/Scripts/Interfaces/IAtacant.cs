@@ -1,4 +1,4 @@
-public interface IAtacant
+TrAtacpublic interface IAtacant
 {
     int Dany { get; }
     void Atacar();
