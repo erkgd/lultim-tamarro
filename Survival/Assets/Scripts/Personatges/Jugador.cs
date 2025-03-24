@@ -370,7 +370,26 @@ public class Jugador : MonoBehaviour, IVida, IAtacant, IMovible
         direccioMoviment = Vector3.zero;
     }
     #endregion
-    
+
+
+    public void IncrementarVidaJugador(int quantitat, string font)
+    {
+        // Validacions inicials
+        if (quantitat <= 0)
+            return;
+
+        vidaActual += quantitat;
+
+        // Limitem la vida màxima
+        if (vidaActual > vidaMaxima)
+            vidaActual = vidaMaxima;
+
+        // Actualitzem UI
+        QuanCanviVida?.Invoke();
+        if (vidaUI != null)
+            vidaUI.UpdateHealth(vidaActual);
+    }
+
     // Mètode per rebre knockback des d'enemics
     public void RecibirKnockback(Vector3 direccion, float fuerza)
     {
