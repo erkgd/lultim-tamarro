@@ -54,6 +54,9 @@ public class Jugador : MonoBehaviour, IVida, IAtacant, IMovible
     // Propietats interfície IMovible
     public float Velocitat => velocitat;
 
+    private AtacAEnemics atacAEnemics; // Referencia al componente AtacAEnemics
+
+
     void Awake()
     {
         // Inicialització dels components
@@ -139,6 +142,12 @@ public class Jugador : MonoBehaviour, IVida, IAtacant, IMovible
         // Actualització de l'UI
         if (vidaUI != null)
             vidaUI.UpdateHealth(vidaActual);
+
+        atacAEnemics = GetComponent<AtacAEnemics>();
+        if (atacAEnemics == null)
+        {
+            Debug.LogWarning("No se encontró AtacAEnemics en el GameObject");
+        }
     }
 
     void Update()
@@ -162,7 +171,7 @@ public class Jugador : MonoBehaviour, IVida, IAtacant, IMovible
         float v = Input.GetAxis("Vertical");
 
         // Nova direcció de moviment que barreja ambdós eixos
-        Vector3 movementDirection = new Vector3(h, 0, v);
+        Vector3 movementDirection = new(h + v, 0, v - h);
         float magnitude = Mathf.Clamp01(movementDirection.magnitude);
 
         // Si Shift està premut, duplica la velocitat
@@ -320,6 +329,10 @@ public class Jugador : MonoBehaviour, IVida, IAtacant, IMovible
     public void Atacar()
     {
         StartCoroutine(ExecutarAtac());
+
+        // Detecció per si el personatje ataca a enemic
+        if (atacAEnemics != null)
+            atacAEnemics.DetectarCop();
     }
 
     private IEnumerator ExecutarAtac()
@@ -341,6 +354,8 @@ public class Jugador : MonoBehaviour, IVida, IAtacant, IMovible
             boxColliderAtac.enabled = false;
             
         atacant = false;
+
+        
     }
     #endregion
 
