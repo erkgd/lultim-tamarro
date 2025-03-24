@@ -13,7 +13,7 @@ public class Enemic : MonoBehaviour, IVida, IAtacant
     private Transform jugador;
     
     [Header("Vida")]
-    [SerializeField] private int vidaActual;
+    [SerializeField] public int vidaActual;
     [SerializeField] private int vidaMaxima = 3;
 
     [Header("Atac")]
