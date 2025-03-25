@@ -4,19 +4,14 @@ using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(Animator))]
-public class Jugador : MonoBehaviour, IVida, IAtacant, IMovible
+public class Jugador : Personatge, IMovible
 {
     [Header("Referències")]
-    private Animator animator;
     private CharacterController characterController;
     private VidaUI vidaUI;
     private Cortinilla cortinilla;
     private BoxCollider boxColliderAtac;
     [SerializeField] private ParticleSystem efecteInvencibilitat;
-
-    [Header("Vida")]
-    [SerializeField] private int vidaActual;
-    [SerializeField] private int vidaMaxima = 12;
 
     [Header("Invencibilitat")]
     [SerializeField] private float tempsInvencibilitat = 1.5f;
@@ -31,36 +26,19 @@ public class Jugador : MonoBehaviour, IVida, IAtacant, IMovible
     private Vector3 impulsoExterno = Vector3.zero; // Vector per a knockback
 
     [Header("Atac")]
-    [SerializeField] private int dany = 1;
     [SerializeField] private float rangAtacar = 2.0f;
     [SerializeField] private float tempsEntreAtacs = 2.0f;
     [SerializeField] private float tempsAtac = 0.3f;
-    [SerializeField] private float forcaKnockback = 10f; // Força de l'empenta 
-    [SerializeField] private float duracioKnockback = 0.25f; // Duració de l'efecte
+    [SerializeField] private float duracioKnockback = 0.25f;
     private float comptadorAtacs = 0f;
-    private bool atacant = false;
-
-    // Event vida
-    public event Action QuanCanviVida;
-
-    // Propietats interfície IVida
-    public int VidaActual => vidaActual;
-    public int VidaMaxima => vidaMaxima;
-
-    // Propietats interfície IAtacant
-    public int Dany => dany;
-    public bool EstaAtacant() => atacant;
-
-    // Propietats interfície IMovible
-    public float Velocitat => velocitat;
 
     private AtacAEnemics atacAEnemics; // Referencia al componente AtacAEnemics
 
+    public float Velocitat { get; set; } // Implementing the missing interface member
 
-    void Awake()
+    protected override void Awake()
     {
-        // Inicialització dels components
-        animator = GetComponent<Animator>();
+        base.Awake();
         characterController = GetComponent<CharacterController>();
         boxColliderAtac = GetComponent<BoxCollider>();
         
@@ -130,24 +108,31 @@ public class Jugador : MonoBehaviour, IVida, IAtacant, IMovible
         }
     }
 
-    void Start()
+    protected override void Start()
     {
-        // Cerca de components globals
+        base.Start();
         vidaUI = FindObjectOfType<VidaUI>();
+        if (vidaUI != null)
+            vidaUI.UpdateHealth(vidaActual);
+
         cortinilla = FindObjectOfType<Cortinilla>();
-        
-        // Inicialització de l'estat
-        vidaActual = vidaMaxima;
-        
-        // Actualització de l'UI
+
+        // Use a protected method to subscribe to the event
+        SubscribeToQuanCanviVida(OnCanviVidaHandler);
+
         if (vidaUI != null)
             vidaUI.UpdateHealth(vidaActual);
 
         atacAEnemics = GetComponent<AtacAEnemics>();
         if (atacAEnemics == null)
-        {
             Debug.LogWarning("No se encontró AtacAEnemics en el GameObject");
-        }
+    }
+
+    // New event handler method
+    private void OnCanviVidaHandler()
+    {
+        if (vidaUI != null)
+            vidaUI.UpdateHealth(vidaActual);
     }
 
     void Update()
@@ -224,50 +209,17 @@ public class Jugador : MonoBehaviour, IVida, IAtacant, IMovible
         }
     }
 
-    #region IVida
-    public bool EsViu()
-    {
-        return vidaActual > 0;
-    }
-
-    public void IncrementarVida(int quantitat, string font)
-    {
-        if (quantitat <= 0) return;
-
-        vidaActual += quantitat;
-        if (vidaActual > vidaMaxima)
-            vidaActual = vidaMaxima;
-
-        // Actualitzem UI
-        QuanCanviVida?.Invoke();
-        if (vidaUI != null)
-            vidaUI.UpdateHealth(vidaActual);
-    }
-
-    public void DecrementarVida(int quantitat, string font)
+    public override void DecrementarVida(int quantitat, string font)
     {
         if (quantitat <= 0 || esInvencible) return;
 
-        vidaActual -= quantitat;
-        
-        // Activem l'animació de rebre mal
-        if (animator != null)
-            animator.SetTrigger("TrRepMal");
-        
-        // Activem el període d'invencibilitat
+        base.DecrementarVida(quantitat, font);
+
+        // Activamos invencibilidad
         StartCoroutine(PeriodeInvencibilitat());
 
-        // Si la vida arriba a 0 o menys, iniciem el procés de mort
-        if (vidaActual <= 0)
-        {
-            vidaActual = 0;
-            StartCoroutine(Morir());
-        }
-
-        // Actualitzem UI
-        QuanCanviVida?.Invoke();
-        if (vidaUI != null)
-            vidaUI.UpdateHealth(vidaActual);
+        if (vidaActual <= 0 && cortinilla != null)
+            cortinilla.MostrarCortinilla();
     }
 
     private IEnumerator PeriodeInvencibilitat()
@@ -298,87 +250,51 @@ public class Jugador : MonoBehaviour, IVida, IAtacant, IMovible
         esInvencible = false;
     }
 
-    private IEnumerator Morir()
+    protected override IEnumerator Morir()
     {
         if (animator != null)
             animator.SetBool("senseVida", true);
-        
-        // Activem la cortinilla
-        if (cortinilla != null)
-            cortinilla.MostrarCortinilla();
 
-        // Desactivem controls
+        // Desactivamos controles
         enabled = false;
-        
-        // Esperem a que l'animació acabi
+
+        // Esperamos a que la animación termine
         yield return new WaitForSeconds(5f);
 
-        // Revivim el jugador
+        // Revivimos al jugador
         vidaActual = vidaMaxima;
         animator.SetBool("senseVida", false);
         enabled = true;
-        
-        // Actualitzem UI
-        QuanCanviVida?.Invoke();
+
+        // Actualizamos la UI
+        InvokeQuanCanviVida(); // Use the protected method to invoke the event
         if (vidaUI != null)
             vidaUI.UpdateHealth(vidaActual);
     }
-    #endregion
 
-    #region IAtacant
-    public void Atacar()
-    {
-        StartCoroutine(ExecutarAtac());
-
-        // Detecció per si el personatje ataca a enemic
-        if (atacAEnemics != null)
-            atacAEnemics.DetectarCop();
-    }
-
-    private IEnumerator ExecutarAtac()
+    protected override IEnumerator ExecutarAtac()
     {
         atacant = true;
         
-        // Activem el collider d'atac
         if (boxColliderAtac != null)
             boxColliderAtac.enabled = true;
             
-        // Activem l'animació d'atac
         animator.SetTrigger("TrAtac");
 
-        // Esperem el temps d'atac
         yield return new WaitForSeconds(tempsAtac);
 
-        // Desactivem el collider d'atac
         if (boxColliderAtac != null)
             boxColliderAtac.enabled = false;
             
         atacant = false;
-
-        
-    }
-    #endregion
-
-    #region IMovible
-    public void Moure(Vector3 direccio)
-    {
-        direccioMoviment = direccio;
     }
 
-    public void AturarMoviment()
-    {
-        direccioMoviment = Vector3.zero;
-    }
-    #endregion
-    
-    // Mètode per rebre knockback des d'enemics
     public void RecibirKnockback(Vector3 direccion, float fuerza)
     {
         impulsoExterno = direccion.normalized * fuerza;
         StartCoroutine(DisminuirImpulso());
     }
-    
-    // Mètode per disminuir gradualment l'impuls de knockback
+
     private IEnumerator DisminuirImpulso()
     {
         float duracion = duracioKnockback;
@@ -395,7 +311,6 @@ public class Jugador : MonoBehaviour, IVida, IAtacant, IMovible
         impulsoExterno = Vector3.zero;
     }
 
-    // Gestió de les col·lisions per a l'atac
     private void OnTriggerEnter(Collider other)
     {
         if (atacant && other.CompareTag("Enemy"))
@@ -417,5 +332,16 @@ public class Jugador : MonoBehaviour, IVida, IAtacant, IMovible
                 }
             }
         }
+    }
+
+    public void AturarMoviment()
+    {
+        direccioMoviment = Vector3.zero;
+    }
+
+    public void Moure(Vector3 direccio)
+    {
+        // Implement the movement logic here
+        transform.position += direccio;
     }
 }
