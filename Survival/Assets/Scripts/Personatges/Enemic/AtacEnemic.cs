@@ -10,7 +10,7 @@ public class AtacEnemic : MonoBehaviour
     private Transform jugador;
     
     [Header("Configuració Atac")]
-    [SerializeField] private float tempsEsperaPostAtac = 1.5f;
+    //[SerializeField] private float tempsEsperaPostAtac = 1.5f;
     [SerializeField] private float duracioAnimacioAtac = 0.5f;
     [SerializeField] private float tempsPerDesapareixer = 2f;
     

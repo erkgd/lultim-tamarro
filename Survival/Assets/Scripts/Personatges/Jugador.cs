@@ -149,4 +149,17 @@ public class Jugador : Personatge, IMovible, IAtacant
         // Delegamos la lógica de ataque al componente especializado
         yield return StartCoroutine(atacJugador.ExecutarAtac());
     }
+    public override void IncrementarVida(int quantitat, string font)
+    {
+        if (quantitat <= 0) return;
+
+        vidaActual += quantitat;
+        if (vidaActual > vidaMaxima)
+            vidaActual = vidaMaxima;
+
+        // Actualitzem UI
+        NotificarCanviVida(); // Use the protected method instead of direct event invocation
+        if (vidaUI != null)
+            vidaUI.UpdateHealth(vidaActual);
+    }
 }
