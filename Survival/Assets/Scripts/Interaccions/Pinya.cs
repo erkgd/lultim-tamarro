@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class RecojerPinya : MonoBehaviour
 {
-    // Cantidad de vida que se incrementará al recoger la pinya.
+    // Cantidad de vida que se incrementarï¿½ al recoger la pinya.
     public int incremento = 4;
-    // Fuente que se mostrará en el log del SistemaVida.
+    // Fuente que se mostrarï¿½ en el log del SistemaVida.
     private string fuente = "Pinya";
 
     private void OnTriggerEnter(Collider other)
@@ -15,8 +15,8 @@ public class RecojerPinya : MonoBehaviour
             Jugador jugador = other.GetComponent<Jugador>();
             if (jugador != null)
             {
-                // Se llama a la función para incrementar la vida.
-                jugador.IncrementarVidaJugador(incremento, fuente);
+                // Se llama a la funciï¿½n para incrementar la vida.
+                jugador.IncrementarVida(incremento, fuente);
             }
             else
             {
