@@ -5,33 +5,25 @@ using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Animator))]
-public class Enemic : MonoBehaviour, IVida, IAtacant
+public class Enemic : Personatge
 {
     [Header("Referències")]
-    private Animator animator;
     private NavMeshAgent agent;
     private Transform jugador;
-    
-    [Header("Vida")]
-    [SerializeField] public int vidaActual;
-    [SerializeField] private int vidaMaxima = 3;
 
     [Header("Atac")]
-    [SerializeField] private int dany = 1;
     [SerializeField] private float rangAtacar = 2.0f;
     [SerializeField] private float tempsEntreAtacs = 2.0f;
-    [SerializeField] private float forcaKnockback = 7f;
     [SerializeField] private float tempsEsperaPostAtac = 1.5f;
     private float comptadorAtacs = 0f;
-    private bool atacant = false;
 
     [Header("Patrulla")]
-    [SerializeField] private Transform puntsMoviment; // Si s'assigna, usa aquest. Si no, utilitza els fills directes
+    [SerializeField] private Transform puntsMoviment;
     [SerializeField] private float tempsEsperaPatrulla = 1f;
     private int puntActual;
     private Transform[] puntsPropies;
     private bool esperantEnPunt = false;
-    
+
     [Header("Persecució")]
     [SerializeField] private float rangPerseguir = 10f;
     [SerializeField] private float velocitatNormal = 3.5f;
@@ -42,7 +34,6 @@ public class Enemic : MonoBehaviour, IVida, IAtacant
     private float tempsUltimaVegadaVist;
     private Vector3 ultimaPosicioVista;
 
-    // Estat actual de l'IA
     public enum AIState
     {
         PATRULLA,
@@ -51,29 +42,15 @@ public class Enemic : MonoBehaviour, IVida, IAtacant
     }
     public AIState estatActual;
 
-    // Event vida
-    public event Action QuanCanviVida;
-
-    // Propietats interfície IVida
-    public int VidaActual => vidaActual;
-    public int VidaMaxima => vidaMaxima;
-
-    // Propietats interfície IAtacant
-    public int Dany => dany;
-    public bool EstaAtacant() => atacant;
-
-    void Awake()
+    protected override void Awake()
     {
-        animator = GetComponent<Animator>();
+        base.Awake();
         agent = GetComponent<NavMeshAgent>();
     }
 
-    void Start()
+    protected override void Start()
     {
-        // Inicialitza la vida
-        vidaActual = vidaMaxima;
-        
-        // Cerca el jugador
+        base.Start();
         GameObject jugadorObj = GameObject.FindGameObjectWithTag("Player");
         if (jugadorObj != null)
             jugador = jugadorObj.transform;
@@ -120,28 +97,21 @@ public class Enemic : MonoBehaviour, IVida, IAtacant
 
     void Update()
     {
-        // Si l'enemic està mort, no fer res
         if (!EsViu())
         {
             agent.isStopped = true;
             return;
         }
 
-        // Actualitza el comptador d'atacs
         if (comptadorAtacs > 0)
             comptadorAtacs -= Time.deltaTime;
 
-        // Obté la distància al jugador
-        float distanciaJugador = 0f;
-        if (jugador != null)
-            distanciaJugador = Vector3.Distance(jugador.position, transform.position);
+        float distanciaJugador = jugador != null ? Vector3.Distance(jugador.position, transform.position) : 0f;
 
-        // Màquina d'estats de l'IA
         switch (estatActual)
         {
             case AIState.PATRULLA:
                 MovimentPatrulla();
-
                 if (jugador != null && distanciaJugador <= rangPerseguir)
                 {
                     estatActual = AIState.PERSEGUIR;
@@ -153,14 +123,12 @@ public class Enemic : MonoBehaviour, IVida, IAtacant
                 if (jugador != null)
                     agent.SetDestination(jugador.position);
 
-                // Intent d'atac
                 if (distanciaJugador <= rangAtacar && comptadorAtacs <= 0)
                 {
                     Atacar();
                     comptadorAtacs = tempsEntreAtacs;
                 }
 
-                // Canvi a estat de sospita si el jugador s'allunya
                 if (distanciaJugador > rangPerseguir)
                 {
                     ultimaPosicioVista = jugador.position;
@@ -191,124 +159,39 @@ public class Enemic : MonoBehaviour, IVida, IAtacant
         }
     }
 
-    #region IVida
-    public bool EsViu()
+    protected override IEnumerator Morir()
     {
-        return vidaActual > 0;
-    }
-
-    public void IncrementarVida(int quantitat, string font)
-    {
-        if (quantitat <= 0) return;
-
-        vidaActual += quantitat;
-        if (vidaActual > vidaMaxima)
-            vidaActual = vidaMaxima;
-
-        // Notifiquem el canvi de vida
-        QuanCanviVida?.Invoke();
-    }
-
-    public void DecrementarVida(int quantitat, string font)
-    {
-        if (quantitat <= 0) return;
-
-        vidaActual -= quantitat;
-
-        // Activem l'animació de rebre mal
-        if (animator != null)
-            animator.SetTrigger("TrRepMal");
-
-        // Si la vida arriba a 0 o menys, iniciem el procés de mort
-        if (vidaActual <= 0)
-        {
-            vidaActual = 0;
-            StartCoroutine(Morir());
-        }
-
-        // Notifiquem el canvi de vida
-        QuanCanviVida?.Invoke();
-    }
-
-    private IEnumerator Morir()
-    {
-        // Activem l'animació de mort
-        if (animator != null)
-            animator.SetBool("senseVida", true);
-
-        // Desactivem l'agent
+        animator.SetBool("senseVida", true);
         agent.isStopped = true;
         enabled = false;
 
-        // Esperem a que l'animació acabi
         yield return new WaitForSeconds(2f);
-
-        // Desactivem el GameObject
         gameObject.SetActive(false);
     }
-    #endregion
 
-    #region IAtacant
-    public void Atacar()
-    {
-        StartCoroutine(ExecutarAtac());
-    }
-
-    private IEnumerator ExecutarAtac()
+    protected override IEnumerator ExecutarAtac()
     {
         atacant = true;
-        
-        // Aturem l'agent temporalment
         agent.isStopped = true;
-        
-        // Activem l'animació d'atac
         animator.SetTrigger("Atacar");
-        
-        // Apliquem dany al jugador si està a rang
+
         if (jugador != null)
         {
-            // Calculamos la dirección del knockback (desde el enemigo hacia el jugador)
-            Vector3 direccioKnockback = (jugador.position - transform.position).normalized;
-            direccioKnockback.y = 0; // Mantenemos el knockback horizontal
-            
             IVida vidaJugador = jugador.GetComponent<IVida>();
             if (vidaJugador != null)
             {
                 vidaJugador.DecrementarVida(dany, gameObject.name);
-                
-                // Aplicamos el knockback al jugador
+
                 Jugador jugadorScript = jugador.GetComponent<Jugador>();
                 if (jugadorScript != null)
-                {
-                    jugadorScript.RecibirKnockback(direccioKnockback, forcaKnockback);
-                }
+                    jugadorScript.RecibirKnockback((jugador.position - transform.position).normalized, forcaKnockback);
             }
         }
 
-        // Esperem un moment per a l'animació d'atac
         yield return new WaitForSeconds(0.5f);
-        
-        // Pausa adicional después del ataque - el enemigo se queda quieto
-        animator.SetFloat("VelocitatMoviment", 0f); // Si tienes este parámetro en tu animator
-        
-        // Esperamos el tiempo configurado
-        yield return new WaitForSeconds(tempsEsperaPostAtac);
-        
-        // Reactivem el moviment de l'agent
         agent.isStopped = false;
         atacant = false;
-        
-        // Opcional: cambiar velocidad según estado actual
-        if (estatActual == AIState.PERSEGUIR)
-        {
-            agent.speed = velocitatPersecucio;
-        }
-        else
-        {
-            agent.speed = velocitatNormal;
-        }
     }
-    #endregion
 
     private void MovimentPatrulla()
     {
