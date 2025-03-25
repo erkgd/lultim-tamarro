@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SistemaAtac : MonoBehaviour
 {
-    private Animator animator; // Referència a l'animador del personatge
+    private Animator animator; // Referï¿½ncia a l'animador del personatge
     private GameObject player;
     private SistemaVida sistemaVidaJugador;
 
@@ -16,11 +16,11 @@ public class SistemaAtac : MonoBehaviour
             sistemaVidaJugador = player.GetComponent<SistemaVida>();
     }
 
-    // Aquest mètode s'executarà quan el jugador sigui atacat
+    // Aquest mï¿½tode s'executarï¿½ quan el jugador sigui atacat
     public void AplicarDany(int quantitat, string nomEnemic)
     {
         animator.SetTrigger("TrAtac");
-        // Si el sistema de vida del jugador existe y el jugador está vivo
+        // Si el sistema de vida del jugador existe y el jugador estï¿½ vivo
         if (sistemaVidaJugador != null && sistemaVidaJugador.EsViu())
             sistemaVidaJugador.DecrementarVida(quantitat, nomEnemic);
     }

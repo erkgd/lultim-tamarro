@@ -8,7 +8,7 @@ using UnityEngine;
 public class PosicionadorJugador : MonoBehaviour
 {
     // Aquest mètode s'executa quan s'inicia l'objecte a l'escena
-    private void Start()
+    public void Start()
     {
         // Comprova si hi ha una petició de teleport pendent
         if (PlayerPrefs.GetInt("NecessitaTeleport", 0) == 1)
