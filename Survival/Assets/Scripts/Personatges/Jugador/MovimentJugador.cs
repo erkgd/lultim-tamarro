@@ -45,7 +45,7 @@ public class MovimentJugador : MonoBehaviour
 
         // Si Shift està premut, duplica la velocitat
         float currentSpeed = velocitat;
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetButton("Sprint"))
         {
             animator.SetBool("EstaCorrent", true);
             currentSpeed = velocitatCorrer;

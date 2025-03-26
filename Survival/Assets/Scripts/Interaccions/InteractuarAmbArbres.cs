@@ -50,7 +50,7 @@ public class InteractuarAmbArbre : MonoBehaviour
         }
 
         // Comprova si s'ha premut el clic i si el personatge està assignat
-        if (!Input.GetMouseButtonDown(0) || personatge == null) return;
+        if (!Input.GetButtonDown("Atacar") || personatge == null) return;
 
         // Si el personatge està dins del radi i la pinya encara no s'ha "disparat"
         if ((personatge.position - transform.position).sqrMagnitude < radiQuadrat && !pinyadisparada)

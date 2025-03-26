@@ -14,7 +14,7 @@ public class MenuPausa : MonoBehaviour
     void Update()
     {
         // Mirar si volem entrar o sortir del menu
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetButtonDown("Menu"))
         {
             if (JocPausat)
             {
@@ -23,7 +23,7 @@ public class MenuPausa : MonoBehaviour
             }
             else
             {
-                // Si el joc està en marxa i fem ESC, pausem el joc i mostrem el menu
+                // Si el joc estï¿½ en marxa i fem ESC, pausem el joc i mostrem el menu
                 Pausa();
             }
         }
@@ -34,7 +34,7 @@ public class MenuPausa : MonoBehaviour
     {
         // Treiem el menu
         MenuPausaUI.SetActive(false);
-        // Activem el time del joc perquè sigui funcionant
+        // Activem el time del joc perquï¿½ sigui funcionant
         Time.timeScale = 1.0f;
         // Indiquem que el joc torna a estar iniciat
         JocPausat = false;
