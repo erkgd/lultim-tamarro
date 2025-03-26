@@ -33,7 +33,7 @@ public class AtacJugador : MonoBehaviour
         }
 
         // Control de l'atac
-        if (Input.GetMouseButtonDown(0) && comptadorAtacs <= 0f)
+        if (Input.GetButtonDown("Atacar") && comptadorAtacs <= 0f)
         {
             IniciarAtac();
         }
