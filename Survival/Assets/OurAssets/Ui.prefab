@@ -868,7 +868,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7102624000345418439}
   - component: {fileID: 4023169226191968280}
-  - component: {fileID: 1782315552300997071}
   - component: {fileID: 2494282454953328830}
   m_Layer: 5
   m_Name: UIManager
@@ -906,41 +905,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9c575ff67c9da247a081f6f8907998b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  displayType: 0
-  currentLife: 12
-  heartImagesType1:
-  - {fileID: 261052869145226324}
-  - {fileID: 4031931484727089909}
-  - {fileID: 290086369121042017}
-  - {fileID: 322527227632411990}
-  - {fileID: 7760103394350053609}
-  - {fileID: 5042384008260495755}
-  heartImagesType2:
-  - {fileID: 4655748040943673743}
-  - {fileID: 8945349934543954367}
-  - {fileID: 4428352217866852}
-  - {fileID: 3865653471247225847}
-  - {fileID: 7050939807868288835}
-  - {fileID: 386342827012184098}
-  - {fileID: 8179562299134651519}
-  - {fileID: 5942126514108326292}
-  - {fileID: 4450019061952651431}
-  - {fileID: 886928252109992965}
-  fullHeartSprite: {fileID: 21300000, guid: c489fc1876db8f049a870038320984bd, type: 3}
-  halfHeartSprite: {fileID: 21300000, guid: 1a1c1e82ef75bb8438eedf67933d50d7, type: 3}
-  emptyHeartSprite: {fileID: 21300000, guid: 72b60fcaa90a7a64ca5567e3f04bb675, type: 3}
---- !u!114 &1782315552300997071
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3635705557799480751}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afd97b4bdc9b6294e9b2e47c05a54691, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   displayType: 0
