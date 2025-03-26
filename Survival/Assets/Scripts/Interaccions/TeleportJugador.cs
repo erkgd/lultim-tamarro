@@ -22,6 +22,7 @@ public class TeleportJugador : MonoBehaviour
     
     [Header("Configuració")]
     [SerializeField] private string etiquetaJugador = "Player";
+    [SerializeField] private bool mostrarDebug = true;
     
     private void OnValidate()
     {
@@ -66,22 +67,28 @@ public class TeleportJugador : MonoBehaviour
     
     void Start()
     {
-        Debug.Log("TeleportJugador inicialitzat.");
+        if (mostrarDebug) Debug.Log("TeleportJugador inicialitzat a " + destinacioSeleccionada);
 
         if (string.IsNullOrEmpty(nomEscenaDestí))
         {
             Debug.LogError("El nom de l'escena de destí no pot estar buit.");
         }
+        
+        // Verificar si las coordenadas del destino seleccionado son (0,0,0)
+        if (posicioDestí == Vector3.zero && destinacioSeleccionada != TeleportDestination.Custom)
+        {
+            Debug.LogWarning($"La posición de destino para {destinacioSeleccionada} es (0,0,0). Verifica TPConstants.cs");
+        }
     }
     
     private void OnTriggerEnter(Collider algo)
     {
-        Debug.Log($"Colisión detectada con TeleportJugador por: {algo.name}");
+        if (mostrarDebug) Debug.Log($"Colisión detectada con TeleportJugador por: {algo.name}");
         if (algo.CompareTag(etiquetaJugador))
         {
             if (algo.GetComponent<Jugador>() != null)
             {
-                Debug.Log($"Colisión detectada con TeleportJugador por: {algo.name}");
+                if (mostrarDebug) Debug.Log($"Jugador válido detectado: {algo.name}, iniciando teleporte a {nomEscenaDestí} en posición {posicioDestí}");
                 TeletransportarJugador(algo.gameObject);
             }
             else
@@ -95,20 +102,37 @@ public class TeleportJugador : MonoBehaviour
     {
         if (jugador != null)
         {
+            // Verificar que la posición no sea (0,0,0) a menos que sea explícitamente esa
+            if (posicioDestí == Vector3.zero && destinacioSeleccionada != TeleportDestination.Custom)
+            {
+                Debug.LogWarning($"¡Advertencia! Teleportando a posición (0,0,0) desde TeleportDestination.{destinacioSeleccionada}");
+            }
+            
+            if (mostrarDebug) Debug.Log($"Teleportando jugador a: {posicioDestí} en escena: {nomEscenaDestí}");
+            
+            // Usar el PosicionadorJugador si está disponible
+            PosicionadorJugador posicionador = jugador.GetComponent<PosicionadorJugador>();
+            if (posicionador != null)
+            {
+                if (mostrarDebug) Debug.Log($"Usando PosicionadorJugador.IniciarTeleport");
+                posicionador.IniciarTeleport(posicioDestí, nomEscenaDestí);
+                return;
+            }
+            
+            // Método de respaldo sin componente PosicionadorJugador
+            if (mostrarDebug) Debug.Log($"No se encontró componente PosicionadorJugador, usando PlayerPrefs directamente");
+            
+            // Guardar en PlayerPrefs para que el jugador en la escena de destino lo use
             PlayerPrefs.SetFloat("DestiX", posicioDestí.x);
             PlayerPrefs.SetFloat("DestiY", posicioDestí.y);
             PlayerPrefs.SetFloat("DestiZ", posicioDestí.z);
             PlayerPrefs.SetInt("NecessitaTeleport", 1);
             PlayerPrefs.Save();
-            Debug.Log($"Pilladas las referencias de {posicioDestí} en la escena {nomEscenaDestí}");
+            
+            if (mostrarDebug) Debug.Log($"PlayerPrefs guardados: DestiX={posicioDestí.x}, DestiY={posicioDestí.y}, DestiZ={posicioDestí.z}, NecessitaTeleport=1");
 
-            PosicionadorJugador posicionador = jugador.GetComponent<PosicionadorJugador>();
-            if (posicionador != null)
-            {
-                posicionador.targetPosition = posicioDestí;
-                posicionador.needsTeleport = true;
-            }
-
+            // Cargar la nueva escena
+            if (mostrarDebug) Debug.Log($"Cargando escena: {nomEscenaDestí}");
             SceneManager.LoadScene(nomEscenaDestí);
         }
         else

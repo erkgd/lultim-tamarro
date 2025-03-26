@@ -1,7 +1,6 @@
 // Implementació:
-// 1. Selecciona el GameObject "Character" que representa el tamarro a l'escena.
-//2. Al Inspector, fes clic a "Add Component" i busca "PosicionadorJugador".
-//3. Selecciona el script per afegir-lo al jugador.
+// 1. Añadir este script al jugador en CADA escena
+// 2. No uses DontDestroyOnLoad - cada escena debe tener su propio jugador
  
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,118 +8,111 @@ using System.Collections;
 
 public class PosicionadorJugador : MonoBehaviour
 {
-    // Instancia singleton del TeleportManager
-    public static PosicionadorJugador Instance;
-
-    // Datos del teleport
-    public Vector3 targetPosition;
-    public bool needsTeleport;
-
-    // Inicialización del singleton
-    void Awake()
+    // Configuración
+    [SerializeField] private bool mostrarDebug = false;
+    
+    // Nombres de los objetos de cámara que debemos buscar
+    private const string DINAMIC_CAMERA_NAME = "Dinamic Camera";
+    
+    void Start()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            
-            DontDestroyOnLoad(gameObject);
-            SceneManager.sceneLoaded += OnSceneLoaded;
-        }
-        else if (Instance != this)
-        {
-            Destroy(gameObject);
-        }
-    }
-
-    public void Start()
-    {
+        if (mostrarDebug) Debug.Log($"PosicionadorJugador inicialitzat en {gameObject.name}");
         
-        Debug.Log("PosicionadorJugador inicialitzat.");
-        Posicionar();
+        // Al iniciar, comprobamos si hay una solicitud de teleport pendiente
+        StartCoroutine(ComprovarTeleport());
     }
-
-    public void Posicionar(){
-        if (PlayerPrefs.GetInt("NecessitaTeleport", 0) == 1)
+    
+    private IEnumerator ComprovarTeleport()
+    {
+        // Esperamos un momento para que todo esté inicializado
+        yield return new WaitForSeconds(0.2f);
+        
+        int necessitaTeleport = PlayerPrefs.GetInt("NecessitaTeleport", 0);
+        
+        if (mostrarDebug) Debug.Log($"Comprovant teleport: NecessitaTeleport = {necessitaTeleport}");
+        
+        // Si hay un teleport pendiente, posicionar al jugador
+        if (necessitaTeleport == 1)
         {
+            // Obtener las coordenadas guardadas
             float x = PlayerPrefs.GetFloat("DestiX", 0f);
             float y = PlayerPrefs.GetFloat("DestiY", 0f);
             float z = PlayerPrefs.GetFloat("DestiZ", 0f);
-
-            transform.position = new Vector3(x, y, z);
-
+            Vector3 posicionFinal = new Vector3(x, y, z);
+            
+            if (mostrarDebug) Debug.Log($"Valors de teleport trobats: ({x}, {y}, {z})");
+            
+            // Desactivar el CharacterController temporalmente para evitar conflictos
+            CharacterController controller = GetComponent<CharacterController>();
+            if (controller != null)
+            {
+                controller.enabled = false;
+            }
+            
+            // Posicionar el jugador
+            transform.position = posicionFinal;
+            
+            // Reactivar el CharacterController
+            if (controller != null)
+            {
+                controller.enabled = true;
+            }
+            
+            // Asegurarse de que la cámara sigue al jugador
+            AssignarCamera();
+            
+            // Limpiar los PlayerPrefs para evitar teleports adicionales
             PlayerPrefs.SetInt("NecessitaTeleport", 0);
             PlayerPrefs.Save();
-
-            Debug.Log($"Jugador teleportat a la posició: {x}, {y}, {z}");
+            
+            if (mostrarDebug) Debug.Log($"Jugador teleportat a la posició: {posicionFinal}");
         }
         else
         {
-            Debug.Log("No hi ha cap petició de teleport pendent.");
+            if (mostrarDebug) Debug.Log("No hi ha cap petició de teleport pendent.");
+            
+            // Incluso si no hay teleport, nos aseguramos de que la cámara sigue al jugador
+            AssignarCamera();
         }
     }
-
-    // Se llama cuando se carga una nueva escena
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        // Esperamos un frame para asegurarnos de que todos los objetos estén inicializados
-        StartCoroutine(PosicionarJugadorDespuesDeCargar());
-    }
-
-    private IEnumerator PosicionarJugadorDespuesDeCargar()
-    {
-        // Esperamos un frame para que todos los objetos estén completamente inicializados
-        yield return (1f);
-        
-        // Verificamos si hay una solicitud de teleport pendiente
-        if (needsTeleport || PlayerPrefs.GetInt("NecessitaTeleport", 0) == 1)
-        {
     
-            // Obtenemos la posición desde PlayerPrefs si está disponible
-            Vector3 posicionFinal = needsTeleport ? targetPosition : new Vector3(
-                PlayerPrefs.GetFloat("DestiX", 0f),
-                PlayerPrefs.GetFloat("DestiY", 0f),
-                PlayerPrefs.GetFloat("DestiZ", 0f)
-            );
-            
-            // Buscamos el jugador
-            GameObject jugadorObj = GameObject.FindGameObjectWithTag("Player");
-            if (jugadorObj != null)
+    // Método para asignar la cámara al jugador
+    private void AssignarCamera()
+    {
+        GameObject camara = GameObject.Find(DINAMIC_CAMERA_NAME);
+        if (camara != null)
+        {
+            // Intentar obtener componente Cinemachine
+            var virtualCamera = camara.GetComponent<Cinemachine.CinemachineVirtualCamera>();
+            if (virtualCamera != null)
             {
-                // Desactivamos temporalmente el CharacterController si existe
-                CharacterController controller = jugadorObj.GetComponent<CharacterController>();
-                if (controller != null)
-                {
-                    controller.enabled = false;
-                }
-                // Posicionamos al jugador
-                jugadorObj.transform.position = posicionFinal;
-                
-                // Reactivamos el CharacterController
-                if (controller != null)
-                {
-                    controller.enabled = true;
-                }
-                
-                Debug.Log($"Jugador teleportado correctamente a la posición: {posicionFinal.x}, {posicionFinal.y}, {posicionFinal.z}");
-                
-                // Limpiamos las variables de teleport
-                needsTeleport = false;
-                PlayerPrefs.SetInt("NecessitaTeleport", 0);
-                PlayerPrefs.Save();
+                virtualCamera.Follow = transform;
+                if (mostrarDebug) Debug.Log($"Cámara virtual asignada para seguir a {gameObject.name}");
             }
             else
             {
-                Debug.LogError("No se encontró el jugador después de cargar la escena");
+                if (mostrarDebug) Debug.LogWarning("No se encontró el componente CinemachineVirtualCamera");
             }
         }
+        else
+        {
+            if (mostrarDebug) Debug.LogWarning($"No se encontró la cámara: {DINAMIC_CAMERA_NAME}");
+        }
     }
-
-    // Método para solicitar un teleport
-    public void RequestTeleport(Vector3 position, string sceneName)
+    
+    // Método para iniciar un teleport desde TeleportJugador
+    public void IniciarTeleport(Vector3 posicion, string escenaDestino)
     {
-        Debug.Log($"Solicitud de teletransporte recibida. Posición: {position}, Escena: {sceneName}");
-        targetPosition = position;
-        needsTeleport = true;
-        SceneManager.LoadScene(sceneName);
+        if (mostrarDebug) Debug.Log($"Iniciando teleport a {posicion} en escena {escenaDestino}");
+        
+        // Guardar la posición en PlayerPrefs
+        PlayerPrefs.SetFloat("DestiX", posicion.x);
+        PlayerPrefs.SetFloat("DestiY", posicion.y);
+        PlayerPrefs.SetFloat("DestiZ", posicion.z);
+        PlayerPrefs.SetInt("NecessitaTeleport", 1);
+        PlayerPrefs.Save();
+        
+        // Cargar la escena de destino
+        SceneManager.LoadScene(escenaDestino);
     }
 }
