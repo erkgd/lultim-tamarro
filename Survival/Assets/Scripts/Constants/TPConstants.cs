@@ -9,11 +9,11 @@ public static class TPConstants
     
     // Hub (David)
     public static readonly string HUB_SCENE = "David";
-    public static readonly Vector3 HUB_SPAWN_POINT = new Vector3(0, 0, 0);
+    public static readonly Vector3 HUB_SPAWN_POINT = new Vector3(-71.5f, 50.97f, -189.5f);
     
     // Tutorial
     public static readonly string TUTORIAL_SCENE = "David"; 
-    public static readonly Vector3 TUTORIAL_SPAWN_POINT = new Vector3(0, 0, 0);
+    public static readonly Vector3 TUTORIAL_SPAWN_POINT = new Vector3(-71.5f, 50.97f, -189.5f);
     
     // Bosc (Jano)
     public static readonly string BOSC_SCENE = "Jano";
