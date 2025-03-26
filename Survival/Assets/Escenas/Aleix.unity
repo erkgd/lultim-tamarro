@@ -13881,17 +13881,17 @@ PrefabInstance:
     - target: {fileID: 189934118069018729, guid: 69c8897708982f041a41919ca230c093,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 102.98976
+      value: 101.893776
       objectReference: {fileID: 0}
     - target: {fileID: 189934118069018729, guid: 69c8897708982f041a41919ca230c093,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 50.129997
+      value: 50.150005
       objectReference: {fileID: 0}
     - target: {fileID: 189934118069018729, guid: 69c8897708982f041a41919ca230c093,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -114.21497
+      value: -116.023735
       objectReference: {fileID: 0}
     - target: {fileID: 998735003210941435, guid: 69c8897708982f041a41919ca230c093,
         type: 3}
@@ -13966,6 +13966,11 @@ PrefabInstance:
     - target: {fileID: 8862969690723383567, guid: 69c8897708982f041a41919ca230c093,
         type: 3}
       propertyPath: m_Follow
+      value: 
+      objectReference: {fileID: 1231009968}
+    - target: {fileID: 8862969690723383567, guid: 69c8897708982f041a41919ca230c093,
+        type: 3}
+      propertyPath: m_LookAt
       value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -14089,9 +14094,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d4ccd90cccd22742b7e81c7933e6bdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  "nomEscenaDest\xED": 
-  "posicioDest\xED": {x: 0, y: 0, z: 0}
-  etiquetaJugador: Player
 --- !u!4 &665040343
 Transform:
   m_ObjectHideFlags: 0
@@ -23626,6 +23628,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9023151544129665604, guid: 158e0f4c1845576449c27919f6973034,
+        type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1549458688013880988, guid: 158e0f4c1845576449c27919f6973034, type: 3}
     - {fileID: 6399218119817509063, guid: 158e0f4c1845576449c27919f6973034, type: 3}
@@ -26376,6 +26383,12 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.0000002, y: 0.39999998, z: 0.30000007}
   m_Center: {x: 0, y: 0.19999999, z: 0.35000008}
+--- !u!4 &1231009968 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3424967287040044122, guid: 158e0f4c1845576449c27919f6973034,
+    type: 3}
+  m_PrefabInstance: {fileID: 1117697488}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1231895504 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 3be8d662abe722848bd6e252716c555a,
