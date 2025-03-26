@@ -13,7 +13,6 @@ public class Jugador : Personatge, IMovible, IAtacant
     private VidaUI vidaUI;
     private Cortinilla cortinilla;
     private BoxCollider boxColliderAtac;
-    private PosicionadorJugador posicionadorJugador;
 
     // Componentes de las clases modularizadas
     private MovimentJugador movimentJugador;
@@ -41,11 +40,9 @@ public class Jugador : Personatge, IMovible, IAtacant
         movimentJugador = gameObject.AddComponent<MovimentJugador>();
         atacJugador = gameObject.AddComponent<AtacJugador>();
         invencibilitatJugador = gameObject.AddComponent<InvencibilitatJugador>();
-        posicionadorJugador = gameObject.AddComponent<PosicionadorJugador>();
         
         // Configurar el efecto de invencibilidad para el componente de invencibilidad
         invencibilitatJugador.ConfigurarEfecteInvencibilitat(efecteInvencibilitat);
-        
     }
 
     protected override void Start()
@@ -62,7 +59,6 @@ public class Jugador : Personatge, IMovible, IAtacant
 
         if (vidaUI != null)
             vidaUI.UpdateHealth(vidaActual);
-        
     }
 
     // Manejador de eventos para cambios de vida
@@ -127,6 +123,22 @@ public class Jugador : Personatge, IMovible, IAtacant
         movimentJugador.AturarMoviment();
     }
 
+    public override void DecrementarVida(int quantitat, string font)
+    {
+        if (quantitat <= 0 || invencibilitatJugador.EsInvencible) return;
+
+        base.DecrementarVida(quantitat, font);
+
+        // Activamos invencibilidad
+        invencibilitatJugador.ActivarInvencibilitat();
+
+        if (vidaActual <= 0 && cortinilla != null)
+        {
+            cortinilla.MostrarCortinilla();
+            Morir(); // Llamamos al método protected
+        }
+    }
+
     public IEnumerator ExecutarAtacPublic()
     {
         return ExecutarAtac();
@@ -137,6 +149,4 @@ public class Jugador : Personatge, IMovible, IAtacant
         // Delegamos la lógica de ataque al componente especializado
         yield return StartCoroutine(atacJugador.ExecutarAtac());
     }
-
-
 }
