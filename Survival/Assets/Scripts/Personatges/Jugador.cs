@@ -4,7 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(Animator))]
-public class Jugador : Personatge, IMovible, IAtacant
+public class Jugador : Personatge
 {
     // Referencias compartidas - se mantienen en la clase principal
     [Header("Referències")]
