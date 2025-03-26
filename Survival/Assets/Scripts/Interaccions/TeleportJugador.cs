@@ -3,15 +3,68 @@ using UnityEngine.SceneManagement;
 
 public class TeleportJugador : MonoBehaviour
 {
-    [Header("Destí")]
-    public string nomEscenaDestí = "Escena Principal";
-    public Vector3 posicioDestí;
-
-    [Header("Configuració")]
-    public string etiquetaJugador = "Player";
-
+    // Enum for predefined teleport destinations
+    public enum TeleportDestination
+    {
+        Custom,
+        Pedrosa,
+        Hub,
+        Tutorial,
+        Bosc,
+        Engo,
+        Ramio
+    }
     
-    void Start ()
+    [Header("Destí")]
+    [SerializeField] private TeleportDestination destinacioSeleccionada = TeleportDestination.Custom;
+    [SerializeField] private string nomEscenaDestí = "Escena Principal";
+    [SerializeField] private Vector3 posicioDestí;
+    
+    [Header("Configuració")]
+    [SerializeField] private string etiquetaJugador = "Player";
+    
+    private void OnValidate()
+    {
+        // Update destination values when selection changes in inspector
+        switch (destinacioSeleccionada)
+        {
+            case TeleportDestination.Pedrosa:
+                nomEscenaDestí = TPConstants.PEDROSA_SCENE;
+                posicioDestí = TPConstants.PEDROSA_SPAWN_POINT;
+                break;
+            
+            case TeleportDestination.Hub:
+                nomEscenaDestí = TPConstants.HUB_SCENE;
+                posicioDestí = TPConstants.HUB_SPAWN_POINT;
+                break;
+                
+            case TeleportDestination.Tutorial:
+                nomEscenaDestí = TPConstants.TUTORIAL_SCENE;
+                posicioDestí = TPConstants.TUTORIAL_SPAWN_POINT;
+                break;
+                
+            case TeleportDestination.Bosc:
+                nomEscenaDestí = TPConstants.BOSC_SCENE;
+                posicioDestí = TPConstants.BOSC_SPAWN_POINT;
+                break;
+                
+            case TeleportDestination.Engo:
+                nomEscenaDestí = TPConstants.ENGO_SCENE;
+                posicioDestí = TPConstants.ENGO_SPAWN_POINT;
+                break;
+                
+            case TeleportDestination.Ramio:
+                nomEscenaDestí = TPConstants.RAMIO_SCENE;
+                posicioDestí = TPConstants.RAMIO_SPAWN_POINT;
+                break;
+                
+            case TeleportDestination.Custom:
+                // Do nothing, keep custom values
+                break;
+        }
+    }
+    
+    void Start()
     {
         Debug.Log("TeleportJugador inicialitzat.");
 
@@ -20,7 +73,6 @@ public class TeleportJugador : MonoBehaviour
             Debug.LogError("El nom de l'escena de destí no pot estar buit.");
         }
     }
-    
     
     private void OnTriggerEnter(Collider algo)
     {
