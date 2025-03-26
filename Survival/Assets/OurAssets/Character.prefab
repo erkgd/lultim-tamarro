@@ -106,14 +106,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 18d8b09ba437dd24e8694f40f14200ad,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1549458688013880988}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 18d8b09ba437dd24e8694f40f14200ad,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6399218119817509063}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 18d8b09ba437dd24e8694f40f14200ad,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 4453773859650987599}
   m_SourcePrefab: {fileID: 100100000, guid: 18d8b09ba437dd24e8694f40f14200ad, type: 3}
 --- !u!1 &2651561580435257056 stripped
@@ -141,7 +133,7 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 1.53
+  m_Height: 0.07
   m_Radius: 0.8
   m_SlopeLimit: 45
   m_StepOffset: 0.3
@@ -191,19 +183,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2418a197ddf815d4a99795de8ff69ded, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  efecteInvencibilitat: {fileID: 0}
   vidaActual: 0
   vidaMaxima: 12
-  tempsInvencibilitat: 1.5
-  velocitat: 5
-  velocitatRotacio: 190
-  velocitatCorrer: 10
   dany: 2
-  rangAtacar: 2
-  tempsEntreAtacs: 2
-  tempsAtac: 0.3
   forcaKnockback: 10
-  duracioKnockback: 0.25
+  efecteInvencibilitat: {fileID: 0}
 --- !u!95 &1864953920641409879
 Animator:
   serializedVersion: 5
@@ -225,36 +209,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1549458688013880988
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2651561580435257056}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1eaa0fa3caf3fcd4a92a29a0b0a50e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6399218119817509063
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2651561580435257056}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3ed1c4cad606fb4390220d0e05a4739, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  radiAtacArma: 3
-  puntAtacArma: {fileID: 9184807399152439845}
-  dany: 1
-  layerObjectiu:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!64 &4453773859650987599
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -277,9 +231,3 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!4 &9184807399152439845 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6303818255995492756, guid: 18d8b09ba437dd24e8694f40f14200ad,
-    type: 3}
-  m_PrefabInstance: {fileID: 2886056276891503537}
-  m_PrefabAsset: {fileID: 0}
