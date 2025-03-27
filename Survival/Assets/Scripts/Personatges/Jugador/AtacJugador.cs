@@ -8,12 +8,11 @@ public class AtacJugador : MonoBehaviour
     private Animator animator;
     private BoxCollider boxColliderAtac;
     
-    [Header("Configuració Atac")]
-    [SerializeField] private float rangAtacar = 2.0f;
-    [SerializeField] private float tempsEntreAtacs = 0.6f;
-    [SerializeField] private float tempsAtac = 0.05f;
-    [SerializeField] private float angleVisioAtac = 60f;
-    [SerializeField] private int danyAtac = 1;
+    private float rangAtacar;
+    private float tempsEntreAtacs;
+    private float tempsAtac;
+    private float angleVisioAtac;
+    private int danyAtac;
     
     private float comptadorAtacs = 0f;
     
@@ -22,6 +21,15 @@ public class AtacJugador : MonoBehaviour
         jugador = GetComponent<Jugador>();
         animator = jugador.AnimatorJugador;
         boxColliderAtac = jugador.BoxColliderAtac;
+    }
+
+    public void ConfigurarAtac(float rangAtacar, float tempsEntreAtacs, float tempsAtac, float angleVisioAtac, int danyAtac)
+    {
+        this.rangAtacar = rangAtacar;
+        this.tempsEntreAtacs = tempsEntreAtacs;
+        this.tempsAtac = tempsAtac;
+        this.angleVisioAtac = angleVisioAtac;
+        this.danyAtac = danyAtac;
     }
     
     public void ActualitzarAtac()

@@ -26,28 +26,20 @@ public class MovimentEnemic : MonoBehaviour
     [Header("Estat IA")]
     public AIState estatActual = AIState.PATRULLA;
     
-    [Header("Configuració")]
-    [SerializeField] private string nomCarpetaPunts = "Moviment";
-    [SerializeField] private float velocitatNormal = 3.5f;
-    [SerializeField] private float velocitatPersecucio = 5.5f;
+    private string nomCarpetaPunts;
+    private float velocitatNormal;
+    private float velocitatPersecucio;
+    private float tempsEsperaPatrulla;
+    private float rangPerseguir;
+    private float tempsSospita;
+    private float rangAtacar;
+    private float tempsEntreAtacs;
     
-    [Header("Patrulla")]
-    [SerializeField] private float tempsEsperaPatrulla = 1f;
     private Transform[] puntsPatrulla;
     private int puntActual = 0;
     private bool esperantEnPunt = false;
-    
-    [Header("Persecució")]
-    [SerializeField] private float rangPerseguir = 10f;
-    
-    [Header("Sospita")]
-    [SerializeField] private float tempsSospita = 3f;
     private float tempsUltimaVegadaVist;
     private Vector3 ultimaPosicioVista;
-    
-    [Header("Atac")]
-    [SerializeField] private float rangAtacar = 2.0f;
-    [SerializeField] private float tempsEntreAtacs = 2.0f;
     private float comptadorAtacs = 0f;
 
     // Propietats públiques requerides per IAEnemic
@@ -79,6 +71,26 @@ public class MovimentEnemic : MonoBehaviour
         // Inicialitzem variables
         estatActual = AIState.PATRULLA;
         tempsUltimaVegadaVist = tempsSospita;
+    }
+
+    public void ConfigurarMoviment(
+        string nomCarpetaPunts,
+        float velocitatNormal,
+        float velocitatPersecucio,
+        float tempsEsperaPatrulla,
+        float rangPerseguir,
+        float tempsSospita,
+        float rangAtacar,
+        float tempsEntreAtacs)
+    {
+        this.nomCarpetaPunts = nomCarpetaPunts;
+        this.velocitatNormal = velocitatNormal;
+        this.velocitatPersecucio = velocitatPersecucio;
+        this.tempsEsperaPatrulla = tempsEsperaPatrulla;
+        this.rangPerseguir = rangPerseguir;
+        this.tempsSospita = tempsSospita;
+        this.rangAtacar = rangAtacar;
+        this.tempsEntreAtacs = tempsEntreAtacs;
     }
     
     private void BuscarPuntsPatrulla()

@@ -16,6 +16,24 @@ public class Enemic : Personatge
     private MovimentEnemic movimentEnemic;
     private IAEnemic iaEnemic;
 
+    [Header("Configuració Atac")]
+    [SerializeField] private float duracioAnimacioAtac = 0.5f;
+    [SerializeField] private float tempsPerDesapareixer = 2f;
+
+    [Header("Configuració Moviment")]
+    [SerializeField] private string nomCarpetaPunts = "Moviment";
+    [SerializeField] private float velocitatNormal = 3.5f;
+    [SerializeField] private float velocitatPersecucio = 5.5f;
+    [SerializeField] private float tempsEsperaPatrulla = 1f;
+    [SerializeField] private float rangPerseguir = 10f;
+    [SerializeField] private float tempsSospita = 3f;
+    [SerializeField] private float rangAtacar = 2.0f;
+    [SerializeField] private float tempsEntreAtacs = 2.0f;
+
+    [Header("Configuració IA")]
+    [SerializeField] private float rangDeteccio = 10f;
+    [SerializeField] private float tempsMaximPersecucio = 5f;
+
     public NavMeshAgent Agent => agent;
     public Transform Jugador => jugador;
     public Animator AnimatorEnemic => animator;
@@ -34,6 +52,30 @@ public class Enemic : Personatge
         atacEnemic = gameObject.AddComponent<AtacEnemic>();
         movimentEnemic = gameObject.AddComponent<MovimentEnemic>();
         iaEnemic = gameObject.AddComponent<IAEnemic>();
+        
+        // Configurar los componentes con los valores serializados
+        ConfigurarComponents();
+    }
+
+    private void ConfigurarComponents()
+    {
+        // Configurar AtacEnemic
+        atacEnemic.ConfigurarAtac(duracioAnimacioAtac, tempsPerDesapareixer);
+
+        // Configurar MovimentEnemic
+        movimentEnemic.ConfigurarMoviment(
+            nomCarpetaPunts,
+            velocitatNormal,
+            velocitatPersecucio,
+            tempsEsperaPatrulla,
+            rangPerseguir,
+            tempsSospita,
+            rangAtacar,
+            tempsEntreAtacs
+        );
+
+        // Configurar IAEnemic
+        iaEnemic.ConfigurarIA(rangDeteccio, rangAtacar, tempsEntreAtacs, tempsMaximPersecucio);
     }
 
     protected override void Start()
