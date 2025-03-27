@@ -18,7 +18,7 @@ public class TemperaturaUI : MonoBehaviour
         jugador = FindObjectOfType<Jugador>();
 
         // Inicialitzem els valors de la temperatura
-        temperaturaActual = 10f;
+        temperaturaActual = 200f;
         quantitatReduccio = 1f;
         tempsReduccio = 2f;
 
