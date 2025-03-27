@@ -12,7 +12,7 @@ public class MovimentJugador : MonoBehaviour
     [SerializeField] private float velocitat = 5f;
     [SerializeField] private float velocitatRotacio = 120f;
     [SerializeField] private float velocitatCorrer = 10f;
-    [SerializeField] private float forcaGravetat = 1f;
+    [SerializeField] private float forcaGravetat = 0.1f;
     
     [Header("Knockback")]
     [SerializeField] private float duracioKnockback = 0.25f;

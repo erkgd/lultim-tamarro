@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\dfern\\Documents\\GitHub\\lultim-tamarro\\Survival\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{71DC3803-2807-D23D-8BFD-5A0FEC7F391E}|Assembly-CSharp.csproj|C:\\Users\\dfern\\Documents\\GitHub\\lultim-tamarro\\Survival\\assets\\scripts\\interfaces\\iatacant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{71DC3803-2807-D23D-8BFD-5A0FEC7F391E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\interfaces\\iatacant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{71DC3803-2807-D23D-8BFD-5A0FEC7F391E}|Assembly-CSharp.csproj|c:\\users\\dfern\\documents\\github\\lultim-tamarro\\survival\\assets\\scripts\\sistemes\\atacaenemics.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{71DC3803-2807-D23D-8BFD-5A0FEC7F391E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\sistemes\\atacaenemics.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -15,16 +19,12 @@
       "RelativeMoniker": "D:0:0:{71DC3803-2807-D23D-8BFD-5A0FEC7F391E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\sistemes\\sistemaatac.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{71DC3803-2807-D23D-8BFD-5A0FEC7F391E}|Assembly-CSharp.csproj|c:\\users\\dfern\\documents\\github\\lultim-tamarro\\survival\\assets\\scripts\\personatges\\enemic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{71DC3803-2807-D23D-8BFD-5A0FEC7F391E}|Assembly-CSharp.csproj|C:\\Users\\dfern\\Documents\\GitHub\\lultim-tamarro\\Survival\\assets\\scripts\\personatges\\enemic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{71DC3803-2807-D23D-8BFD-5A0FEC7F391E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\personatges\\enemic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{71DC3803-2807-D23D-8BFD-5A0FEC7F391E}|Assembly-CSharp.csproj|c:\\users\\dfern\\documents\\github\\lultim-tamarro\\survival\\assets\\scripts\\interfaces\\ivida.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{71DC3803-2807-D23D-8BFD-5A0FEC7F391E}|Assembly-CSharp.csproj|C:\\Users\\dfern\\Documents\\GitHub\\lultim-tamarro\\Survival\\assets\\scripts\\interfaces\\ivida.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{71DC3803-2807-D23D-8BFD-5A0FEC7F391E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\interfaces\\ivida.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{71DC3803-2807-D23D-8BFD-5A0FEC7F391E}|Assembly-CSharp.csproj|C:\\Users\\dfern\\Documents\\GitHub\\lultim-tamarro\\Survival\\assets\\scripts\\interfaces\\iatacant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{71DC3803-2807-D23D-8BFD-5A0FEC7F391E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\interfaces\\iatacant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{71DC3803-2807-D23D-8BFD-5A0FEC7F391E}|Assembly-CSharp.csproj|C:\\Users\\dfern\\Documents\\GitHub\\lultim-tamarro\\Survival\\assets\\scripts\\interaccions\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -47,11 +47,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "SistemaAtac.cs",
               "DocumentMoniker": "C:\\Users\\dfern\\Documents\\GitHub\\lultim-tamarro\\Survival\\Assets\\Scripts\\Sistemes\\SistemaAtac.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Sistemes\\SistemaAtac.cs",
@@ -60,12 +60,11 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-23T17:24:59.924Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "Enemic.cs",
               "DocumentMoniker": "C:\\Users\\dfern\\Documents\\GitHub\\lultim-tamarro\\Survival\\Assets\\Scripts\\Personatges\\Enemic.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Personatges\\Enemic.cs",
@@ -73,12 +72,11 @@
               "RelativeToolTip": "Assets\\Scripts\\Personatges\\Enemic.cs",
               "ViewState": "AgIAAGIAAAAAAAAAAAAuwNsAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-23T17:35:27.118Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-23T17:35:27.118Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "IVida.cs",
               "DocumentMoniker": "C:\\Users\\dfern\\Documents\\GitHub\\lultim-tamarro\\Survival\\Assets\\Scripts\\Interfaces\\IVida.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Interfaces\\IVida.cs",
@@ -86,12 +84,11 @@
               "RelativeToolTip": "Assets\\Scripts\\Interfaces\\IVida.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-23T17:55:13.547Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-23T17:55:13.547Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Jugador.cs",
               "DocumentMoniker": "C:\\Users\\dfern\\Documents\\GitHub\\lultim-tamarro\\Survival\\Assets\\Scripts\\Personatges\\Jugador.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Personatges\\Jugador.cs",
@@ -99,12 +96,11 @@
               "RelativeToolTip": "Assets\\Scripts\\Personatges\\Jugador.cs",
               "ViewState": "AgIAANUAAAAAAAAAAAAUwN4AAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-23T17:10:57.171Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-23T17:10:57.171Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "AtacAEnemics.cs",
               "DocumentMoniker": "C:\\Users\\dfern\\Documents\\GitHub\\lultim-tamarro\\Survival\\Assets\\Scripts\\Sistemes\\AtacAEnemics.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Sistemes\\AtacAEnemics.cs",
@@ -125,18 +121,17 @@
               "RelativeToolTip": "Assets\\Scripts\\Interaccions\\PlayerController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-23T17:23:03.794Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-23T17:23:03.794Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 0,
               "Title": "IAtacant.cs",
               "DocumentMoniker": "C:\\Users\\dfern\\Documents\\GitHub\\lultim-tamarro\\Survival\\Assets\\Scripts\\Interfaces\\IAtacant.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Interfaces\\IAtacant.cs",
               "ToolTip": "C:\\Users\\dfern\\Documents\\GitHub\\lultim-tamarro\\Survival\\Assets\\Scripts\\Interfaces\\IAtacant.cs",
               "RelativeToolTip": "Assets\\Scripts\\Interfaces\\IAtacant.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAGAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-23T17:18:15.183Z",
               "EditorCaption": ""
