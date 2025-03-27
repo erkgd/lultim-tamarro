@@ -8,14 +8,11 @@ public class MovimentJugador : MonoBehaviour
     private CharacterController characterController;
     private Animator animator;
     
-    [Header("Configuració Moviment")]
-    [SerializeField] private float velocitat = 5f;
-    [SerializeField] private float velocitatRotacio = 120f;
-    [SerializeField] private float velocitatCorrer = 10f;
-    [SerializeField] private float forcaGravetat = 1f;
-    
-    [Header("Knockback")]
-    [SerializeField] private float duracioKnockback = 0.25f;
+    private float velocitat;
+    private float velocitatRotacio;
+    private float velocitatCorrer;
+    private float forcaGravetat;
+    private float duracioKnockback;
     
     private float ySpeed;
     private Vector3 direccioMoviment;
@@ -26,6 +23,15 @@ public class MovimentJugador : MonoBehaviour
         jugador = GetComponent<Jugador>();
         characterController = jugador.CharacterController;
         animator = jugador.AnimatorJugador;
+    }
+
+    public void ConfigurarMoviment(float velocitat, float velocitatRotacio, float velocitatCorrer, float forcaGravetat, float duracioKnockback)
+    {
+        this.velocitat = velocitat;
+        this.velocitatRotacio = velocitatRotacio;
+        this.velocitatCorrer = velocitatCorrer;
+        this.forcaGravetat = forcaGravetat;
+        this.duracioKnockback = duracioKnockback;
     }
     
     public void ActualitzarMoviment()

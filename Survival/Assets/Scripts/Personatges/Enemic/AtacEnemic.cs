@@ -9,9 +9,8 @@ public class AtacEnemic : MonoBehaviour
     private UnityEngine.AI.NavMeshAgent agent;
     private Transform jugador;
     
-    [Header("Configuració Atac")]
-    [SerializeField] private float duracioAnimacioAtac = 0.5f;
-    [SerializeField] private float tempsPerDesapareixer = 2f;
+    private float duracioAnimacioAtac;
+    private float tempsPerDesapareixer;
     
     private void Awake()
     {
@@ -23,6 +22,12 @@ public class AtacEnemic : MonoBehaviour
         animator = enemic.AnimatorEnemic;
         agent = enemic.Agent;
         jugador = enemic.Jugador;
+    }
+
+    public void ConfigurarAtac(float duracioAnimacioAtac, float tempsPerDesapareixer)
+    {
+        this.duracioAnimacioAtac = duracioAnimacioAtac;
+        this.tempsPerDesapareixer = tempsPerDesapareixer;
     }
     
     public void IniciarAtac()

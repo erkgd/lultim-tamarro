@@ -9,11 +9,10 @@ public class IAEnemic : MonoBehaviour
     private AtacEnemic atac;
     private Transform jugador;
     
-    [Header("Configuració IA")]
-    [SerializeField] private float rangDeteccio = 10f;
-    [SerializeField] private float rangAtac = 2f;
-    [SerializeField] private float tempsEntreAtacs = 2f;
-    [SerializeField] private float tempsMaximPersecucio = 5f;
+    private float rangDeteccio;
+    private float rangAtac;
+    private float tempsEntreAtacs;
+    private float tempsMaximPersecucio;
     private float comptadorAtacs = 0f;
     private float comptadorPersecucio = 0f;
     
@@ -22,6 +21,14 @@ public class IAEnemic : MonoBehaviour
     private void Awake()
     {
         enemic = GetComponent<Enemic>();
+    }
+    
+    public void ConfigurarIA(float rangDeteccio, float rangAtac, float tempsEntreAtacs, float tempsMaximPersecucio)
+    {
+        this.rangDeteccio = rangDeteccio;
+        this.rangAtac = rangAtac;
+        this.tempsEntreAtacs = tempsEntreAtacs;
+        this.tempsMaximPersecucio = tempsMaximPersecucio;
     }
     
     public void Inicialitzar()

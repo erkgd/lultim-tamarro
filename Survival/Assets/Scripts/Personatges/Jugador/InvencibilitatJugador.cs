@@ -8,13 +8,12 @@ public class InvencibilitatJugador : MonoBehaviour
     private Animator animator;
     private ParticleSystem efecteInvencibilitat;
     
-    [Header("Configuració Invencibilitat")]
-    [SerializeField] private float tempsInvencibilitat = 1.7f;
-    [SerializeField] private Color colorEfecteInvencibilitat = Color.yellow;
-    [SerializeField] private float midaParticules = 0.2f;
-    [SerializeField] private float velocitatParticules = 0.5f;
-    [SerializeField] private float taxaEmissioParticules = 40f;
-    [SerializeField] private float radiEfecte = 1.0f;
+    private float tempsInvencibilitat;
+    private Color colorEfecteInvencibilitat;
+    private float midaParticules;
+    private float velocitatParticules;
+    private float taxaEmissioParticules;
+    private float radiEfecte;
     
     public bool EsInvencible { get; private set; } = false;
     
@@ -22,6 +21,22 @@ public class InvencibilitatJugador : MonoBehaviour
     {
         jugador = GetComponent<Jugador>();
         animator = jugador.AnimatorJugador;
+    }
+    
+    public void ConfigurarInvencibilitat(
+        float tempsInvencibilitat,
+        Color colorEfecteInvencibilitat,
+        float midaParticules,
+        float velocitatParticules,
+        float taxaEmissioParticules,
+        float radiEfecte)
+    {
+        this.tempsInvencibilitat = tempsInvencibilitat;
+        this.colorEfecteInvencibilitat = colorEfecteInvencibilitat;
+        this.midaParticules = midaParticules;
+        this.velocitatParticules = velocitatParticules;
+        this.taxaEmissioParticules = taxaEmissioParticules;
+        this.radiEfecte = radiEfecte;
     }
     
     public void ConfigurarEfecteInvencibilitat(ParticleSystem efecte)

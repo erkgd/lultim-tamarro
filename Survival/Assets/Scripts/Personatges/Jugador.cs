@@ -19,6 +19,28 @@ public class Jugador : Personatge
     private AtacJugador atacJugador;
     private InvencibilitatJugador invencibilitatJugador;
 
+    [Header("Configuració Moviment")]
+    [SerializeField] private float velocitat = 5f;
+    [SerializeField] private float velocitatRotacio = 120f;
+    [SerializeField] private float velocitatCorrer = 10f;
+    [SerializeField] private float forcaGravetat = 1f;
+    [SerializeField] private float duracioKnockback = 0.25f;
+
+    [Header("Configuració Atac")]
+    [SerializeField] private float rangAtacar = 2.0f;
+    [SerializeField] private float tempsEntreAtacs = 0.6f;
+    [SerializeField] private float tempsAtac = 0.05f;
+    [SerializeField] private float angleVisioAtac = 60f;
+    [SerializeField] private int danyAtac = 1;
+
+    [Header("Configuració Invencibilitat")]
+    [SerializeField] private float tempsInvencibilitat = 1.7f;
+    [SerializeField] private Color colorEfecteInvencibilitat = Color.yellow;
+    [SerializeField] private float midaParticules = 0.2f;
+    [SerializeField] private float velocitatParticules = 0.5f;
+    [SerializeField] private float taxaEmissioParticules = 40f;
+    [SerializeField] private float radiEfecte = 1.0f;
+
     public CharacterController CharacterController => characterController;
     public Animator AnimatorJugador => animator;
     public BoxCollider BoxColliderAtac => boxColliderAtac;
@@ -41,7 +63,27 @@ public class Jugador : Personatge
         atacJugador = gameObject.AddComponent<AtacJugador>();
         invencibilitatJugador = gameObject.AddComponent<InvencibilitatJugador>();
         
-        // Configurar el efecto de invencibilidad para el componente de invencibilidad
+        // Configurar los componentes con los valores serializados
+        ConfigurarComponents();
+    }
+
+    private void ConfigurarComponents()
+    {
+        // Configurar MovimentJugador
+        movimentJugador.ConfigurarMoviment(velocitat, velocitatRotacio, velocitatCorrer, forcaGravetat, duracioKnockback);
+
+        // Configurar AtacJugador
+        atacJugador.ConfigurarAtac(rangAtacar, tempsEntreAtacs, tempsAtac, angleVisioAtac, danyAtac);
+
+        // Configurar InvencibilitatJugador
+        invencibilitatJugador.ConfigurarInvencibilitat(
+            tempsInvencibilitat,
+            colorEfecteInvencibilitat,
+            midaParticules,
+            velocitatParticules,
+            taxaEmissioParticules,
+            radiEfecte
+        );
         invencibilitatJugador.ConfigurarEfecteInvencibilitat(efecteInvencibilitat);
     }
 
