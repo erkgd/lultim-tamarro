@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public abstract class Personatge : MonoBehaviour, IVida, IAtacant
+public abstract class Personatge : MonoBehaviour
 {
     [Header("Referències")]
     protected Animator animator;
@@ -19,11 +19,9 @@ public abstract class Personatge : MonoBehaviour, IVida, IAtacant
     // Event vida
     public event Action QuanCanviVida;
 
-    // Propietats interfície IVida
+    // Propietats
     public int VidaActual => vidaActual;
     public int VidaMaxima => vidaMaxima;
-
-    // Propietats interfície IAtacant
     public int Dany => dany;
     public bool EstaAtacant() => atacant;
 
@@ -37,7 +35,7 @@ public abstract class Personatge : MonoBehaviour, IVida, IAtacant
         vidaActual = vidaMaxima;
     }
 
-    #region IVida
+    #region Vida
     public virtual bool EsViu()
     {
         return vidaActual > 0;
@@ -76,7 +74,6 @@ public abstract class Personatge : MonoBehaviour, IVida, IAtacant
         NotificarCanviVida();
     }
 
-    // Mètode protegit per notificar canvis de vida (per a classes derivades)
     protected virtual void NotificarCanviVida()
     {
         QuanCanviVida?.Invoke();
@@ -95,7 +92,7 @@ public abstract class Personatge : MonoBehaviour, IVida, IAtacant
     protected abstract IEnumerator Morir();
     #endregion
 
-    #region IAtacant
+    #region Atac
     public virtual void Atacar()
     {
         if (atacant) return;

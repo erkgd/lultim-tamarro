@@ -10,7 +10,6 @@ public class AtacEnemic : MonoBehaviour
     private Transform jugador;
     
     [Header("Configuració Atac")]
-    //[SerializeField] private float tempsEsperaPostAtac = 1.5f;
     [SerializeField] private float duracioAnimacioAtac = 0.5f;
     [SerializeField] private float tempsPerDesapareixer = 2f;
     
@@ -39,10 +38,10 @@ public class AtacEnemic : MonoBehaviour
 
         if (jugador != null)
         {
-            IVida vidaJugador = jugador.GetComponent<IVida>();
-            if (vidaJugador != null)
+            Personatge personatgeJugador = jugador.GetComponent<Personatge>();
+            if (personatgeJugador != null)
             {
-                vidaJugador.DecrementarVida(enemic.DanyAtac, gameObject.name);
+                personatgeJugador.DecrementarVida(enemic.DanyAtac, gameObject.name);
 
                 Jugador jugadorScript = jugador.GetComponent<Jugador>();
                 if (jugadorScript != null)
