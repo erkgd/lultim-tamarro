@@ -165,7 +165,8 @@ public class Jugador : Personatge
         movimentJugador.AturarMoviment();
     }
 
-    public override void DecrementarVida(int quantitat, string font)
+    // Això cap a SistemaVidaJugador.cs
+    /* public override void DecrementarVida(int quantitat, string font)
     {
         if (quantitat <= 0 || invencibilitatJugador.EsInvencible) return;
 
@@ -179,7 +180,7 @@ public class Jugador : Personatge
             cortinilla.MostrarCortinilla();
             Morir(); // Llamamos al método protected
         }
-    }
+    } */
 
     public IEnumerator ExecutarAtacPublic()
     {

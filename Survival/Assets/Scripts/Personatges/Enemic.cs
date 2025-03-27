@@ -52,6 +52,7 @@ public class Enemic : Personatge
         atacEnemic = gameObject.AddComponent<AtacEnemic>();
         movimentEnemic = gameObject.AddComponent<MovimentEnemic>();
         iaEnemic = gameObject.AddComponent<IAEnemic>();
+        sistemaVida = gameObject.AddComponent<SistemaVida>();
         
         // Configurar los componentes con los valores serializados
         ConfigurarComponents();
@@ -91,7 +92,7 @@ public class Enemic : Personatge
 
     void Update()
     {
-        if (!EsViu())
+        if (!sistemaVida.EsViu())
         {
             agent.isStopped = true;
             return;
@@ -126,10 +127,11 @@ public class Enemic : Personatge
 
     public override void Atacar()
     {
-        atacEnemic.IniciarAtac();
+        sistemaVida.IniciarAtac();
     }
 
-    public override void DecrementarVida(int quantitat, string font)
+    // delego la responsabilitat a SistemaVida.cs
+    /* public override void DecrementarVida(int quantitat, string font)
     {
         if (quantitat <= 0 || !EsViu()) return;
 
@@ -153,5 +155,10 @@ public class Enemic : Personatge
             vidaActual = 0;
             StartCoroutine(Morir());
         }
+    } */
+    
+    public void ExecutarDecrementVida(int quantitat)
+    {
+        return DecrementarVida(quantitat);
     }
 }
