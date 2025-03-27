@@ -16,7 +16,7 @@ public class RecojerPinya : MonoBehaviour
             if (jugador != null)
             {
                 // Se llama a la funci�n para incrementar la vida.
-                jugador.IncrementarVida(incremento, fuente);
+                jugador.IncrementarVida(incremento);
             }
             else
             {

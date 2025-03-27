@@ -2,67 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SistemaVida : MonoBehaviour
+public abstract class SistemaVida : MonoBehaviour
 {
-    // Associem un enemic al sistema de vida
-    private Enemic enemicAssociat;
+    protected abstract void Awake();
 
-    void Awake()
-    {
-        // Inicialitzem el component Enemic
+    protected abstract void Start();
 
-    }
+    public abstract bool EsViu();
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        //referència al component Enemic associat
-        enemicAssociat = GetComponent<Enemic>();
-    }
+    // Método abstracto para gestionar la muerte
+    protected abstract IEnumerator Morir();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public bool EsViu()
-    {
-        return enemicAssociat != null && enemicAssociat.vidaActual > 0;
-    }
-
-    //carreguem la dependencia per morir
-    protected IEnumerator Morir()
-    {
-        // Implementación directa como corrutina
-        return enemicAssociat.Morir();
-    }
-
-    public void DecrementarVida(int quantitat)
-    {
-        if (enemicAssociat != null)
-        {
-            if (quantitat <= 0 || !EsViu()) return;
-
-        // Evitamos modificar la vida del enemigo si ya está muriendo
-        if (enemicAssociat.animator.GetBool("senseVida"))
-            return;
-
-        enemicAssociat.vidaActual -= quantitat;
-        
-        // Activamos la animación de recibir daño si no estamos muriendo
-        if (enemicAssociat.vidaActual > 0 && enemicAssociat.animator != null)
-            enemicAssociat.animator.SetTrigger("TrRepMal");
-
-        // Notificamos el cambio de vida
-        NotificarCanviVida();
-
-        // Si la vida llega a 0, iniciamos la muerte
-        if (enemicAssociat.vidaActual <= 0)
-        {
-            enemicAssociat.vidaActual = 0;
-            StartCoroutine(Morir());
-        }
-        }
-    }
+    // Método abstracto para decrementar vida
+    public abstract void DecrementarVida(int quantitat);
+    
+    // Método abstracto para incrementar vida
+    public abstract void IncrementarVida(int quantitat);
+    
+    // Método abstracto para notificar cambios de vida
+    protected abstract void NotificarCanviVida();
 }

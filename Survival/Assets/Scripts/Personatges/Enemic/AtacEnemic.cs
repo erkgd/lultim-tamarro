@@ -46,7 +46,7 @@ public class AtacEnemic : MonoBehaviour
             Personatge personatgeJugador = jugador.GetComponent<Personatge>();
             if (personatgeJugador != null)
             {
-                personatgeJugador.DecrementarVida(enemic.DanyAtac, gameObject.name);
+                personatgeJugador.DecrementarVida(enemic.DanyAtac);
 
                 Jugador jugadorScript = jugador.GetComponent<Jugador>();
                 if (jugadorScript != null)
@@ -59,26 +59,4 @@ public class AtacEnemic : MonoBehaviour
         enemic.Atacant = false;
     }
     
-    public IEnumerator ExecutarMort()
-    {
-        // Evitamos múltiples llamadas a esta corrutina
-        if (animator.GetBool("senseVida"))
-            yield break;
-            
-        Debug.Log($"Ejecutando muerte de {gameObject.name}");
-        
-        // Activamos la animación de muerte
-        animator.SetBool("senseVida", true);
-        
-        // Detenemos al enemigo y desactivamos su script principal
-        agent.isStopped = true;
-        enemic.enabled = false;
-        
-        // Esperamos a que termine la animación
-        yield return new WaitForSeconds(tempsPerDesapareixer);
-        
-        // Nos aseguramos de desactivar el objeto (solución a que no desaparezca)
-        Debug.Log($"Desactivando enemigo {gameObject.name} después de morir");
-        gameObject.SetActive(false);
-    }
 }

@@ -95,15 +95,4 @@ public class IAEnemic : MonoBehaviour
         }
     }
     
-    // Método para visualizar los rangos de detección y ataque
-    private void OnDrawGizmosSelected()
-    {
-        // Rango de detección
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, rangDeteccio);
-        
-        // Rango de ataque
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, rangAtac);
-    }
 }
