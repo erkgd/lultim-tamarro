@@ -4,107 +4,31 @@ using UnityEngine;
 
 public abstract class Personatge : MonoBehaviour
 {
-    [Header("Referències")]
-    protected Animator animator;
-
-    [Header("Vida")]
-    [SerializeField] protected int vidaActual;
-    [SerializeField] protected int vidaMaxima = 5;
-
-    [Header("Atac")]
-    [SerializeField] protected int dany = 1;
-    [SerializeField] protected float forcaKnockback = 5f;
-    protected bool atacant = false;
-
     // Event vida
     public event Action QuanCanviVida;
 
     // Propietats
-    public int VidaActual => vidaActual;
-    public int VidaMaxima => vidaMaxima;
-    public int Dany => dany;
-    public bool EstaAtacant() => atacant;
+    public abstract int VidaActual { get; }
+    public abstract int VidaMaxima { get; }
+    public abstract int Dany { get; }
+    public abstract float ForcaKnockback { get; }
+    public abstract bool EstaAtacant();
 
-    protected virtual void Awake()
-    {
-        animator = GetComponent<Animator>();
-    }
+    protected abstract void Awake();
 
-    protected virtual void Start()
-    {
-        vidaActual = vidaMaxima;
-    }
+    protected abstract void Start();
+    
+    public abstract void DecrementarVida(int quantitat);
 
-    // sistema vida ho gestiona
-    /* #region Vida
-    public virtual bool EsViu()
-    {
-        return vidaActual > 0;
-    } */
+    protected abstract void NotificarCanviVida();
 
+    protected abstract void SubscribeToQuanCanviVida(Action handler);
 
-    // aquest metode no l'haurien de tenir els enemics, mala pràctica haver-lo posat a la classe abstracta ja que els enemics ho tindrien per herència
-    // per tant el treiem d'aquí i no l'incorporarem a la classe SistemaVida.cs
-    /* public virtual void IncrementarVida(int quantitat, string font)
-    {
-        if (quantitat <= 0) return;
-
-        vidaActual += quantitat;
-        if (vidaActual > vidaMaxima)
-            vidaActual = vidaMaxima;
-
-        // Notifiquem el canvi de vida
-        NotificarCanviVida();
-    } */
-
-    //classe teòricament abstracte i que a més deleguem responsabilitat a sistema vida 
-    // per tant la treiem d'aquí i la deixem a SistemaVida.cs
-    /* public virtual void DecrementarVida(int quantitat, string font)
-    {
-        if (quantitat <= 0) return;
-
-        vidaActual -= quantitat;
-
-        // Activem l'animació de rebre mal
-        if (animator != null)
-            animator.SetTrigger("TrRepMal");
-
-        // Si la vida arriba a 0 o menys, iniciem el procés de mort
-        if (vidaActual <= 0)
-        {
-            vidaActual = 0;
-            StartCoroutine(Morir());
-        }
-
-        // Notifiquem el canvi de vida
-        NotificarCanviVida();
-    } */
-
-    protected virtual void NotificarCanviVida()
-    {
-        QuanCanviVida?.Invoke();
-    }
-
-    protected void SubscribeToQuanCanviVida(Action handler)
-    {
-        QuanCanviVida += handler;
-    }
-
-    protected void InvokeQuanCanviVida()
-    {
-        QuanCanviVida?.Invoke();
-    }
+    protected abstract void InvokeQuanCanviVida();
 
     protected abstract IEnumerator Morir();
-    //#endregion
 
-    #region Atac
-    public virtual void Atacar()
-    {
-        if (atacant) return;
-        StartCoroutine(ExecutarAtac());
-    }
+    public abstract void Atacar();
 
     protected abstract IEnumerator ExecutarAtac();
-    #endregion
 }

@@ -10,6 +10,15 @@ public class Enemic : Personatge
     [Header("Referències")]
     private NavMeshAgent agent;
     private Transform jugador;
+    private Animator animator;
+    private SistemaVidaEnemic sistemaVidaEnemic;
+    
+    // Variables para implementar propiedades abstractas
+    [SerializeField] protected int vidaMaxima = 30;
+    [SerializeField] protected int vidaActual = 30;
+    [SerializeField] protected int dany = 10;
+    [SerializeField] protected float forcaKnockback = 3f;
+    protected bool atacant = false;
     
     // Componentes modularizados
     private AtacEnemic atacEnemic;
@@ -34,14 +43,20 @@ public class Enemic : Personatge
     [SerializeField] private float rangDeteccio = 10f;
     [SerializeField] private float tempsMaximPersecucio = 5f;
 
+    // Implementación de propiedades abstractas
+    public override int VidaActual => vidaActual;
+    public override int VidaMaxima => vidaMaxima;
+    public override int Dany => dany;
+    public override float ForcaKnockback => forcaKnockback;
+
     public NavMeshAgent Agent => agent;
     public Transform Jugador => jugador;
     public Animator AnimatorEnemic => animator;
 
     protected override void Awake()
     {
-        base.Awake();
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
         
         // Configurar NavMeshAgent para mejor desempeño
         agent.acceleration = 12f; // Acelera más rápido
@@ -52,7 +67,7 @@ public class Enemic : Personatge
         atacEnemic = gameObject.AddComponent<AtacEnemic>();
         movimentEnemic = gameObject.AddComponent<MovimentEnemic>();
         iaEnemic = gameObject.AddComponent<IAEnemic>();
-        sistemaVida = gameObject.AddComponent<SistemaVida>();
+        sistemaVidaEnemic = gameObject.AddComponent<SistemaVidaEnemic>();
         
         // Configurar los componentes con los valores serializados
         ConfigurarComponents();
@@ -81,7 +96,6 @@ public class Enemic : Personatge
 
     protected override void Start()
     {
-        base.Start();
         GameObject jugadorObj = GameObject.FindGameObjectWithTag("Player");
         if (jugadorObj != null)
             jugador = jugadorObj.transform;
@@ -92,29 +106,49 @@ public class Enemic : Personatge
 
     void Update()
     {
-        if (!sistemaVida.EsViu())
+        /*if (!EsViu())
         {
             agent.isStopped = true;
             return;
-        }
+        }*/
 
         // Actualizar la IA
         iaEnemic.ActualitzarIA();
     }
 
-    // Corregir la firma del método Morir para que devuelva IEnumerator
-    protected override IEnumerator Morir()
+    public override bool EstaAtacant()
     {
-        // Implementación directa como corrutina
-        return atacEnemic.ExecutarMort();
+        return atacant;
+    }
+
+
+    public override void DecrementarVida(int quantitat)
+    {
+        // Evitamos modificar la vida del enemigo si ya está muriendo
+        if (animator.GetBool("senseVida"))
+            return;
+    }
+
+    // Implementación de las funciones abstractas de evento
+    protected override void NotificarCanviVida()
+    {
+        InvokeQuanCanviVida();
+    }
+
+    protected override void SubscribeToQuanCanviVida(Action handler)
+    {
+        QuanCanviVida += handler;
+    }
+
+    protected override void InvokeQuanCanviVida()
+    {
+        QuanCanviVida?.Invoke();
     }
 
     // Propiedades públicas para acceder a miembros protegidos
     public bool Atacant { get => atacant; set => atacant = value; }
-    public int DanyAtac => dany;  // Propiedad de solo lectura
-    public float ForcaKnockback => forcaKnockback;  // Propiedad de solo lectura
     
-    // Método público para llamar al método protegido
+    // Método para llamar al método protegido
     public IEnumerator ExecutarAtacPublic()
     {
         return ExecutarAtac();
@@ -125,40 +159,32 @@ public class Enemic : Personatge
         return atacEnemic.ExecutarAtac();
     }
 
+    protected override IEnumerator Morir() 
+    {
+        // Evitamos múltiples llamadas a esta corrutina
+        if (animator.GetBool("senseVida"))
+            yield break;
+            
+        Debug.Log($"Ejecutando muerte de {gameObject.name}");
+        
+        // Activamos la animación de muerte
+        animator.SetBool("senseVida", true);
+        
+        // Detenemos al enemigo y desactivamos su script principal
+        agent.isStopped = true;
+        enemic.enabled = false;
+        
+        // Esperamos a que termine la animación
+        yield return new WaitForSeconds(tempsPerDesapareixer);
+        
+        // Nos aseguramos de desactivar el objeto (solución a que no desaparezca)
+        gameObject.SetActive(false);
+    }
+
     public override void Atacar()
     {
         sistemaVida.IniciarAtac();
     }
-
-    // delego la responsabilitat a SistemaVida.cs
-    /* public override void DecrementarVida(int quantitat, string font)
-    {
-        if (quantitat <= 0 || !EsViu()) return;
-
-        // Evitamos modificar la vida del enemigo si ya está muriendo
-        if (animator.GetBool("senseVida"))
-            return;
-
-        vidaActual -= quantitat;
-        Debug.Log($"Enemic {name} rep {quantitat} de dany de {font}. Vida restant: {vidaActual}");
-
-        // Activamos la animación de recibir daño si no estamos muriendo
-        if (vidaActual > 0 && animator != null)
-            animator.SetTrigger("TrRepMal");
-
-        // Notificamos el cambio de vida
-        NotificarCanviVida();
-
-        // Si la vida llega a 0, iniciamos la muerte (ya no llamamos a base.DecrementarVida)
-        if (vidaActual <= 0)
-        {
-            vidaActual = 0;
-            StartCoroutine(Morir());
-        }
-    } */
     
-    public void ExecutarDecrementVida(int quantitat)
-    {
-        return DecrementarVida(quantitat);
-    }
+    
 }
