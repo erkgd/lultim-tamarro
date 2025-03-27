@@ -35,13 +35,17 @@ public abstract class Personatge : MonoBehaviour
         vidaActual = vidaMaxima;
     }
 
-    #region Vida
+    // sistema vida ho gestiona
+    /* #region Vida
     public virtual bool EsViu()
     {
         return vidaActual > 0;
-    }
+    } */
 
-    public virtual void IncrementarVida(int quantitat, string font)
+
+    // aquest metode no l'haurien de tenir els enemics, mala pràctica haver-lo posat a la classe abstracta ja que els enemics ho tindrien per herència
+    // per tant el treiem d'aquí i no l'incorporarem a la classe SistemaVida.cs
+    /* public virtual void IncrementarVida(int quantitat, string font)
     {
         if (quantitat <= 0) return;
 
@@ -51,9 +55,11 @@ public abstract class Personatge : MonoBehaviour
 
         // Notifiquem el canvi de vida
         NotificarCanviVida();
-    }
+    } */
 
-    public virtual void DecrementarVida(int quantitat, string font)
+    //classe teòricament abstracte i que a més deleguem responsabilitat a sistema vida 
+    // per tant la treiem d'aquí i la deixem a SistemaVida.cs
+    /* public virtual void DecrementarVida(int quantitat, string font)
     {
         if (quantitat <= 0) return;
 
@@ -72,7 +78,7 @@ public abstract class Personatge : MonoBehaviour
 
         // Notifiquem el canvi de vida
         NotificarCanviVida();
-    }
+    } */
 
     protected virtual void NotificarCanviVida()
     {
@@ -90,7 +96,7 @@ public abstract class Personatge : MonoBehaviour
     }
 
     protected abstract IEnumerator Morir();
-    #endregion
+    //#endregion
 
     #region Atac
     public virtual void Atacar()
