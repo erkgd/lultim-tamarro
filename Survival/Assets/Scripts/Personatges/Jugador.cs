@@ -4,25 +4,22 @@ using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(SistemaVidaJugador))]
 public class Jugador : Personatge
 {
-    // Referencias compartidas - se mantienen en la clase principal
     [Header("Referències")]
     [SerializeField] private ParticleSystem efecteInvencibilitat;
     private CharacterController characterController;
     private Animator animator;
-    private VidaUI vidaUI;
-    private Cortinilla cortinilla;
     private BoxCollider boxColliderAtac;
+    private SistemaVidaJugador sistemaVida;
     
     // Variables para implementar las propiedades abstractas
-    [SerializeField] protected int vidaMaxima = 10;
-    [SerializeField] protected int vidaActual = 6;
-    [SerializeField] protected int danyAtac = 1;
-    [SerializeField] protected float forcaKnockback = 5f;
-    protected bool atacant = false;
+    [SerializeField] private int danyAtac = 1;
+    [SerializeField] private float forcaKnockback = 5f;
+    private bool atacant = false;
 
-    // Componentes de las clases modularizadas
+    // Componentes modularizados
     private MovimentJugador movimentJugador;
     private AtacJugador atacJugador;
     private InvencibilitatJugador invencibilitatJugador;
@@ -49,31 +46,35 @@ public class Jugador : Personatge
     [SerializeField] private float radiEfecte = 1.0f;
 
     // Implementación de propiedades abstractas
-    public override int VidaActual => vidaActual;
-    public override int VidaMaxima => vidaMaxima;
+    public override int VidaActual => sistemaVida.VidaActual;
+    public override int VidaMaxima => sistemaVida.VidaMaxima;
     public override int Dany => danyAtac;
     public override float ForcaKnockback => forcaKnockback;
 
     public CharacterController CharacterController => characterController;
     public Animator AnimatorJugador => animator;
     public BoxCollider BoxColliderAtac => boxColliderAtac;
-    public float Velocitat { get; set; }
 
+    // Propiedad para acceder al estado de ataque
+    public bool Atacant { get => atacant; set => atacant = value; }
+    
     protected override void Awake()
     {
+        // Inicializar componentes
         animator = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
         boxColliderAtac = GetComponent<BoxCollider>();
+        sistemaVida = GetComponent<SistemaVidaJugador>();
         
         if (boxColliderAtac != null)
             boxColliderAtac.enabled = false;
 
-        // Inicializar los componentes modulares
+        // Inicializar componentes modulares
         movimentJugador = gameObject.AddComponent<MovimentJugador>();
         atacJugador = gameObject.AddComponent<AtacJugador>();
         invencibilitatJugador = gameObject.AddComponent<InvencibilitatJugador>();
         
-        // Configurar los componentes con los valores serializados
+        // Configurar components
         ConfigurarComponents();
     }
 
@@ -99,31 +100,60 @@ public class Jugador : Personatge
 
     protected override void Start()
     {
-        vidaUI = FindObjectOfType<VidaUI>();
-        if (vidaUI != null)
-            vidaUI.UpdateHealth(vidaActual);
-
-        cortinilla = FindObjectOfType<Cortinilla>();
-
-        // Subscribirse a eventos
-        SubscribeToQuanCanviVida(OnCanviVidaHandler);
+        // Suscribirse a eventos del sistema de vida
+        sistemaVida.OnVidaCanviada += OnVidaCanviada;
+        sistemaVida.OnMuerte += DesactivarControl;
+        sistemaVida.OnRevivir += ActivarControl;
     }
-
-    // Manejador de eventos para cambios de vida
-    private void OnCanviVidaHandler()
+    
+    private void OnVidaCanviada()
     {
-        if (vidaUI != null)
-            vidaUI.UpdateHealth(vidaActual);
+        // Cambiado para no invocar QuanCanviVida directamente
+        // QuanCanviVida?.Invoke(); <- Error, los eventos solo pueden aparecer al lado izquierdo de += o -=
+        // En su lugar, notificar a los suscriptores usando un método propio
+        NotificarCambiVida();
+    }
+    
+    // Método adicional para notificar a los suscriptores
+    protected void NotificarCambiVida()
+    {
+        // Usar el método protegido de la clase base en lugar de reflexión
+        InvocarQuanCanviVida();
+    }
+    
+    private void DesactivarControl()
+    {
+        enabled = false;
+    }
+    
+    private void ActivarControl()
+    {
+        enabled = true;
     }
 
     void Update()
     {
-        if (!SistemaVidaJugador.EsViu()) return;
+        if (!sistemaVida.EsViu()) return;
 
         movimentJugador.ActualitzarMoviment();
-
-        // Control de ataque
         atacJugador.ActualitzarAtac();
+    }
+
+    // Métodos que delegan al sistema de vida
+    public override void DecrementarVida(int quantitat, string font = "")
+    {
+        sistemaVida.DecrementarVida(quantitat);
+    }
+    
+    public void IncrementarVida(int quantitat)
+    {
+        sistemaVida.IncrementarVida(quantitat);
+    }
+
+    public override IEnumerator Morir()
+    {
+        // Delegar al sistema de vida
+        return sistemaVida.Morir();
     }
 
     public override bool EstaAtacant()
@@ -136,67 +166,30 @@ public class Jugador : Personatge
         atacJugador.IniciarAtac();
     }
 
-    public void IncrementarVida(int quantitat)
+    public override IEnumerator ExecutarAtac()
     {
-        sistemaVida.IncrementarVida(quantitat);
+        return atacJugador.ExecutarAtac();
     }
-
-    public override void DecrementarVida(int quantitat)
+    
+    // Método para llamar al método protegido desde otros componentes
+    public IEnumerator ExecutarAtacPublic()
     {
-        sistemaVida.DecrementarVida(quantitat);
+        return ExecutarAtac();
     }
-
-    protected override void NotificarCanviVida()
+    
+    public void RebreKnockback(Vector3 direccio, float forca)
     {
-        if (vidaUI != null)
-            vidaUI.UpdateHealth(vidaActual);
-        
-        InvokeQuanCanviVida();
+        movimentJugador.AplicarKnockback(direccio, forca);
     }
-
-    protected override void SubscribeToQuanCanviVida(Action handler)
+    
+    // Asegurarnos de desuscribirse de los eventos al destruir el objeto
+    public void OnDestroy()
     {
-        QuanCanviVida += handler;
-    }
-
-    protected override void InvokeQuanCanviVida()
-    {
-        QuanCanviVida?.Invoke();
-    }
-
-    protected override IEnumerator Morir()
-    {
-        if (animator != null)
-            animator.SetBool("senseVida", true);
-
-        // Desactivamos controles
-        enabled = false;
-
-        // Esperamos a que la animación de la cortinilla termine (esto deberiamos definirlo en una constante).
-        yield return new WaitForSeconds(5f);
-
-        // Revivimos al jugador
-        vidaActual = vidaMaxima;
-        animator.SetBool("senseVida", false);
-        enabled = true;
-
-        // Actualizamos la UI
-        NotificarCanviVida();
-    }
-
-    protected override IEnumerator ExecutarAtac()
-    {
-        // Delegamos la lógica de ataque al componente especializado
-        yield return StartCoroutine(atacJugador.ExecutarAtac());
-    }
-
-    public void Moure()
-    {
-        movimentJugador.Moure();
-    }
-
-    public void AturarMoviment()
-    {
-        movimentJugador.AturarMoviment();
+        if (sistemaVida != null)
+        {
+            sistemaVida.OnVidaCanviada -= OnVidaCanviada;
+            sistemaVida.OnMuerte -= DesactivarControl;
+            sistemaVida.OnRevivir -= ActivarControl;
+        }
     }
 }

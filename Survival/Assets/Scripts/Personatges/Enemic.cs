@@ -5,20 +5,19 @@ using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(SistemaVidaEnemic))]
 public class Enemic : Personatge
 {
     [Header("Referències")]
     private NavMeshAgent agent;
     private Transform jugador;
     private Animator animator;
-    private SistemaVidaEnemic sistemaVidaEnemic;
+    private SistemaVidaEnemic sistemaVida;
     
     // Variables para implementar propiedades abstractas
-    [SerializeField] protected int vidaMaxima = 30;
-    [SerializeField] protected int vidaActual = 30;
-    [SerializeField] protected int dany = 10;
-    [SerializeField] protected float forcaKnockback = 3f;
-    protected bool atacant = false;
+    [SerializeField] private int dany = 10;
+    [SerializeField] private float forcaKnockback = 3f;
+    private bool atacant = false;
     
     // Componentes modularizados
     private AtacEnemic atacEnemic;
@@ -43,31 +42,35 @@ public class Enemic : Personatge
     [SerializeField] private float rangDeteccio = 10f;
     [SerializeField] private float tempsMaximPersecucio = 5f;
 
-    // Implementación de propiedades abstractas
-    public override int VidaActual => vidaActual;
-    public override int VidaMaxima => vidaMaxima;
+    // Implementación de propiedades abstractas a través del sistema de vida
+    public override int VidaActual => sistemaVida.VidaActual;
+    public override int VidaMaxima => sistemaVida.VidaMaxima;
     public override int Dany => dany;
     public override float ForcaKnockback => forcaKnockback;
 
     public NavMeshAgent Agent => agent;
     public Transform Jugador => jugador;
     public Animator AnimatorEnemic => animator;
+    public bool Atacant { get => atacant; set => atacant = value; }
 
+    // Propiedades adicionales para otras clases
+    public int DanyAtac => dany;
+    
     protected override void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+        sistemaVida = GetComponent<SistemaVidaEnemic>();
         
         // Configurar NavMeshAgent para mejor desempeño
-        agent.acceleration = 12f; // Acelera más rápido
-        agent.angularSpeed = 180f; // Gira más rápido
-        agent.autoBraking = false; // No frena al llegar al destino
+        agent.acceleration = 12f;
+        agent.angularSpeed = 180f;
+        agent.autoBraking = false;
         
         // Inicializar componentes modulares
         atacEnemic = gameObject.AddComponent<AtacEnemic>();
         movimentEnemic = gameObject.AddComponent<MovimentEnemic>();
         iaEnemic = gameObject.AddComponent<IAEnemic>();
-        sistemaVidaEnemic = gameObject.AddComponent<SistemaVidaEnemic>();
         
         // Configurar los componentes con los valores serializados
         ConfigurarComponents();
@@ -75,22 +78,10 @@ public class Enemic : Personatge
 
     private void ConfigurarComponents()
     {
-        // Configurar AtacEnemic
+        // Configuraciones...
         atacEnemic.ConfigurarAtac(duracioAnimacioAtac, tempsPerDesapareixer);
-
-        // Configurar MovimentEnemic
-        movimentEnemic.ConfigurarMoviment(
-            nomCarpetaPunts,
-            velocitatNormal,
-            velocitatPersecucio,
-            tempsEsperaPatrulla,
-            rangPerseguir,
-            tempsSospita,
-            rangAtacar,
-            tempsEntreAtacs
-        );
-
-        // Configurar IAEnemic
+        movimentEnemic.ConfigurarMoviment(nomCarpetaPunts, velocitatNormal, velocitatPersecucio, 
+            tempsEsperaPatrulla, rangPerseguir, tempsSospita, rangAtacar, tempsEntreAtacs);
         iaEnemic.ConfigurarIA(rangDeteccio, rangAtacar, tempsEntreAtacs, tempsMaximPersecucio);
     }
 
@@ -102,18 +93,59 @@ public class Enemic : Personatge
             
         // Iniciar la IA
         iaEnemic.Inicialitzar();
+        
+        // Suscripción al evento de cambio de vida
+        sistemaVida.SubscribeToQuanCanviVida(() => {
+            // No invocar el evento directamente
+            // QuanCanviVida?.Invoke(); <- Error, los eventos solo pueden usarse con += o -=
+            NotificarCambiVida();
+        });
     }
 
-    void Update()
+    private void Update()
     {
-        /*if (!EsViu())
+        if (!sistemaVida.EsViu())
         {
             agent.isStopped = true;
             return;
-        }*/
+        }
 
         // Actualizar la IA
         iaEnemic.ActualitzarIA();
+    }
+
+    // Métodos que delegan al sistema de vida
+    public override void DecrementarVida(int quantitat, string font = "")
+    {
+        sistemaVida.DecrementarVida(quantitat, font);
+    }
+    
+    // Método público para comprobar si está vivo (necesario para MovimentEnemic)
+    public bool EsViu()
+    {
+        return sistemaVida.EsViu();
+    }
+    
+    // Método para llamar al método protegido
+    public IEnumerator ExecutarAtacPublic()
+    {
+        return ExecutarAtac();
+    }
+    
+    public override IEnumerator ExecutarAtac()
+    {
+        return atacEnemic.ExecutarAtac();
+    }
+
+    public override IEnumerator Morir() 
+    {
+        // Delegamos al sistema de vida
+        return sistemaVida.Morir();
+    }
+
+    public override void Atacar()
+    {
+        sistemaVida.IniciarAtac();
     }
 
     public override bool EstaAtacant()
@@ -121,70 +153,10 @@ public class Enemic : Personatge
         return atacant;
     }
 
-
-    public override void DecrementarVida(int quantitat)
+    // Método para notificar a los suscriptores
+    protected void NotificarCambiVida()
     {
-        // Evitamos modificar la vida del enemigo si ya está muriendo
-        if (animator.GetBool("senseVida"))
-            return;
+        // Usar el método protegido de la clase base en lugar de reflexión
+        InvocarQuanCanviVida();
     }
-
-    // Implementación de las funciones abstractas de evento
-    protected override void NotificarCanviVida()
-    {
-        InvokeQuanCanviVida();
-    }
-
-    protected override void SubscribeToQuanCanviVida(Action handler)
-    {
-        QuanCanviVida += handler;
-    }
-
-    protected override void InvokeQuanCanviVida()
-    {
-        QuanCanviVida?.Invoke();
-    }
-
-    // Propiedades públicas para acceder a miembros protegidos
-    public bool Atacant { get => atacant; set => atacant = value; }
-    
-    // Método para llamar al método protegido
-    public IEnumerator ExecutarAtacPublic()
-    {
-        return ExecutarAtac();
-    }
-
-    protected override IEnumerator ExecutarAtac()
-    {
-        return atacEnemic.ExecutarAtac();
-    }
-
-    protected override IEnumerator Morir() 
-    {
-        // Evitamos múltiples llamadas a esta corrutina
-        if (animator.GetBool("senseVida"))
-            yield break;
-            
-        Debug.Log($"Ejecutando muerte de {gameObject.name}");
-        
-        // Activamos la animación de muerte
-        animator.SetBool("senseVida", true);
-        
-        // Detenemos al enemigo y desactivamos su script principal
-        agent.isStopped = true;
-        enemic.enabled = false;
-        
-        // Esperamos a que termine la animación
-        yield return new WaitForSeconds(tempsPerDesapareixer);
-        
-        // Nos aseguramos de desactivar el objeto (solución a que no desaparezca)
-        gameObject.SetActive(false);
-    }
-
-    public override void Atacar()
-    {
-        sistemaVida.IniciarAtac();
-    }
-    
-    
 }

@@ -18,17 +18,17 @@ public abstract class Personatge : MonoBehaviour
 
     protected abstract void Start();
     
-    public abstract void DecrementarVida(int quantitat);
+    public abstract void DecrementarVida(int quantitat, string font = "");
 
-    protected abstract void NotificarCanviVida();
-
-    protected abstract void SubscribeToQuanCanviVida(Action handler);
-
-    protected abstract void InvokeQuanCanviVida();
-
-    protected abstract IEnumerator Morir();
+    public abstract IEnumerator Morir();
 
     public abstract void Atacar();
 
-    protected abstract IEnumerator ExecutarAtac();
+    public abstract IEnumerator ExecutarAtac();
+    
+    // Método protegido para que las clases derivadas puedan invocar el evento
+    protected void InvocarQuanCanviVida()
+    {
+        QuanCanviVida?.Invoke();
+    }
 }
