@@ -58381,6 +58381,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5420387213759523753, guid: 158e0f4c1845576449c27919f6973034,
+        type: 3}
+      propertyPath: vidaActual
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6480959657845549444, guid: 158e0f4c1845576449c27919f6973034,
+        type: 3}
+      propertyPath: danyAtac
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6480959657845549444, guid: 158e0f4c1845576449c27919f6973034,
         type: 3}
       propertyPath: tempsAtac

@@ -10,15 +10,14 @@ public class SistemaVidaJugador : SistemaVida
     [SerializeField] private float tempsReviure = 5f;
     
     // Propiedades internas para gestionar la vida
-    [SerializeField] private int vidaMaxima = 10;
-    [SerializeField] private int vidaActual = 6;
+    [SerializeField] private int vidaMaxima = 48;
+    [SerializeField] private int vidaActual = 24;
     
     // Eventos para comunicación (eliminados los duplicados con la clase base)
     public event Action OnVidaCanviada;
     
     // Referencias a componentes
     private Animator animator;
-    private InvencibilitatJugador invencibilitat;
     
     public int VidaActual => vidaActual;
     public int VidaMaxima => vidaMaxima;
@@ -29,7 +28,6 @@ public class SistemaVidaJugador : SistemaVida
         
         // Obtener referencias
         animator = GetComponent<Animator>();
-        invencibilitat = GetComponent<InvencibilitatJugador>();
         
         // Buscar dependencias
         if (vidaUI == null) vidaUI = FindObjectOfType<VidaUI>();
@@ -58,20 +56,43 @@ public class SistemaVidaJugador : SistemaVida
     
     public void DecrementarVida(int quantitat)
     {
-        // Add null check for invencibilitat
-        bool isInvencible = invencibilitat != null && invencibilitat.EsInvencible;
+        // Comprobación detallada con logs
+        if (quantitat <= 0) {
+            Debug.Log("No se aplicó daño porque la cantidad es 0 o negativa");
+            return;
+        }
         
-        if (quantitat <= 0 || isInvencible || !EsViu()) return;
+        // Comprobar invencibilidad con el Singleton
+        if (InvencibilitatJugador.Instance != null && InvencibilitatJugador.Instance.EsInvencible) {
+            Debug.Log("No se aplicó daño porque el jugador está invencible");
+            return;
+        }
+        
+        if (!EsViu()) {
+            Debug.Log("No se aplicó daño porque el jugador no está vivo");
+            return;
+        }
+        
+        // Log para depuración
+        Debug.Log($"Vida antes del daño: {vidaActual}");
         
         vidaActual = Mathf.Max(vidaActual - quantitat, 0);
+        
+        // Log para depuración
+        Debug.Log($"Vida después del daño: {vidaActual}, Cantidad de daño: {quantitat}");
         
         // Notificar cambios
         NotificarCanviVida();
         
-        // Activar invencibilidad si está disponible
-        if (invencibilitat != null)
+        // Activar invencibilidad usando el Singleton
+        if (InvencibilitatJugador.Instance != null)
         {
-            invencibilitat.ActivarInvencibilitat();
+            Debug.Log("Activando invencibilidad después del daño");
+            InvencibilitatJugador.Instance.ActivarInvencibilitat();
+        }
+        else
+        {
+            Debug.LogWarning("No se puede activar la invencibilidad porque no existe una instancia del Singleton");
         }
         
         // Si la vida llega a 0, iniciar secuencia de muerte

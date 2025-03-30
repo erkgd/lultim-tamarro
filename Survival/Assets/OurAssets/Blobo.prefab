@@ -522,6 +522,7 @@ GameObject:
   - component: {fileID: 3130521423967911263}
   - component: {fileID: 2456214025082710316}
   - component: {fileID: 5544626369973273866}
+  - component: {fileID: 5062421269414852893}
   m_Layer: 6
   m_Name: SlimePBR
   m_TagString: Enemy
@@ -579,20 +580,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19b182c968776e7418dec0b59d799a09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vidaActual: 3
-  vidaMaxima: 3
   dany: 1
-  rangAtacar: 2
-  tempsEntreAtacs: 2
   forcaKnockback: 7
-  tempsEsperaPostAtac: 0.5
-  puntsMoviment: {fileID: 2780402204909165960}
-  tempsEsperaPatrulla: 1
-  rangPerseguir: 10
+  duracioAnimacioAtac: 0.5
+  tempsPerDesapareixer: 2
+  nomCarpetaPunts: Moviment
   velocitatNormal: 3.5
   velocitatPersecucio: 20
+  tempsEsperaPatrulla: 1
+  rangPerseguir: 10
   tempsSospita: 3
-  estatActual: 0
+  rangAtacar: 2
+  tempsEntreAtacs: 2
+  rangDeteccio: 10
+  tempsMaximPersecucio: 5
 --- !u!195 &3130521423967911263
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -663,6 +664,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &5062421269414852893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8189266069293741784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c20381196ee6052438c58dc692c1a259, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vidaMaxima: 2
+  vidaActual: 2
 --- !u!1 &8189400354222711796
 GameObject:
   m_ObjectHideFlags: 0

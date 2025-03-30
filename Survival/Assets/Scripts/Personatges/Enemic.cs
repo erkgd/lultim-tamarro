@@ -15,7 +15,7 @@ public class Enemic : Personatge
     private SistemaVidaEnemic sistemaVida;
     
     // Variables para implementar propiedades abstractas
-    [SerializeField] private int dany = 10;
+    [SerializeField] private int dany = 1;
     [SerializeField] private float forcaKnockback = 3f;
     private bool atacant = false;
     
@@ -96,17 +96,25 @@ public class Enemic : Personatge
         
         // Suscripción al evento de cambio de vida
         sistemaVida.SubscribeToQuanCanviVida(() => {
-            // No invocar el evento directamente
-            // QuanCanviVida?.Invoke(); <- Error, los eventos solo pueden usarse con += o -=
+            // Usar el método protegido de la clase base
             NotificarCambiVida();
         });
+        
+        // Suscripción al evento de iniciar ataque
+        sistemaVida.OnIniciarAtac += () => {
+            StartCoroutine(ExecutarAtacPublic());
+        };
     }
 
     private void Update()
     {
         if (!sistemaVida.EsViu())
         {
-            agent.isStopped = true;
+            // Verificar que el agente esté activo y en un NavMesh antes de detenerlo
+            if (agent != null && agent.isActiveAndEnabled && agent.isOnNavMesh)
+            {
+                agent.isStopped = true;
+            }
             return;
         }
 
