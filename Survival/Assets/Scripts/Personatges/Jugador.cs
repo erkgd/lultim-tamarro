@@ -22,7 +22,6 @@ public class Jugador : Personatge
     // Componentes modularizados
     private MovimentJugador movimentJugador;
     private AtacJugador atacJugador;
-    private InvencibilitatJugador invencibilitatJugador;
 
     [Header("Configuració Moviment")]
     [SerializeField] private float velocitat = 5f;
@@ -60,7 +59,7 @@ public class Jugador : Personatge
     
     protected override void Awake()
     {
-        // Inicializar componentes
+        // Inicializar components
         animator = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
         boxColliderAtac = GetComponent<BoxCollider>();
@@ -69,10 +68,9 @@ public class Jugador : Personatge
         if (boxColliderAtac != null)
             boxColliderAtac.enabled = false;
 
-        // Inicializar componentes modulares
+        // Inicializar components modulares
         movimentJugador = gameObject.AddComponent<MovimentJugador>();
         atacJugador = gameObject.AddComponent<AtacJugador>();
-        invencibilitatJugador = gameObject.AddComponent<InvencibilitatJugador>();
         
         // Configurar components
         ConfigurarComponents();
@@ -86,8 +84,16 @@ public class Jugador : Personatge
         // Configurar AtacJugador
         atacJugador.ConfigurarAtac(rangAtacar, tempsEntreAtacs, tempsAtac, angleVisioAtac, danyAtac);
 
-        // Configurar InvencibilitatJugador
-        invencibilitatJugador.ConfigurarInvencibilitat(
+        // Asegurarse de que exista el componente InvencibilitatJugador para el Singleton
+        InvencibilitatJugador invencibilitat = GetComponent<InvencibilitatJugador>();
+        if (invencibilitat == null)
+        {
+            invencibilitat = gameObject.AddComponent<InvencibilitatJugador>();
+            Debug.Log("Se ha añadido el componente InvencibilitatJugador al jugador");
+        }
+
+        // Configurar InvencibilitatJugador mediante el Singleton
+        InvencibilitatJugador.Instance.ConfigurarInvencibilitat(
             tempsInvencibilitat,
             colorEfecteInvencibilitat,
             midaParticules,
@@ -95,7 +101,16 @@ public class Jugador : Personatge
             taxaEmissioParticules,
             radiEfecte
         );
-        invencibilitatJugador.ConfigurarEfecteInvencibilitat(efecteInvencibilitat);
+        
+        // Verificar si necesitamos crear un sistema de partículas nuevo
+        if (efecteInvencibilitat == null)
+        {
+            Debug.Log("No hay sistema de partículas asignado para invencibilidad, se creará automáticamente");
+        }
+        
+        // Configurar el efecto de invencibilidad (si es null, se creará uno nuevo)
+        InvencibilitatJugador.Instance.ConfigurarEfecteInvencibilitat(efecteInvencibilitat);
+        Debug.Log("Sistema de invencibilidad configurado correctamente");
     }
 
     protected override void Start()
@@ -108,9 +123,6 @@ public class Jugador : Personatge
     
     private void OnVidaCanviada()
     {
-        // Cambiado para no invocar QuanCanviVida directamente
-        // QuanCanviVida?.Invoke(); <- Error, los eventos solo pueden aparecer al lado izquierdo de += o -=
-        // En su lugar, notificar a los suscriptores usando un método propio
         NotificarCambiVida();
     }
     
