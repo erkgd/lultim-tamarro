@@ -1,6 +1,6 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.InputSystem; // Añadido para InputAction
 
 [RequireComponent(typeof(Jugador))]
 public class MovimentJugador : MonoBehaviour
@@ -13,12 +13,14 @@ public class MovimentJugador : MonoBehaviour
     private float velocitatRotacio;
     private float velocitatCorrer;
     private float forcaGravetat;
+    
+    // Variables para knockback
+    private Vector3 impulsExtern = Vector3.zero;
     private float duracioKnockback;
     
     private float ySpeed;
     private Vector3 direccioMoviment;
-    private Vector3 impulsExtern = Vector3.zero;
-    InputAction sprintAction;
+    private InputAction sprintAction;
     
     private void Awake()
     {
@@ -114,25 +116,16 @@ public class MovimentJugador : MonoBehaviour
         animator.SetBool("EstaMoviment", false);
     }
     
+    // Método para aplicar knockback al jugador
     public void AplicarKnockback(Vector3 direccio, float forca)
     {
         impulsExtern = direccio.normalized * forca;
-        StartCoroutine(DisminuirImpuls());
+        StartCoroutine(EliminarKnockback());
     }
     
-    private IEnumerator DisminuirImpuls()
+    private IEnumerator EliminarKnockback()
     {
-        float duracio = duracioKnockback;
-        float tempsInicial = Time.time;
-        Vector3 impulsInicial = impulsExtern;
-        
-        while (Time.time - tempsInicial < duracio)
-        {
-            float factor = 1 - ((Time.time - tempsInicial) / duracio);
-            impulsExtern = impulsInicial * factor;
-            yield return null;
-        }
-        
+        yield return new WaitForSeconds(duracioKnockback);
         impulsExtern = Vector3.zero;
     }
 }

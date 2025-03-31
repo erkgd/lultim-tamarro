@@ -174,7 +174,11 @@ public class MovimentEnemic : MonoBehaviour
         // Si l'enemic no està viu, aturem el moviment
         if (!enemic.EsViu())
         {
-            agent.isStopped = true;
+            // Verificar que el agente esté activo y en un NavMesh abans de detenirlo
+            if (agent != null && agent.isActiveAndEnabled && agent.isOnNavMesh)
+            {
+                agent.isStopped = true;
+            }
             return;
         }
         
@@ -212,55 +216,63 @@ public class MovimentEnemic : MonoBehaviour
                 break;
                 
             case AIState.PERSEGUIR:
-                // Perseguim al jugador
-                agent.SetDestination(jugador.position);
-                
-                // Si estem prou a prop, ataquem
-                if (distanciaJugador <= rangAtacar && comptadorAtacs <= 0)
+                // Verificar que el agente esté activo y en un NavMesh
+                if (agent != null && agent.isActiveAndEnabled && agent.isOnNavMesh)
                 {
-                    // Aturem temporalment
-                    agent.isStopped = true;
+                    // Perseguim al jugador
+                    agent.SetDestination(jugador.position);
                     
-                    // Activem l'atac
-                    enemic.Atacar();
+                    // Si estem prou a prop, ataquem
+                    if (distanciaJugador <= rangAtacar && comptadorAtacs <= 0)
+                    {
+                        // Aturem temporalment
+                        agent.isStopped = true;
+                        
+                        // Activem l'atac
+                        enemic.Atacar();
+                        
+                        // Reiniciem el comptador
+                        comptadorAtacs = tempsEntreAtacs;
+                        
+                        // Reprenem el moviment després d'un moment
+                        StartCoroutine(ReanudarMoviment(0.5f));
+                    }
                     
-                    // Reiniciem el comptador
-                    comptadorAtacs = tempsEntreAtacs;
-                    
-                    // Reprenem el moviment després d'un moment
-                    StartCoroutine(ReanudarMoviment(0.5f));
-                }
-                
-                // Si el jugador s'allunya massa, passem a sospita
-                if (distanciaJugador > rangPerseguir)
-                {
-                    estatActual = AIState.SOSPITA;
-                    agent.speed = velocitatNormal;
-                    ultimaPosicioVista = jugador.position;
-                    tempsUltimaVegadaVist = tempsSospita;
+                    // Si el jugador s'allunya massa, passem a sospita
+                    if (distanciaJugador > rangPerseguir)
+                    {
+                        estatActual = AIState.SOSPITA;
+                        agent.speed = velocitatNormal;
+                        ultimaPosicioVista = jugador.position;
+                        tempsUltimaVegadaVist = tempsSospita;
+                    }
                 }
                 break;
                 
             case AIState.SOSPITA:
-                // Anem a l'última posició coneguda
-                if (agent.remainingDistance <= 0.5f || agent.destination == Vector3.zero)
+                // Verificar que el agente esté activo y en un NavMesh
+                if (agent != null && agent.isActiveAndEnabled && agent.isOnNavMesh)
                 {
-                    agent.SetDestination(ultimaPosicioVista);
-                }
-                
-                // Reduïm el temps de sospita
-                tempsUltimaVegadaVist -= Time.deltaTime;
-                
-                // Si veiem el jugador de nou, tornem a perseguir
-                if (distanciaJugador <= rangPerseguir)
-                {
-                    estatActual = AIState.PERSEGUIR;
-                    agent.speed = velocitatPersecucio;
-                }
-                // Si s'esgota el temps, tornem a patrullar
-                else if (tempsUltimaVegadaVist <= 0)
-                {
-                    estatActual = AIState.PATRULLA;
+                    // Anem a l'última posició coneguda
+                    if (agent.remainingDistance <= 0.5f || agent.destination == Vector3.zero)
+                    {
+                        agent.SetDestination(ultimaPosicioVista);
+                    }
+                    
+                    // Reduïm el temps de sospita
+                    tempsUltimaVegadaVist -= Time.deltaTime;
+                    
+                    // Si veiem el jugador de nou, tornem a perseguir
+                    if (distanciaJugador <= rangPerseguir)
+                    {
+                        estatActual = AIState.PERSEGUIR;
+                        agent.speed = velocitatPersecucio;
+                    }
+                    // Si s'esgota el temps, tornem a patrullar
+                    else if (tempsUltimaVegadaVist <= 0)
+                    {
+                        estatActual = AIState.PATRULLA;
+                    }
                 }
                 break;
         }
@@ -272,10 +284,14 @@ public class MovimentEnemic : MonoBehaviour
         if (puntsPatrulla == null || puntsPatrulla.Length == 0 || esperantEnPunt)
             return;
         
-        // Si hem arribat al punt actual, avancem al següent
-        if (agent.remainingDistance <= 0.5f)
+        // Verificar que el agente esté activo y en un NavMesh
+        if (agent != null && agent.isActiveAndEnabled && agent.isOnNavMesh)
         {
-            StartCoroutine(EsperarEnPunt());
+            // Si hem arribat al punt actual, avancem al següent
+            if (agent.remainingDistance <= 0.5f)
+            {
+                StartCoroutine(EsperarEnPunt());
+            }
         }
     }
     
@@ -283,18 +299,27 @@ public class MovimentEnemic : MonoBehaviour
     {
         esperantEnPunt = true;
         
-        // Aturem l'agent
-        agent.isStopped = true;
+        // Verificar que el agente esté activo y en un NavMesh abans de detenirlo
+        if (agent != null && agent.isActiveAndEnabled && agent.isOnNavMesh)
+        {
+            // Aturem l'agent
+            agent.isStopped = true;
+        }
         
         // Esperem un moment
         yield return new WaitForSeconds(tempsEsperaPatrulla);
         
         // Avancem al següent punt
         puntActual = (puntActual + 1) % puntsPatrulla.Length;
-        agent.SetDestination(puntsPatrulla[puntActual].position);
         
-        // Reactivem l'agent
-        agent.isStopped = false;
+        // Verificar que el agente esté activo y en un NavMesh
+        if (agent != null && agent.isActiveAndEnabled && agent.isOnNavMesh)
+        {
+            agent.SetDestination(puntsPatrulla[puntActual].position);
+            
+            // Reactivem l'agent
+            agent.isStopped = false;
+        }
         
         esperantEnPunt = false;
     }
@@ -302,6 +327,11 @@ public class MovimentEnemic : MonoBehaviour
     private IEnumerator ReanudarMoviment(float delay)
     {
         yield return new WaitForSeconds(delay);
-        agent.isStopped = false;
+        
+        // Verificar que el agente esté activo y en un NavMesh
+        if (agent != null && agent.isActiveAndEnabled && agent.isOnNavMesh)
+        {
+            agent.isStopped = false;
+        }
     }
 }
