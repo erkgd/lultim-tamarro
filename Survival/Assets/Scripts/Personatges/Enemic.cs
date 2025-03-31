@@ -5,11 +5,19 @@ using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(SistemaVidaEnemic))]
 public class Enemic : Personatge
 {
     [Header("Referències")]
     private NavMeshAgent agent;
     private Transform jugador;
+    private Animator animator;
+    private SistemaVidaEnemic sistemaVida;
+    
+    // Variables para implementar propiedades abstractas
+    [SerializeField] private int dany = 1;
+    [SerializeField] private float forcaKnockback = 3f;
+    private bool atacant = false;
     
     // Componentes modularizados
     private AtacEnemic atacEnemic;
@@ -34,19 +42,30 @@ public class Enemic : Personatge
     [SerializeField] private float rangDeteccio = 10f;
     [SerializeField] private float tempsMaximPersecucio = 5f;
 
+    // Implementación de propiedades abstractas a través del sistema de vida
+    public override int VidaActual => sistemaVida.VidaActual;
+    public override int VidaMaxima => sistemaVida.VidaMaxima;
+    public override int Dany => dany;
+    public override float ForcaKnockback => forcaKnockback;
+
     public NavMeshAgent Agent => agent;
     public Transform Jugador => jugador;
     public Animator AnimatorEnemic => animator;
+    public bool Atacant { get => atacant; set => atacant = value; }
 
+    // Propiedades adicionales para otras clases
+    public int DanyAtac => dany;
+    
     protected override void Awake()
     {
-        base.Awake();
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
+        sistemaVida = GetComponent<SistemaVidaEnemic>();
         
         // Configurar NavMeshAgent para mejor desempeño
-        agent.acceleration = 12f; // Acelera más rápido
-        agent.angularSpeed = 180f; // Gira más rápido
-        agent.autoBraking = false; // No frena al llegar al destino
+        agent.acceleration = 12f;
+        agent.angularSpeed = 180f;
+        agent.autoBraking = false;
         
         // Inicializar componentes modulares
         atacEnemic = gameObject.AddComponent<AtacEnemic>();
@@ -59,41 +78,43 @@ public class Enemic : Personatge
 
     private void ConfigurarComponents()
     {
-        // Configurar AtacEnemic
+        // Configuraciones...
         atacEnemic.ConfigurarAtac(duracioAnimacioAtac, tempsPerDesapareixer);
-
-        // Configurar MovimentEnemic
-        movimentEnemic.ConfigurarMoviment(
-            nomCarpetaPunts,
-            velocitatNormal,
-            velocitatPersecucio,
-            tempsEsperaPatrulla,
-            rangPerseguir,
-            tempsSospita,
-            rangAtacar,
-            tempsEntreAtacs
-        );
-
-        // Configurar IAEnemic
+        movimentEnemic.ConfigurarMoviment(nomCarpetaPunts, velocitatNormal, velocitatPersecucio, 
+            tempsEsperaPatrulla, rangPerseguir, tempsSospita, rangAtacar, tempsEntreAtacs);
         iaEnemic.ConfigurarIA(rangDeteccio, rangAtacar, tempsEntreAtacs, tempsMaximPersecucio);
     }
 
     protected override void Start()
     {
-        base.Start();
         GameObject jugadorObj = GameObject.FindGameObjectWithTag("Player");
         if (jugadorObj != null)
             jugador = jugadorObj.transform;
             
         // Iniciar la IA
         iaEnemic.Inicialitzar();
+        
+        // Suscripción al evento de cambio de vida
+        sistemaVida.SubscribeToQuanCanviVida(() => {
+            // Usar el método protegido de la clase base
+            NotificarCambiVida();
+        });
+        
+        // Suscripción al evento de iniciar ataque
+        sistemaVida.OnIniciarAtac += () => {
+            StartCoroutine(ExecutarAtacPublic());
+        };
     }
 
-    void Update()
+    private void Update()
     {
-        if (!EsViu())
+        if (!sistemaVida.EsViu())
         {
-            agent.isStopped = true;
+            // Verificar que el agente esté activo y en un NavMesh antes de detenerlo
+            if (agent != null && agent.isActiveAndEnabled && agent.isOnNavMesh)
+            {
+                agent.isStopped = true;
+            }
             return;
         }
 
@@ -101,57 +122,49 @@ public class Enemic : Personatge
         iaEnemic.ActualitzarIA();
     }
 
-    // Corregir la firma del método Morir para que devuelva IEnumerator
-    protected override IEnumerator Morir()
+    // Métodos que delegan al sistema de vida
+    public override void DecrementarVida(int quantitat, string font = "")
     {
-        // Implementación directa como corrutina
-        return atacEnemic.ExecutarMort();
+        sistemaVida.DecrementarVida(quantitat, font);
     }
-
-    // Propiedades públicas para acceder a miembros protegidos
-    public bool Atacant { get => atacant; set => atacant = value; }
-    public int DanyAtac => dany;  // Propiedad de solo lectura
-    public float ForcaKnockback => forcaKnockback;  // Propiedad de solo lectura
     
-    // Método público para llamar al método protegido
+    // Método público para comprobar si está vivo (necesario para MovimentEnemic)
+    public bool EsViu()
+    {
+        return sistemaVida.EsViu();
+    }
+    
+    // Método para llamar al método protegido
     public IEnumerator ExecutarAtacPublic()
     {
         return ExecutarAtac();
     }
-
-    protected override IEnumerator ExecutarAtac()
+    
+    public override IEnumerator ExecutarAtac()
     {
         return atacEnemic.ExecutarAtac();
     }
 
-    public override void Atacar()
+    public override IEnumerator Morir() 
     {
-        atacEnemic.IniciarAtac();
+        // Delegamos al sistema de vida
+        return sistemaVida.Morir();
     }
 
-    public override void DecrementarVida(int quantitat, string font)
+    public override void Atacar()
     {
-        if (quantitat <= 0 || !EsViu()) return;
+        sistemaVida.IniciarAtac();
+    }
 
-        // Evitamos modificar la vida del enemigo si ya está muriendo
-        if (animator.GetBool("senseVida"))
-            return;
+    public override bool EstaAtacant()
+    {
+        return atacant;
+    }
 
-        vidaActual -= quantitat;
-        Debug.Log($"Enemic {name} rep {quantitat} de dany de {font}. Vida restant: {vidaActual}");
-
-        // Activamos la animación de recibir daño si no estamos muriendo
-        if (vidaActual > 0 && animator != null)
-            animator.SetTrigger("TrRepMal");
-
-        // Notificamos el cambio de vida
-        NotificarCanviVida();
-
-        // Si la vida llega a 0, iniciamos la muerte (ya no llamamos a base.DecrementarVida)
-        if (vidaActual <= 0)
-        {
-            vidaActual = 0;
-            StartCoroutine(Morir());
-        }
+    // Método para notificar a los suscriptores
+    protected void NotificarCambiVida()
+    {
+        // Usar el método protegido de la clase base en lugar de reflexión
+        InvocarQuanCanviVida();
     }
 }

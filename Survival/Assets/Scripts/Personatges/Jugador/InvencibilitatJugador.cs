@@ -4,6 +4,9 @@ using UnityEngine;
 [RequireComponent(typeof(Jugador))]
 public class InvencibilitatJugador : MonoBehaviour
 {
+    // Instancia única para el patrón Singleton
+    public static InvencibilitatJugador Instance { get; private set; }
+    
     private Jugador jugador;
     private Animator animator;
     private ParticleSystem efecteInvencibilitat;
@@ -19,8 +22,23 @@ public class InvencibilitatJugador : MonoBehaviour
     
     private void Awake()
     {
+        // Configuración del Singleton
+        if (Instance == null)
+        {
+            Instance = this;
+            // No usamos DontDestroyOnLoad porque queremos que cada escena tenga su propio sistema
+        }
+        else if (Instance != this)
+        {
+            // Si ya existe una instancia, destruimos esta para evitar duplicados
+            Destroy(this);
+            return;
+        }
+        
         jugador = GetComponent<Jugador>();
         animator = jugador.AnimatorJugador;
+        
+        Debug.Log("InvencibilitatJugador inicializado como Singleton");
     }
     
     public void ConfigurarInvencibilitat(
