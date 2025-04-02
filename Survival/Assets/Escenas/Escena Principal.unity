@@ -3173,12 +3173,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 524388672}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96ecee4bdc33f9346957c8dc3dd87d8c, type: 3}
+  m_Script: {fileID: 11500000, guid: b70a3e1df02f2b2458fc497c911c454b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 7
-  rotationSpeed: 720
-  jumpSpeed: 0
+  targetPosition: {x: 0, y: 0, z: 0}
+  needsTeleport: 0
 --- !u!95 &524388678
 Animator:
   serializedVersion: 5
