@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem; // Añadido para InputAction
 
 [RequireComponent(typeof(Jugador))]
 public class MovimentJugador : MonoBehaviour
@@ -8,24 +9,38 @@ public class MovimentJugador : MonoBehaviour
     private CharacterController characterController;
     private Animator animator;
     
-    [Header("Configuració Moviment")]
-    [SerializeField] private float velocitat = 5f;
-    [SerializeField] private float velocitatRotacio = 120f;
-    [SerializeField] private float velocitatCorrer = 10f;
-    [SerializeField] private float forcaGravetat = 0.1f;
+    private float velocitat;
+    private float velocitatRotacio;
+    private float velocitatCorrer;
+    private float forcaGravetat;
     
-    [Header("Knockback")]
-    [SerializeField] private float duracioKnockback = 0.25f;
+    // Variables para knockback
+    private Vector3 impulsExtern = Vector3.zero;
+    private float duracioKnockback;
     
     private float ySpeed;
     private Vector3 direccioMoviment;
-    private Vector3 impulsExtern = Vector3.zero;
+    private InputAction sprintAction;
     
     private void Awake()
     {
         jugador = GetComponent<Jugador>();
         characterController = jugador.CharacterController;
         animator = jugador.AnimatorJugador;
+    }
+
+    private void Start()
+    {
+        sprintAction = InputSystem.actions.FindAction("Sprint");
+    }
+
+    public void ConfigurarMoviment(float velocitat, float velocitatRotacio, float velocitatCorrer, float forcaGravetat, float duracioKnockback)
+    {
+        this.velocitat = velocitat;
+        this.velocitatRotacio = velocitatRotacio;
+        this.velocitatCorrer = velocitatCorrer;
+        this.forcaGravetat = forcaGravetat;
+        this.duracioKnockback = duracioKnockback;
     }
     
     public void ActualitzarMoviment()
@@ -38,6 +53,9 @@ public class MovimentJugador : MonoBehaviour
         // Obtenim els inputs d'Horizontal i Vertical
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
+        
+        // Comprovar si l'acció de córrer està activa
+        bool estaCorrent = sprintAction != null && sprintAction.IsPressed();
 
         // Nova direcció de moviment que barreja ambdós eixos
         Vector3 movementDirection = new(h + v, 0, v - h);
@@ -45,7 +63,7 @@ public class MovimentJugador : MonoBehaviour
 
         // Si Shift està premut, duplica la velocitat
         float currentSpeed = velocitat;
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (estaCorrent)
         {
             animator.SetBool("EstaCorrent", true);
             currentSpeed = velocitatCorrer;
@@ -98,25 +116,16 @@ public class MovimentJugador : MonoBehaviour
         animator.SetBool("EstaMoviment", false);
     }
     
+    // Método para aplicar knockback al jugador
     public void AplicarKnockback(Vector3 direccio, float forca)
     {
         impulsExtern = direccio.normalized * forca;
-        StartCoroutine(DisminuirImpuls());
+        StartCoroutine(EliminarKnockback());
     }
     
-    private IEnumerator DisminuirImpuls()
+    private IEnumerator EliminarKnockback()
     {
-        float duracio = duracioKnockback;
-        float tempsInicial = Time.time;
-        Vector3 impulsInicial = impulsExtern;
-        
-        while (Time.time - tempsInicial < duracio)
-        {
-            float factor = 1 - ((Time.time - tempsInicial) / duracio);
-            impulsExtern = impulsInicial * factor;
-            yield return null;
-        }
-        
+        yield return new WaitForSeconds(duracioKnockback);
         impulsExtern = Vector3.zero;
     }
 }
