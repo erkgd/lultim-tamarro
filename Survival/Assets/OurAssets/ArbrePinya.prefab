@@ -78,11 +78,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ArbrePinya
       objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: c5bb25ec5731c094a9476f6d7603d5ff,
-        type: 3}
-      propertyPath: m_TagString
-      value: Pinya
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -99,10 +94,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8448395792223054940}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c5bb25ec5731c094a9476f6d7603d5ff,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3194137498319229849}
   m_SourcePrefab: {fileID: 100100000, guid: c5bb25ec5731c094a9476f6d7603d5ff, type: 3}
 --- !u!1 &5096240779749040351 stripped
 GameObject:
@@ -123,7 +114,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radi: 4
-  personatge: {fileID: 5616740047190325861}
+  personatge: {fileID: 0}
   velocitatRotacioPinya: 50
 --- !u!64 &8448395792223054940
 MeshCollider:
@@ -147,19 +138,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 8018029208344918273, guid: c5bb25ec5731c094a9476f6d7603d5ff, type: 3}
---- !u!114 &3194137498319229849
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5096240779749040351}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32113202ce9b0664ab70cbdf0a68c388, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  incremento: 4
 --- !u!4 &5616740047190325861 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c5bb25ec5731c094a9476f6d7603d5ff,
@@ -258,26 +236,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_UseGravity
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5522439975976086777, guid: f6f392f34932f494fb468078aea9462f,
-        type: 3}
-      propertyPath: m_Height
-      value: 1.6116194
-      objectReference: {fileID: 0}
-    - target: {fileID: 5522439975976086777, guid: f6f392f34932f494fb468078aea9462f,
-        type: 3}
-      propertyPath: m_Center.x
-      value: -0.000000005274114
-      objectReference: {fileID: 0}
-    - target: {fileID: 5522439975976086777, guid: f6f392f34932f494fb468078aea9462f,
-        type: 3}
-      propertyPath: m_Center.y
-      value: -0.12019635
-      objectReference: {fileID: 0}
-    - target: {fileID: 5522439975976086777, guid: f6f392f34932f494fb468078aea9462f,
-        type: 3}
-      propertyPath: m_Center.z
-      value: 3.524842e-11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
