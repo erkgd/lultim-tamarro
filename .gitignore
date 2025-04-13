@@ -2,20 +2,18 @@
 ### Configuración Unity
 ### -----------------------------------
 # Directorios críticos
-*/Library/*
+Survival/Library/
+Survival/[Tt]emp/
+Survival/[Oo]bj/
+Survival/[Bb]uild/
+Survival/[Bb]uilds/
+Survival/[Ll]ogs/
+Survival/[Uu]ser[Ss]ettings/
+Survival/[Mm]emoryCaptures/
+Survival/[Nn]uget/
 
-/[Tt]emp/
-/[Oo]bj/
-/[Bb]uild/
-/[Bb]uilds/
-/[Ll]ogs/
-/[Uu]ser[Ss]ettings/
-/[Mm]emoryCaptures/
-/[Aa]ssets/AssetStoreTools*
-/[Pp]ackages/
-/[Nn]uget/
-/[Mm]anagedPlugins/
-/[Cc]ollab*/
+#configuració del entorn
+Survival/UserSettings/
 
 # Archivos generados por Unity
 *.pidb
