@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Tutorial : MonoBehaviour
@@ -47,11 +48,37 @@ public class Tutorial : MonoBehaviour
     private Vector3 barreraSortidaVidaDretaPInicial;
     private Vector3 barreraSortidaVidaDretaPFinal;
 
+    // Zona Fogata
+    public GameObject arbreSortidaZona;
+    private Vector3 arbreSortidaZonaPInicial;
+    private Vector3 arbreSortidaZonaPFinal;
+
+    public Collider zonaFogata;
+
+
+    private float tempsEnFogata = 0f;
+    private bool arbreFogataObert = false;
+
+
+
     // Zona Pont
     public CanvasGroup textCanvaGroup;
     public float druacioFade = 1.0f;
-    public Collider colliderPontText;
 
+    public Collider colliderPontTextEnable;
+
+    public Collider colliderPontTextDisable;
+
+
+    public GameObject barreraEntradaHub;
+    private Vector3 barreraEntradaHubPInicial;
+    private Vector3 barreraEntradaHubPFinal;
+
+    public Collider colliderEntradaHub;
+
+    public GameObject pontArribadaHub;
+    private Vector3 pontArribadaHubPInicial;
+    private Vector3 pontArribadaHubPFinal;
 
     // Start is called before the first frame update
     void Start()
@@ -104,6 +131,26 @@ public class Tutorial : MonoBehaviour
             textCanvaGroup.gameObject.SetActive(false);
         }
 
+        if (arbreSortidaZona != null)
+        {
+            arbreSortidaZonaPInicial = new Vector3(21.76676f, arbreSortidaZona.transform.position.y, arbreSortidaZona.transform.position.z);
+            arbreSortidaZonaPFinal = new Vector3(15.54f, arbreSortidaZona.transform.position.y, arbreSortidaZona.transform.position.z + 5);
+        }
+
+        if (barreraEntradaHub != null)
+        {
+            barreraEntradaHubPInicial = new Vector3(barreraEntradaHub.transform.position.x, 61.26f, barreraEntradaHub.transform.position.z);
+            barreraEntradaHubPFinal = new Vector3(barreraEntradaHub.transform.position.x, 66.58437f, barreraEntradaHub.transform.position.z);
+        }
+
+        if (pontArribadaHub != null)
+        {
+            pontArribadaHubPInicial = new Vector3(pontArribadaHub.transform.position.x, pontArribadaHub.transform.position.y, 325.7f);
+            pontArribadaHubPFinal = new Vector3(pontArribadaHub.transform.position.x, pontArribadaHub.transform.position.y, 289.1f);
+
+        }
+
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -121,7 +168,7 @@ public class Tutorial : MonoBehaviour
 
         }
 
-        if (other == colliderPontText)
+        if (other == colliderPontTextEnable)
         {
             if (textCanvaGroup != null)
             {
@@ -131,6 +178,20 @@ public class Tutorial : MonoBehaviour
                 StartCoroutine(FadeIn());
             }
         }
+
+        if (other == colliderPontTextDisable)
+        {
+            if (textCanvaGroup != null)
+            {
+                StartCoroutine(FadeOut());
+            }
+        }
+
+        if(other == colliderEntradaHub)
+        {
+            StartCoroutine(TancarZonaHUB());
+            colliderEntradaHub.enabled = false;
+        }
     }
 
     private void OnTriggerStay(Collider other)
@@ -138,7 +199,7 @@ public class Tutorial : MonoBehaviour
 
         if (vallaSortidaCombat != null & other == enemicPracticaCollider)
         {
-            if (enemicPractica != null && !enemicPractica.activeInHierarchy)
+            if (enemicPractica == null)
             {
                 StartCoroutine(ObrirZonaCombat());
                 enemicPracticaCollider.enabled = false;
@@ -152,6 +213,18 @@ public class Tutorial : MonoBehaviour
             zonaVida.enabled = false;
             
         }
+
+        if (other == zonaFogata && !arbreFogataObert)
+        {
+            tempsEnFogata += Time.deltaTime;
+
+            if (tempsEnFogata >= 3f)
+            {
+                arbreFogataObert = true;
+                StartCoroutine(ObrirZonaFogata());
+            }
+        }
+
     }
 
 
@@ -224,5 +297,55 @@ public class Tutorial : MonoBehaviour
         }
         // Asegura que al final el alpha quede en 1.
         textCanvaGroup.alpha = 1;
+    }
+
+    IEnumerator FadeOut()
+    {
+        float tiempo = 1f;
+        float contador = 0f;
+        while (contador < druacioFade)
+        {
+            contador += Time.deltaTime;
+            tiempo -= Time.deltaTime;
+            textCanvaGroup.alpha = Mathf.Clamp01(druacioFade * tiempo);
+            yield return null;
+        }
+        textCanvaGroup.alpha = 0;
+
+        textCanvaGroup.gameObject.SetActive(false);
+    }
+
+
+    IEnumerator ObrirZonaFogata()
+    {
+        float tiempo = 0;
+        while (tiempo < 1)
+        {
+            tiempo += Time.deltaTime * velocidad;
+            arbreSortidaZona.transform.position = Vector3.Lerp(arbreSortidaZonaPInicial, arbreSortidaZonaPFinal, tiempo);
+            yield return null;
+        }
+    }
+
+    IEnumerator TancarZonaHUB()
+    {
+        float tiempo = 0;
+        while (tiempo < 1)
+        {
+            tiempo += Time.deltaTime * velocidad;
+            barreraEntradaHub.transform.position = Vector3.Lerp(barreraEntradaHubPInicial, barreraEntradaHubPFinal, tiempo);
+            pontArribadaHub.transform.position = Vector3.Lerp(pontArribadaHubPInicial, pontArribadaHubPFinal, tiempo);
+
+            yield return null;
+        }
+
+        while (tiempo < 1)
+        {
+            tiempo += Time.deltaTime * velocidad;
+            barreraEntradaHub.transform.position = Vector3.Lerp(barreraEntradaHubPInicial, barreraEntradaHubPFinal, tiempo);
+            pontArribadaHub.transform.position = Vector3.Lerp(pontArribadaHubPInicial, pontArribadaHubPFinal, tiempo);
+
+            yield return null;
+        }
     }
 }
