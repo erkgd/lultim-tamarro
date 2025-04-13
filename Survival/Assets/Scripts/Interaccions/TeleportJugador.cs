@@ -1,104 +1,143 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-// MANUAL DE CONFIGURACIÓ AL UNITY:
-// 1. Click dret a l'escena (menu hierarchy) -> Create Empty
-// 2. En el inspector d'aquest objecte Add Component > Scripts > TeleportJugador
-// 3. Crear dos objectes buids (fills del primer) veure foto --> https://discord.com/channels/1297237163582160966/1297237163582160969/1349798225791549472
-// 4. Assignar els dos objectes buids a puntA i puntB i configurar la posició de cada un 
-// 5. Ficar el nom de l'escena a la que es vol teletransportar el jugador (ex. Escena Principal)
-// 6. Designar la posició on es vol que aparegui el jugador a la nova escena (ex. 0, 0, 0)
-// 7. Assignar l'etiqueta del jugador (ex. Player)
-// 8. Assignar la distància de detecció (ex. 0.5)
-// 9. Assignar si es vol dibuixar la línia a l'editor (ex. true)
-
-
-// Aquesta classe gestiona el teletransport del jugador quan travessa una línia definida entre dos punts, enviant-lo a una altre escena i col·locant-lo en una posició concreta
 public class TeleportJugador : MonoBehaviour
 {
-    // Secció: Punts de la línia
-    [Header("Punts de la línia")]
-    public Transform puntA; // Primer extrem de la línia
-    public Transform puntB; // Segon extrem de la línia
-
-    // Secció: Destí
-    [Header("Destí")]
-    public string nomEscenaDestí; // Nom de l'escena on es teletransportarà el jugador
-    public Vector3 posicioDestí;   // Posició dins la nova escena on apareixerà el jugador
-
-    // Secció: Configuració
-    [Header("Configuració")]
-    public string etiquetaJugador = "Player"; // Etiqueta per identificar l'objecte del jugador a l'escena
-    public float distanciaDeteccion = 0.7f;      // Distància mínima per considerar que el jugador ha travessat la línia
-    public bool dibuixarLineaEnEditor = true;    // Indica si es mostra la línia a l'editor per visualitzar-la
-
-    // Mètode que dibuixa gizmos a l'editor per ajudar a visualitzar la línia
-    private void OnDrawGizmos()
+    // Enum for predefined teleport destinations
+    public enum TeleportDestination
     {
-        // Comprova que estiguem dibuixant la línia a l'editor i que els punts estiguin definits
-        if (dibuixarLineaEnEditor && puntA != null && puntB != null)
+        Custom,
+        Pedrosa,
+        Hub,
+        Tutorial,
+        Bosc,
+        Engo,
+        Ramio
+    }
+    
+    [Header("Destí")]
+    [SerializeField] private TeleportDestination destinacioSeleccionada = TeleportDestination.Custom;
+    [SerializeField] private string nomEscenaDestí = "Escena Principal";
+    [SerializeField] private Vector3 posicioDestí;
+    
+    [Header("Configuració")]
+    [SerializeField] private string etiquetaJugador = "Player";
+    [SerializeField] private bool mostrarDebug = true;
+    
+    private void OnValidate()
+    {
+        // Update destination values when selection changes in inspector
+        switch (destinacioSeleccionada)
         {
-            Gizmos.color = Color.red; // Defineix el color del gizmo com a vermell
-            Gizmos.DrawLine(puntA.position, puntB.position); // Dibuixa una línia entre els dos punts
+            case TeleportDestination.Pedrosa:
+                nomEscenaDestí = TPConstants.PEDROSA_SCENE;
+                posicioDestí = TPConstants.PEDROSA_SPAWN_POINT;
+                break;
+            
+            case TeleportDestination.Hub:
+                nomEscenaDestí = TPConstants.HUB_SCENE;
+                posicioDestí = TPConstants.HUB_SPAWN_POINT;
+                break;
+                
+            case TeleportDestination.Tutorial:
+                nomEscenaDestí = TPConstants.TUTORIAL_SCENE;
+                posicioDestí = TPConstants.TUTORIAL_SPAWN_POINT;
+                break;
+                
+            case TeleportDestination.Bosc:
+                nomEscenaDestí = TPConstants.BOSC_SCENE;
+                posicioDestí = TPConstants.BOSC_SPAWN_POINT;
+                break;
+                
+            case TeleportDestination.Engo:
+                nomEscenaDestí = TPConstants.ENGO_SCENE;
+                posicioDestí = TPConstants.ENGO_SPAWN_POINT;
+                break;
+                
+            case TeleportDestination.Ramio:
+                nomEscenaDestí = TPConstants.RAMIO_SCENE;
+                posicioDestí = TPConstants.RAMIO_SPAWN_POINT;
+                break;
+                
+            case TeleportDestination.Custom:
+                // Do nothing, keep custom values
+                break;
+        }
+    }
+    
+    void Start()
+    {
+        if (mostrarDebug) Debug.Log("TeleportJugador inicialitzat a " + destinacioSeleccionada);
+
+        if (string.IsNullOrEmpty(nomEscenaDestí))
+        {
+            Debug.LogError("El nom de l'escena de destí no pot estar buit.");
+        }
+        
+        // Verificar si las coordenadas del destino seleccionado son (0,0,0)
+        if (posicioDestí == Vector3.zero && destinacioSeleccionada != TeleportDestination.Custom)
+        {
+            Debug.LogWarning($"La posición de destino para {destinacioSeleccionada} es (0,0,0). Verifica TPConstants.cs");
+        }
+    }
+    
+    private void OnTriggerEnter(Collider algo)
+    {
+        if (mostrarDebug) Debug.Log($"Colisión detectada con TeleportJugador por: {algo.name}");
+        if (algo.CompareTag(etiquetaJugador))
+        {
+            if (algo.GetComponent<Jugador>() != null)
+            {
+                if (mostrarDebug) Debug.Log($"Jugador válido detectado: {algo.name}, iniciando teleporte a {nomEscenaDestí} en posición {posicioDestí}");
+                TeletransportarJugador(algo.gameObject);
+            }
+            else
+            {
+                Debug.Log("El objeto colisionado tiene la etiqueta de jugador pero no es un jugador válido.");
+            }
         }
     }
 
-    // Mètode que s'executa en cada frame per vigilar si el jugador travessa la línia
-    private void Update()
+    private void TeletransportarJugador(GameObject jugador)
     {
-        // Cerca a la escena l'objecte que té la etiqueta definida per al jugador
-        GameObject jugador = GameObject.FindGameObjectWithTag(etiquetaJugador);
         if (jugador != null)
         {
-            // Si el jugador travessa la línia, es procedeix a teletransportar-lo
-            if (JugadorTravessaLínia(jugador.transform.position))
+            // Verificar que la posición no sea (0,0,0) a menos que sea explícitamente esa
+            if (posicioDestí == Vector3.zero && destinacioSeleccionada != TeleportDestination.Custom)
             {
-                TeletransportarJugador();
+                Debug.LogWarning($"¡Advertencia! Teleportando a posición (0,0,0) desde TeleportDestination.{destinacioSeleccionada}");
             }
+            
+            if (mostrarDebug) Debug.Log($"Teleportando jugador a: {posicioDestí} en escena: {nomEscenaDestí}");
+            
+            // Usar el PosicionadorJugador si está disponible
+            PosicionadorJugador posicionador = jugador.GetComponent<PosicionadorJugador>();
+            if (posicionador != null)
+            {
+                if (mostrarDebug) Debug.Log($"Usando PosicionadorJugador.IniciarTeleport");
+                posicionador.IniciarTeleport(posicioDestí, nomEscenaDestí);
+                return;
+            }
+            
+            // Método de respaldo sin componente PosicionadorJugador
+            if (mostrarDebug) Debug.Log($"No se encontró componente PosicionadorJugador, usando PlayerPrefs directamente");
+            
+            // Guardar en PlayerPrefs para que el jugador en la escena de destino lo use
+            PlayerPrefs.SetFloat("DestiX", posicioDestí.x);
+            PlayerPrefs.SetFloat("DestiY", posicioDestí.y);
+            PlayerPrefs.SetFloat("DestiZ", posicioDestí.z);
+            PlayerPrefs.SetInt("NecessitaTeleport", 1);
+            PlayerPrefs.Save();
+            
+            if (mostrarDebug) Debug.Log($"PlayerPrefs guardados: DestiX={posicioDestí.x}, DestiY={posicioDestí.y}, DestiZ={posicioDestí.z}, NecessitaTeleport=1");
+
+            // Cargar la nueva escena
+            if (mostrarDebug) Debug.Log($"Cargando escena: {nomEscenaDestí}");
+            SceneManager.LoadScene(nomEscenaDestí);
         }
-    }
-
-    // Mètode que comprova si la posició del jugador travessa la línia definida pels dos punts
-    private bool JugadorTravessaLínia(Vector3 posicioJugador)
-    {
-        // Assegura que els dos punts de la línia estan definits
-        if (puntA == null || puntB == null) return false;
-
-        // Calcula la direcció normalitzada de la línia (de puntA a puntB)
-        Vector3 direccioLínia = (puntB.position - puntA.position).normalized;
-        
-        // Vector que conecta puntA amb la posició del jugador
-        Vector3 jugadorAPunt = posicioJugador - puntA.position;
-        
-        // Determina la projecció del vector jugador-punt sobre la direcció de la línia
-        float producteEscalar = Vector3.Dot(jugadorAPunt, direccioLínia);
-        
-        // Assegura que el jugador es trobi entre els extrems de la línia
-        if (producteEscalar >= 0 && producteEscalar <= Vector3.Distance(puntA.position, puntB.position))
+        else
         {
-            // Calcula el punt de la línia que està més a prop del jugador
-            Vector3 puntMesProper = puntA.position + direccioLínia * producteEscalar;
-            // Comprova si la distància entre el jugador i aquest punt és suficientment petita
-            if (Vector3.Distance(posicioJugador, puntMesProper) <= distanciaDeteccion)
-            {
-                return true; // El jugador ha travessat la línia
-            }
+            Debug.LogError("El objeto jugador es nulo. No se puede teletransportar.");
         }
-        return false; // No es compleixen les condicions, per tant, el jugador no ha travessat la línia
-    }
-
-    // Mètode que teletransporta el jugador a una nova escena
-    private void TeletransportarJugador()
-    {
-        // Emmagatzema la posició de destí als PlayerPrefs per poder-la recuperar a la nova escena
-        PlayerPrefs.SetFloat("DestíX", posicioDestí.x);
-        PlayerPrefs.SetFloat("DestíY", posicioDestí.y);
-        PlayerPrefs.SetFloat("DestíZ", posicioDestí.z);
-        PlayerPrefs.SetInt("NecessitaTeleport", 1);
-
-        // Carrega la nova escena utilitzant el nom definit
-        SceneManager.LoadScene(nomEscenaDestí);
     }
 }

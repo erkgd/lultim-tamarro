@@ -24,14 +24,14 @@ public class PlayerMovement : MonoBehaviour
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
-        // Nueva dirección de movimiento que mezcla ambos ejes
+        // Nueva direcciï¿½n de movimiento que mezcla ambos ejes
         //Vector3 movementDirection = new Vector3(h + v, 0, v - h);
-        Vector3 movementDirection = new (h + v, 0, v - h);      // Expressió alternativa
+        Vector3 movementDirection = new (h + v, 0, v - h);      // Expressiï¿½ alternativa
         float magnitude = Mathf.Clamp01(movementDirection.magnitude);
 
-        // Si Shift está presionado, duplica la velocidad
+        // Si Shift estï¿½ presionado, duplica la velocidad
         float currentSpeed = speed;
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetButton("Sprint"))
         {
             animator.SetBool("EstaCorrent", true);
             currentSpeed *= 2;

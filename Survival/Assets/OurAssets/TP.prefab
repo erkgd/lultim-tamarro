@@ -115,7 +115,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2001486267618991337}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d4ccd90cccd22742b7e81c7933e6bdf, type: 3}
+  m_Script: {fileID: 11500000, guid: 562fa43167a34274d93ee143f819f4a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   "nomEscenaDest\xED": Escena Principal

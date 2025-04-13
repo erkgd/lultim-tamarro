@@ -5,375 +5,166 @@ using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Animator))]
-public class Enemic : MonoBehaviour, IVida, IAtacant
+[RequireComponent(typeof(SistemaVidaEnemic))]
+public class Enemic : Personatge
 {
     [Header("Referències")]
-    private Animator animator;
     private NavMeshAgent agent;
     private Transform jugador;
+    private Animator animator;
+    private SistemaVidaEnemic sistemaVida;
     
-    [Header("Vida")]
-    [SerializeField] private int vidaActual;
-    [SerializeField] private int vidaMaxima = 3;
-
-    [Header("Atac")]
+    // Variables para implementar propiedades abstractas
     [SerializeField] private int dany = 1;
+    [SerializeField] private float forcaKnockback = 3f;
+    private bool atacant = false;
+    
+    // Componentes modularizados
+    private AtacEnemic atacEnemic;
+    private MovimentEnemic movimentEnemic;
+    private IAEnemic iaEnemic;
+
+    [Header("Configuració Atac")]
+    [SerializeField] private float duracioAnimacioAtac = 0.5f;
+    [SerializeField] private float tempsPerDesapareixer = 2f;
+
+    [Header("Configuració Moviment")]
+    [SerializeField] private string nomCarpetaPunts = "Moviment";
+    [SerializeField] private float velocitatNormal = 3.5f;
+    [SerializeField] private float velocitatPersecucio = 5.5f;
+    [SerializeField] private float tempsEsperaPatrulla = 1f;
+    [SerializeField] private float rangPerseguir = 10f;
+    [SerializeField] private float tempsSospita = 3f;
     [SerializeField] private float rangAtacar = 2.0f;
     [SerializeField] private float tempsEntreAtacs = 2.0f;
-    [SerializeField] private float forcaKnockback = 7f;
-    [SerializeField] private float tempsEsperaPostAtac = 1.5f;
-    private float comptadorAtacs = 0f;
-    private bool atacant = false;
 
-    [Header("Patrulla")]
-    [SerializeField] private Transform puntsMoviment; // Si s'assigna, usa aquest. Si no, utilitza els fills directes
-    [SerializeField] private float tempsEsperaPatrulla = 1f;
-    private int puntActual;
-    private Transform[] puntsPropies;
-    private bool esperantEnPunt = false;
+    [Header("Configuració IA")]
+    [SerializeField] private float rangDeteccio = 10f;
+    [SerializeField] private float tempsMaximPersecucio = 5f;
+
+    // Implementación de propiedades abstractas a través del sistema de vida
+    public override int VidaActual => sistemaVida.VidaActual;
+    public override int VidaMaxima => sistemaVida.VidaMaxima;
+    public override int Dany => dany;
+    public override float ForcaKnockback => forcaKnockback;
+
+    public NavMeshAgent Agent => agent;
+    public Transform Jugador => jugador;
+    public Animator AnimatorEnemic => animator;
+    public bool Atacant { get => atacant; set => atacant = value; }
+
+    // Propiedades adicionales para otras clases
+    public int DanyAtac => dany;
     
-    [Header("Persecució")]
-    [SerializeField] private float rangPerseguir = 10f;
-    [SerializeField] private float velocitatNormal = 3.5f;
-    [SerializeField] private float velocitatPersecucio = 20.0f;
-
-    [Header("Sospita")]
-    [SerializeField] private float tempsSospita = 3f;
-    private float tempsUltimaVegadaVist;
-    private Vector3 ultimaPosicioVista;
-
-    // Estat actual de l'IA
-    public enum AIState
+    protected override void Awake()
     {
-        PATRULLA,
-        PERSEGUIR,
-        SOSPITA
-    }
-    public AIState estatActual;
-
-    // Event vida
-    public event Action QuanCanviVida;
-
-    // Propietats interfície IVida
-    public int VidaActual => vidaActual;
-    public int VidaMaxima => vidaMaxima;
-
-    // Propietats interfície IAtacant
-    public int Dany => dany;
-    public bool EstaAtacant() => atacant;
-
-    void Awake()
-    {
-        animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
+        sistemaVida = GetComponent<SistemaVidaEnemic>();
+        
+        // Configurar NavMeshAgent para mejor desempeño
+        agent.acceleration = 12f;
+        agent.angularSpeed = 180f;
+        agent.autoBraking = false;
+        
+        // Inicializar componentes modulares
+        atacEnemic = gameObject.AddComponent<AtacEnemic>();
+        movimentEnemic = gameObject.AddComponent<MovimentEnemic>();
+        iaEnemic = gameObject.AddComponent<IAEnemic>();
+        
+        // Configurar los componentes con los valores serializados
+        ConfigurarComponents();
     }
 
-    void Start()
+    private void ConfigurarComponents()
     {
-        // Inicialitza la vida
-        vidaActual = vidaMaxima;
-        
-        // Cerca el jugador
+        // Configuraciones...
+        atacEnemic.ConfigurarAtac(duracioAnimacioAtac, tempsPerDesapareixer);
+        movimentEnemic.ConfigurarMoviment(nomCarpetaPunts, velocitatNormal, velocitatPersecucio, 
+            tempsEsperaPatrulla, rangPerseguir, tempsSospita, rangAtacar, tempsEntreAtacs);
+        iaEnemic.ConfigurarIA(rangDeteccio, rangAtacar, tempsEntreAtacs, tempsMaximPersecucio);
+    }
+
+    protected override void Start()
+    {
         GameObject jugadorObj = GameObject.FindGameObjectWithTag("Player");
         if (jugadorObj != null)
             jugador = jugadorObj.transform;
-
-        // Inicialitza els punts de patrulla
-        // Si no s'ha assignat un contenidor de punts, utilitzem els fills directes
-        if (puntsMoviment == null)
-        {
-            // Comptem quants fills té aquest GameObject
-            int nombreFills = transform.childCount;
             
-            // Si té fills, els utilitzarem com a punts de patrulla
-            if (nombreFills > 0)
-            {
-                // Creem l'array de punts
-                puntsPropies = new Transform[nombreFills];
-                
-                // Omplim l'array amb els fills
-                for (int i = 0; i < nombreFills; i++)
-                {
-                    puntsPropies[i] = transform.GetChild(i);
-                }
-                
-                // Si tenim punts, establim el primer destí
-                if (puntsPropies.Length > 0)
-                {
-                    agent.SetDestination(puntsPropies[0].position);
-                    Debug.Log($"Iniciant patrulla amb {puntsPropies.Length} punts propis");
-                }
-            }
-        }
-        else if (puntsMoviment.childCount > 0)
-        {
-            // Si s'ha assignat un contenidor, utilitzem els seus fills
-            agent.SetDestination(puntsMoviment.GetChild(0).position);
-            Debug.Log($"Iniciant patrulla amb {puntsMoviment.childCount} punts del contenidor");
-        }
-
-        // Inicialitza la IA
-        estatActual = AIState.PATRULLA;
-        agent.speed = velocitatNormal;
-        tempsUltimaVegadaVist = tempsSospita;
+        // Iniciar la IA
+        iaEnemic.Inicialitzar();
+        
+        // Suscripción al evento de cambio de vida
+        sistemaVida.SubscribeToQuanCanviVida(() => {
+            // Usar el método protegido de la clase base
+            NotificarCambiVida();
+        });
+        
+        // Suscripción al evento de iniciar ataque
+        sistemaVida.OnIniciarAtac += () => {
+            StartCoroutine(ExecutarAtacPublic());
+        };
     }
 
-    void Update()
+    private void Update()
     {
-        // Si l'enemic està mort, no fer res
-        if (!EsViu())
+        if (!sistemaVida.EsViu())
         {
-            agent.isStopped = true;
+            // Verificar que el agente esté activo y en un NavMesh antes de detenerlo
+            if (agent != null && agent.isActiveAndEnabled && agent.isOnNavMesh)
+            {
+                agent.isStopped = true;
+            }
             return;
         }
 
-        // Actualitza el comptador d'atacs
-        if (comptadorAtacs > 0)
-            comptadorAtacs -= Time.deltaTime;
-
-        // Obté la distància al jugador
-        float distanciaJugador = 0f;
-        if (jugador != null)
-            distanciaJugador = Vector3.Distance(jugador.position, transform.position);
-
-        // Màquina d'estats de l'IA
-        switch (estatActual)
-        {
-            case AIState.PATRULLA:
-                MovimentPatrulla();
-
-                if (jugador != null && distanciaJugador <= rangPerseguir)
-                {
-                    estatActual = AIState.PERSEGUIR;
-                    agent.speed = velocitatPersecucio;
-                }
-                break;
-
-            case AIState.PERSEGUIR:
-                if (jugador != null)
-                    agent.SetDestination(jugador.position);
-
-                // Intent d'atac
-                if (distanciaJugador <= rangAtacar && comptadorAtacs <= 0)
-                {
-                    Atacar();
-                    comptadorAtacs = tempsEntreAtacs;
-                }
-
-                // Canvi a estat de sospita si el jugador s'allunya
-                if (distanciaJugador > rangPerseguir)
-                {
-                    ultimaPosicioVista = jugador.position;
-                    estatActual = AIState.SOSPITA;
-                    tempsUltimaVegadaVist = tempsSospita;
-                    agent.speed = velocitatNormal;
-                }
-                break;
-
-            case AIState.SOSPITA:
-                if (agent.remainingDistance <= 0.5f || agent.destination == Vector3.zero)
-                {
-                    agent.SetDestination(ultimaPosicioVista);
-                }
-
-                tempsUltimaVegadaVist -= Time.deltaTime;
-
-                if (jugador != null && distanciaJugador <= rangPerseguir)
-                {
-                    estatActual = AIState.PERSEGUIR;
-                    agent.speed = velocitatPersecucio;
-                }
-                else if (tempsUltimaVegadaVist <= 0)
-                {
-                    estatActual = AIState.PATRULLA;
-                }
-                break;
-        }
+        // Actualizar la IA
+        iaEnemic.ActualitzarIA();
     }
 
-    #region IVida
+    // Métodos que delegan al sistema de vida
+    public override void DecrementarVida(int quantitat, string font = "")
+    {
+        sistemaVida.DecrementarVida(quantitat, font);
+    }
+    
+    // Método público para comprobar si está vivo (necesario para MovimentEnemic)
     public bool EsViu()
     {
-        return vidaActual > 0;
+        return sistemaVida.EsViu();
+    }
+    
+    // Método para llamar al método protegido
+    public IEnumerator ExecutarAtacPublic()
+    {
+        return ExecutarAtac();
+    }
+    
+    public override IEnumerator ExecutarAtac()
+    {
+        return atacEnemic.ExecutarAtac();
     }
 
-    public void IncrementarVida(int quantitat, string font)
+    public override IEnumerator Morir() 
     {
-        if (quantitat <= 0) return;
-
-        vidaActual += quantitat;
-        if (vidaActual > vidaMaxima)
-            vidaActual = vidaMaxima;
-
-        // Notifiquem el canvi de vida
-        QuanCanviVida?.Invoke();
+        // Delegamos al sistema de vida
+        return sistemaVida.Morir();
     }
 
-    public void DecrementarVida(int quantitat, string font)
+    public override void Atacar()
     {
-        if (quantitat <= 0) return;
-
-        vidaActual -= quantitat;
-
-        // Activem l'animació de rebre mal
-        if (animator != null)
-            animator.SetTrigger("TrRepMal");
-
-        // Si la vida arriba a 0 o menys, iniciem el procés de mort
-        if (vidaActual <= 0)
-        {
-            vidaActual = 0;
-            StartCoroutine(Morir());
-        }
-
-        // Notifiquem el canvi de vida
-        QuanCanviVida?.Invoke();
+        sistemaVida.IniciarAtac();
     }
 
-    private IEnumerator Morir()
+    public override bool EstaAtacant()
     {
-        // Activem l'animació de mort
-        if (animator != null)
-            animator.SetBool("senseVida", true);
-
-        // Desactivem l'agent
-        agent.isStopped = true;
-        enabled = false;
-
-        // Esperem a que l'animació acabi
-        yield return new WaitForSeconds(2f);
-
-        // Desactivem el GameObject
-        gameObject.SetActive(false);
-    }
-    #endregion
-
-    #region IAtacant
-    public void Atacar()
-    {
-        StartCoroutine(ExecutarAtac());
+        return atacant;
     }
 
-    private IEnumerator ExecutarAtac()
+    // Método para notificar a los suscriptores
+    protected void NotificarCambiVida()
     {
-        atacant = true;
-        
-        // Aturem l'agent temporalment
-        agent.isStopped = true;
-        
-        // Activem l'animació d'atac
-        animator.SetTrigger("Atacar");
-        
-        // Apliquem dany al jugador si està a rang
-        if (jugador != null)
-        {
-            // Calculamos la dirección del knockback (desde el enemigo hacia el jugador)
-            Vector3 direccioKnockback = (jugador.position - transform.position).normalized;
-            direccioKnockback.y = 0; // Mantenemos el knockback horizontal
-            
-            IVida vidaJugador = jugador.GetComponent<IVida>();
-            if (vidaJugador != null)
-            {
-                vidaJugador.DecrementarVida(dany, gameObject.name);
-                
-                // Aplicamos el knockback al jugador
-                Jugador jugadorScript = jugador.GetComponent<Jugador>();
-                if (jugadorScript != null)
-                {
-                    jugadorScript.RecibirKnockback(direccioKnockback, forcaKnockback);
-                }
-            }
-        }
-
-        // Esperem un moment per a l'animació d'atac
-        yield return new WaitForSeconds(0.5f);
-        
-        // Pausa adicional después del ataque - el enemigo se queda quieto
-        animator.SetFloat("VelocitatMoviment", 0f); // Si tienes este parámetro en tu animator
-        
-        // Esperamos el tiempo configurado
-        yield return new WaitForSeconds(tempsEsperaPostAtac);
-        
-        // Reactivem el moviment de l'agent
-        agent.isStopped = false;
-        atacant = false;
-        
-        // Opcional: cambiar velocidad según estado actual
-        if (estatActual == AIState.PERSEGUIR)
-        {
-            agent.speed = velocitatPersecucio;
-        }
-        else
-        {
-            agent.speed = velocitatNormal;
-        }
-    }
-    #endregion
-
-    private void MovimentPatrulla()
-    {
-        // Si ja estem esperant en un punt, no fem res més
-        if (esperantEnPunt)
-            return;
-        
-        // Si estem utilitzant punts propis (fills directes)
-        if (puntsPropies != null && puntsPropies.Length > 0)
-        {
-            // Si hem arribat al destí actual
-            if (agent.remainingDistance <= 0.5f)
-            {
-                StartCoroutine(EsperarEnPunt());
-            }
-        }
-        // Si estem utilitzant un contenidor de punts
-        else if (puntsMoviment != null && puntsMoviment.childCount > 0)
-        {
-            // Si hem arribat al destí actual
-            if (agent.remainingDistance <= 0.5f)
-            {
-                StartCoroutine(EsperarEnPunt());
-            }
-        }
-    }
-
-    private IEnumerator EsperarEnPunt()
-    {
-        esperantEnPunt = true;
-        
-        // Aturem l'agent temporalment
-        agent.isStopped = true;
-        
-        // Esperem el temps configurat
-        yield return new WaitForSeconds(tempsEsperaPatrulla);
-        
-        // Avancem al següent punt
-        puntActual++;
-        
-        // Si estem utilitzant punts propis (fills directes)
-        if (puntsPropies != null && puntsPropies.Length > 0)
-        {
-            // Tornem al primer punt si hem arribat al final
-            if (puntActual >= puntsPropies.Length)
-                puntActual = 0;
-                
-            // Establim el nou destí
-            agent.SetDestination(puntsPropies[puntActual].position);
-            Debug.Log($"Avançant al punt propi {puntActual}");
-        }
-        // Si estem utilitzant un contenidor de punts
-        else if (puntsMoviment != null && puntsMoviment.childCount > 0)
-        {
-            // Tornem al primer punt si hem arribat al final
-            if (puntActual >= puntsMoviment.childCount)
-                puntActual = 0;
-                
-            // Establim el nou destí
-            agent.SetDestination(puntsMoviment.GetChild(puntActual).position);
-            Debug.Log($"Avançant al punt del contenidor {puntActual}");
-        }
-        
-        // Reactivem l'agent
-        agent.isStopped = false;
-        esperantEnPunt = false;
+        // Usar el método protegido de la clase base en lugar de reflexión
+        InvocarQuanCanviVida();
     }
 }
