@@ -1,3 +1,4 @@
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -118,18 +119,19 @@ public class TeleportJugador : MonoBehaviour
                 posicionador.IniciarTeleport(posicioDestí, nomEscenaDestí);
                 return;
             }
+              // Método de respaldo sin componente PosicionadorJugador
+            if (mostrarDebug) Debug.Log($"No se encontró componente PosicionadorJugador, usando SistemaPerks");
             
-            // Método de respaldo sin componente PosicionadorJugador
-            if (mostrarDebug) Debug.Log($"No se encontró componente PosicionadorJugador, usando PlayerPrefs directamente");
-            
-            // Guardar en PlayerPrefs para que el jugador en la escena de destino lo use
-            PlayerPrefs.SetFloat("DestiX", posicioDestí.x);
-            PlayerPrefs.SetFloat("DestiY", posicioDestí.y);
-            PlayerPrefs.SetFloat("DestiZ", posicioDestí.z);
-            PlayerPrefs.SetInt("NecessitaTeleport", 1);
-            PlayerPrefs.Save();
-            
-            if (mostrarDebug) Debug.Log($"PlayerPrefs guardados: DestiX={posicioDestí.x}, DestiY={posicioDestí.y}, DestiZ={posicioDestí.z}, NecessitaTeleport=1");
+            // Usar SistemaPerks para guardar los datos de teleport
+            if (SistemaPerks.Instance != null)
+            {
+                SistemaPerks.Instance.GuardarPosicionTeleport(posicioDestí, true);
+                if (mostrarDebug) Debug.Log($"Datos de teleport guardados via SistemaPerks: {posicioDestí}");
+            }
+            else
+            {
+                Debug.LogError("No se encontró instancia de SistemaPerks. Asegúrate de añadir un GameObject con este componente en la escena.");
+            }
 
             // Cargar la nueva escena
             if (mostrarDebug) Debug.Log($"Cargando escena: {nomEscenaDestí}");
@@ -141,3 +143,4 @@ public class TeleportJugador : MonoBehaviour
         }
     }
 }
+
