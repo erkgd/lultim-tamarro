@@ -7,11 +7,11 @@ public class SistemaVidaJugador : SistemaVida
     // Componentes UI y efectos
     [SerializeField] private VidaUI vidaUI;
     [SerializeField] private Cortinilla cortinilla;
-    [SerializeField] private float tempsReviure = 5f;
-    
+    [SerializeField] private float tempsReviure = 1f;
+
     // Propiedades internas para gestionar la vida
-    [SerializeField] private int vidaMaxima = 48;
-    [SerializeField] private int vidaActual = 24;
+    [SerializeField] private int vidaMaxima = 24;
+    [SerializeField] private int vidaActual = 12;
     
     // Eventos para comunicación (eliminados los duplicados con la clase base)
     public event Action OnVidaCanviada;
@@ -101,15 +101,8 @@ public class SistemaVidaJugador : SistemaVida
             StartCoroutine(Morir());
         }
     }
-    
-    public override IEnumerator Morir()
+      public override IEnumerator Morir()
     {
-        // Mostrar cortinilla
-        if (cortinilla != null)
-        {
-            cortinilla.MostrarCortinilla();
-        }
-        
         // Configurar animación y estado
         if (animator != null)
         {
@@ -118,9 +111,24 @@ public class SistemaVidaJugador : SistemaVida
         
         // Notificar muerte para desactivar controles
         InvocarMuerte();
-        
-        // Esperar tiempo de reanimación
+        // Mostrar cortinilla
+        if (cortinilla != null)
+        {
+            cortinilla.MostrarCortinilla();
+            // Esperamos un momento para que se vea la animación
+            yield return new WaitForSeconds(0.5f);
+        }
+        else
+        {
+            Debug.LogWarning("No se encontró la referencia a la cortinilla");
+            yield return null;
+        }
+        // Esperar un momento antes de teleportar
         yield return new WaitForSeconds(tempsReviure);
+        
+        // IMPORTANTE: teleportamos pero NO deshacemos la cortinilla aquí
+        // ya que estaríamos intentando usar la cortinilla de la escena anterior
+        TeleportarAlHub();
         
         // Revivir
         ReviureJugador();
@@ -140,10 +148,6 @@ public class SistemaVidaJugador : SistemaVida
         InvocarRevivir();
         
         // Mostrar cortinilla de nuevo (efecto visual)
-        if (cortinilla != null)
-        {
-            cortinilla.MostrarCortinilla();
-        }
         
         // Notificar cambios
         NotificarCanviVida();
@@ -167,5 +171,42 @@ public class SistemaVidaJugador : SistemaVida
     public override void SubscribeToQuanCanviVida(Action handler)
     {
         QuanCanviVida += handler;
+    }      
+    
+    public void TeleportarAlHub()
+    {
+        PosicionadorJugador posicionador = GetComponent<PosicionadorJugador>();
+
+        if (posicionador == null)
+        {
+            // Si no existe el componente, lo añadimos
+            posicionador = gameObject.AddComponent<PosicionadorJugador>();
+            Debug.Log("Se ha añadido automáticamente el componente PosicionadorJugador al jugador");
+        }
+          if (posicionador != null)
+        {            // Guardar información del punto de spawn usando SistemaPerks
+            if (SistemaPerks.Instance != null)
+            {
+                // Guardamos un tag identificativo del punto de spawn - usamos "Hub" como tag
+                SistemaPerks.Instance.GuardarValor("LastSpawnPoint", "Hub");
+                Debug.Log("Se guardó el punto de spawn a través de SistemaPerks");
+                
+                // También guardamos la posición del punto de spawn del Hub
+                SistemaPerks.Instance.GuardarPosicioTeleport(TPConstants.HUB_SPAWN_POINT);
+            }
+            else
+            {
+                Debug.LogWarning("No se encontró SistemaPerks, usando PlayerPrefs directamente como fallback");
+                PlayerPrefs.SetString("LastSpawnPoint", "Hub");
+                PlayerPrefs.Save();
+            }
+            
+            posicionador.IniciarTeleport("Hub", TPConstants.HUB_SCENE);
+            Debug.Log("Teleportando jugador al Hub...");
+        }
+        else
+        {
+            Debug.LogError("No se pudo crear el componente PosicionadorJugador en el jugador");
+        }
     }
 }
