@@ -79,43 +79,28 @@ public class SistemaPerks : MonoBehaviour
         PlayerPrefs.SetInt(clau, valor);
         PlayerPrefs.Save();
     }
-    
-    /// <summary>
-    /// Guarda un valor a PlayerPrefs.
-    /// </summary>
+      // Guarda un valor a PlayerPrefs.
     public void GuardarValor(string clau, float valor)
     {
         PlayerPrefs.SetFloat(clau, valor);
         PlayerPrefs.Save();
     }
-    
-    /// <summary>
-    /// Guarda un valor a PlayerPrefs.
-    /// </summary>
+      // Guarda un valor a PlayerPrefs.
     public void GuardarValor(string clau, string valor)
     {
         PlayerPrefs.SetString(clau, valor);
         PlayerPrefs.Save();
-    }
-      /// <summary>
-    /// Obté un valor de PlayerPrefs.
-    /// </summary>
+    }      // Obté un valor de PlayerPrefs.
     public int ObtenirValorInt(string clau, int valorPredeterminat = 0)
     {
         return PlayerPrefs.GetInt(clau, valorPredeterminat);
     }
-    
-    /// <summary>
-    /// Obté un valor de PlayerPrefs.
-    /// </summary>
+      // Obté un valor de PlayerPrefs.
     public float ObtenirValorFloat(string clau, float valorPredeterminat = 0f)
     {
         return PlayerPrefs.GetFloat(clau, valorPredeterminat);
     }
-    
-    /// <summary>
-    /// Obté un valor de PlayerPrefs.
-    /// </summary>
+      // Obté un valor de PlayerPrefs.
     public string ObtenirValorString(string clau, string valorPredeterminat = "")
     {
         return PlayerPrefs.GetString(clau, valorPredeterminat);
@@ -123,12 +108,9 @@ public class SistemaPerks : MonoBehaviour
     
     #endregion
       #region Perks
-    
-    /// <summary>
-    /// Comprova si una perk està desbloquejada.
-    /// </summary>
-    /// <param name="indexPerk">Índex de la perk (0: Velocitat, 1: Resistència, 2: Atac, 3: Vida)</param>
-    /// <returns>True si la perk està desbloquejada, false en cas contrari</returns>
+      // Comprova si una perk està desbloquejada.
+    // @param indexPerk: Índex de la perk (0: Velocitat, 1: Resistència, 2: Atac, 3: Vida)
+    // @returns: True si la perk està desbloquejada, false en cas contrari
     public bool EstaDesbloquejada(int indexPerk)
     {
         if (perksDesbloquejades != null && indexPerk >= 0 && indexPerk < perksDesbloquejades.Length)
@@ -137,11 +119,8 @@ public class SistemaPerks : MonoBehaviour
         }
         return false;
     }
-    
-    /// <summary>
-    /// Desbloqueja una perk específica.
-    /// </summary>
-    /// <param name="indexPerk">Índex de la perk a desbloquejar (0: Velocitat, 1: Resistència, 2: Atac, 3: Vida)</param>
+      // Desbloqueja una perk específica.
+    // @param indexPerk: Índex de la perk a desbloquejar (0: Velocitat, 1: Resistència, 2: Atac, 3: Vida)
     public void DesbloquejarPerk(int indexPerk)
     {
         if (perksDesbloquejades != null && indexPerk >= 0 && indexPerk < perksDesbloquejades.Length)
@@ -151,10 +130,7 @@ public class SistemaPerks : MonoBehaviour
             Debug.Log($"Perk desbloquejada: {NomPerk(indexPerk)}");
         }
     }
-    
-    /// <summary>
-    /// Guarda l'estat de totes les perks a PlayerPrefs.
-    /// </summary>
+      // Guarda l'estat de totes les perks a PlayerPrefs.
     private void GuardarEstatPerks()
     {
         for (int i = 0; i < perksDesbloquejades.Length; i++)
@@ -163,10 +139,7 @@ public class SistemaPerks : MonoBehaviour
         }
         PlayerPrefs.Save();
     }
-    
-    /// <summary>
-    /// Carrega l'estat de totes les perks des de PlayerPrefs.
-    /// </summary>
+      // Carrega l'estat de totes les perks des de PlayerPrefs.
     public void CarregarEstatPerks()
     {
         for (int i = 0; i < perksDesbloquejades.Length; i++)
@@ -175,12 +148,9 @@ public class SistemaPerks : MonoBehaviour
         }
         Debug.Log("Estat de les perks carregat");
     }
-    
-    /// <summary>
-    /// Obté el nom d'una perk segons el seu índex.
-    /// </summary>
-    /// <param name="indexPerk">Índex de la perk</param>
-    /// <returns>Nom de la perk</returns>
+      // Obté el nom d'una perk segons el seu índex.
+    // @param indexPerk: Índex de la perk
+    // @returns: Nom de la perk
     public string NomPerk(int indexPerk)
     {
         switch (indexPerk)
