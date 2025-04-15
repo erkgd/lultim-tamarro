@@ -73,25 +73,24 @@ public class VidaUI : MonoBehaviour
         Debug.Log($"Actualizando UI de vida: currentLife={currentLife}");
         
         List<Image> heartImages = GetHeartList();
-        
-        // Recorremos cada corazón
+          // Recorremos cada corazón
         for (int i = 0; i < heartImages.Count; i++)
         {
             // LÓGICA ACTUALIZADA:
-            // Cada corazón representa 4 puntos de vida (antes eran 2).
+            // Cada corazón representa 2 puntos de vida.
             // Calcular cuántos puntos de vida corresponden a este corazón.
             
-            if (currentLife >= (i + 1) * 4)
+            if (currentLife >= (i + 1) * 2)
             {
                 // Corazón completo: Si la vida es suficiente para llenar este corazón
                 heartImages[i].sprite = fullHeartSprite;
-                Debug.Log($"Corazón {i}: COMPLETO (vida={currentLife}, índice={i*4})");
+                Debug.Log($"Corazón {i}: COMPLETO (vida={currentLife}, índice={i*2})");
             }
-            else if (currentLife >= i * 4 + 2)
+            else if (currentLife >= i * 2 + 1)
             {
                 // Medio corazón: Si la vida es mayor o igual a la mitad de este corazón
                 heartImages[i].sprite = halfHeartSprite;
-                Debug.Log($"Corazón {i}: MITAD (vida={currentLife}, índice={i*4})");
+                Debug.Log($"Corazón {i}: MITAD (vida={currentLife}, índice={i*2})");
             }
             else
             {
