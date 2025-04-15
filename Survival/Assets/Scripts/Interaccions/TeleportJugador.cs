@@ -121,11 +121,10 @@ public class TeleportJugador : MonoBehaviour
             }
               // Método de respaldo sin componente PosicionadorJugador
             if (mostrarDebug) Debug.Log($"No se encontró componente PosicionadorJugador, usando SistemaPerks");
-            
-            // Usar SistemaPerks para guardar los datos de teleport
+              // Usar SistemaPerks para guardar los datos de teleport
             if (SistemaPerks.Instance != null)
             {
-                SistemaPerks.Instance.GuardarPosicionTeleport(posicioDestí, true);
+                SistemaPerks.Instance.GuardarPosicioTeleport(posicioDestí, true);
                 if (mostrarDebug) Debug.Log($"Datos de teleport guardados via SistemaPerks: {posicioDestí}");
             }
             else
