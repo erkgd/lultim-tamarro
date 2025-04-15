@@ -13,7 +13,7 @@ public static class TPConstants
     
     // Tutorial
     public static readonly string TUTORIAL_SCENE = "David"; 
-    public static readonly Vector3 TUTORIAL_SPAWN_POINT = new Vector3(-185.03f, 21.79f, -534.41f);;
+    public static readonly Vector3 TUTORIAL_SPAWN_POINT = new Vector3(-185.03f, 21.79f, -534.41f);
     
     // Bosc (Jano)
     public static readonly string BOSC_SCENE = "Jano";

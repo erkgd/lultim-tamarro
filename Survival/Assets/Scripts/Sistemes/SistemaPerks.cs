@@ -11,7 +11,7 @@ public class SistemaPerks : MonoBehaviour
     private const string KEY_DESTIZ = "DestiZ";
     private const string KEY_NECESSITA_TELEPORT = "NecessitaTeleport";
     
-    // Array para controlar las perks/habilidades desbloqueadas
+    // Array per controlar les perks/habilidades
     [SerializeField] private bool[] perksDesbloquejades = new bool[4];
     // 0--Velocitat (Sprint+rapid)
     // 1--Resistència (Invencibilitat jugador)
@@ -30,8 +30,8 @@ public class SistemaPerks : MonoBehaviour
             Destroy(gameObject);
         }
     }
-      #region Teleport
-      // Guarda la posició de destí per a un teleport.
+    #region Teleport
+    // Guarda la posició de destí per a un teleport.
     // @param position: Posició de destí
     // @param necessitaTeleport: Indica si es requereix teleport
     public void GuardarPosicioTeleport(Vector3 position, bool necessitaTeleport = true)
@@ -43,7 +43,8 @@ public class SistemaPerks : MonoBehaviour
         PlayerPrefs.Save();
         
         Debug.Log($"SistemaPerks: Guardada posició de teleport ({position.x}, {position.y}, {position.z}), NecessitaTeleport={necessitaTeleport}");
-    }    // Obté la posició guardada per a teleport.
+    }    
+    // Obté la posició guardada per a teleport.
     // @returns: Vector3 amb la posició guardada
     public Vector3 ObtenirPosicioTeleport()
     {
@@ -55,7 +56,7 @@ public class SistemaPerks : MonoBehaviour
         
         return posicio;
     }
-      // Verifica si es requereix teleportar al jugador.
+    // Verifica si es requereix teleportar al jugador.
     // @returns: True si és necessari teleportar
     public bool NecessitaTeleport()
     {
@@ -73,29 +74,31 @@ public class SistemaPerks : MonoBehaviour
       #region Altres Preferències
     
     // Aquí es poden afegir altres mètodes per guardar/carregar diferents tipus de dades
-      // Guarda un valor a PlayerPrefs.
+    // Guarda un valor a PlayerPrefs.
     public void GuardarValor(string clau, int valor)
     {
         PlayerPrefs.SetInt(clau, valor);
         PlayerPrefs.Save();
     }
-      // Guarda un valor a PlayerPrefs.
+    // Guarda un valor a PlayerPrefs.
     public void GuardarValor(string clau, float valor)
     {
         PlayerPrefs.SetFloat(clau, valor);
         PlayerPrefs.Save();
     }
-      // Guarda un valor a PlayerPrefs.
+    // Guarda un valor a PlayerPrefs.
     public void GuardarValor(string clau, string valor)
     {
         PlayerPrefs.SetString(clau, valor);
         PlayerPrefs.Save();
-    }      // Obté un valor de PlayerPrefs.
+    }      
+    
+    // Obté un valor de PlayerPrefs.
     public int ObtenirValorInt(string clau, int valorPredeterminat = 0)
     {
         return PlayerPrefs.GetInt(clau, valorPredeterminat);
     }
-      // Obté un valor de PlayerPrefs.
+    // Obté un valor de PlayerPrefs.
     public float ObtenirValorFloat(string clau, float valorPredeterminat = 0f)
     {
         return PlayerPrefs.GetFloat(clau, valorPredeterminat);
@@ -107,8 +110,8 @@ public class SistemaPerks : MonoBehaviour
     }
     
     #endregion
-      #region Perks
-      // Comprova si una perk està desbloquejada.
+    #region Perks
+    // Comprova si una perk està desbloquejada.
     // @param indexPerk: Índex de la perk (0: Velocitat, 1: Resistència, 2: Atac, 3: Vida)
     // @returns: True si la perk està desbloquejada, false en cas contrari
     public bool EstaDesbloquejada(int indexPerk)
@@ -119,7 +122,7 @@ public class SistemaPerks : MonoBehaviour
         }
         return false;
     }
-      // Desbloqueja una perk específica.
+    // Desbloqueja una perk específica.
     // @param indexPerk: Índex de la perk a desbloquejar (0: Velocitat, 1: Resistència, 2: Atac, 3: Vida)
     public void DesbloquejarPerk(int indexPerk)
     {
@@ -148,7 +151,7 @@ public class SistemaPerks : MonoBehaviour
         }
         Debug.Log("Estat de les perks carregat");
     }
-      // Obté el nom d'una perk segons el seu índex.
+    // Obté el nom d'una perk segons el seu índex.
     // @param indexPerk: Índex de la perk
     // @returns: Nom de la perk
     public string NomPerk(int indexPerk)
