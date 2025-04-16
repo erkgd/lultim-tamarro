@@ -12,10 +12,7 @@ public class PosicionadorJugador : MonoBehaviour
     [SerializeField] private bool mostrarDebug = false;
     
     // Nombres de los objetos de cámara que debemos buscar
-    private const string DINAMIC_CAMERA_NAME = "Dinamic Camera";    
-    
-    
-    void Start()
+    private const string DINAMIC_CAMERA_NAME = "Dinamic Camera";      void Start()
     {
         Debug.Log($"PosicionadorJugador inicialitzat en {gameObject.name}");
         
@@ -25,6 +22,25 @@ public class PosicionadorJugador : MonoBehaviour
         // Si hay un punto de aparición guardado, significa que venimos de otra escena
         string lastSpawnPoint = "";
         
+        // Intentamos usar SistemaPerks primero y siempre
+        if (SistemaPerks.Instance == null)
+        {
+            Debug.LogError("SistemaPerks no está disponible al iniciar PosicionadorJugador. Esto no debería ocurrir nunca. Comprueba que existe un objeto con SistemaPerks en la escena o que es cargado antes.");
+            
+            // Intento de recuperación - buscar SistemaPerks en la escena
+            SistemaPerks[] sistemasEnEscena = FindObjectsOfType<SistemaPerks>(true);
+            if (sistemasEnEscena.Length > 0)
+            {
+                Debug.Log("Se encontró un SistemaPerks en la escena, intentando usarlo");
+                // No hacemos nada más, ya que el Awake del SistemaPerks debería configurar la instancia
+            }
+            else 
+            {
+                Debug.LogError("No se encontró ningún SistemaPerks en la escena. Se crearán problemas de persistencia de datos.");
+            }
+        }
+        
+        // Intentamos de nuevo después de la posible recuperación
         if (SistemaPerks.Instance != null)
         {
             lastSpawnPoint = SistemaPerks.Instance.ObtenirValorString("LastSpawnPoint", "");
@@ -41,7 +57,8 @@ public class PosicionadorJugador : MonoBehaviour
         }
         else
         {
-            // Fallback si SistemaPerks no está disponible
+            // Solo como último recurso usamos PlayerPrefs directamente
+            Debug.LogWarning("FALLBACK CRÍTICO - SistemaPerks sigue no disponible, usando PlayerPrefs directamente");
             lastSpawnPoint = PlayerPrefs.GetString("LastSpawnPoint", "");
             Debug.Log($"PosicionadorJugador: LastSpawnPoint desde PlayerPrefs = '{lastSpawnPoint}'");
             
@@ -54,104 +71,48 @@ public class PosicionadorJugador : MonoBehaviour
                 StartCoroutine(BuscarYDesferCortinilla());
             }
         }
-    }    
-    
-    private IEnumerator ComprovarTeleport()
+    }
+      private IEnumerator ComprovarTeleport()
     {
         // Esperamos un momento para que todo esté inicializado
         yield return new WaitForSeconds(0.2f);
         
         bool necessitaTeleport = false;
-        bool usarCortinilla = true; // Por defecto, usamos cortinilla a menos que se indique lo contrario
+        Vector3 posicionFinal = Vector3.zero;
         
-        // Usar SistemaPerks si está disponible
+        // Intentamos usar SistemaPerks primero
         if (SistemaPerks.Instance != null)
         {
             necessitaTeleport = SistemaPerks.Instance.NecessitaTeleport();
-            // Comprobar preferencia de cortinilla
-            string usarCortinillaStr = SistemaPerks.Instance.ObtenirValorString("UsarCortinilla", "1");
-            usarCortinilla = usarCortinillaStr == "1";
+            
+            if (mostrarDebug) Debug.Log($"Comprovant teleport via SistemaPerks: NecessitaTeleport = {necessitaTeleport}");
+            
+            if (necessitaTeleport)
+            {
+                posicionFinal = SistemaPerks.Instance.ObtenirPosicioTeleport();
+                if (mostrarDebug) Debug.Log($"Valors de teleport trobats via SistemaPerks: {posicionFinal}");
+            }
         }
         else
         {
-            // Fallback a PlayerPrefs si SistemaPerks no está disponible
-            necessitaTeleport = PlayerPrefs.GetInt("NecessitaTeleport", 0) == 1;
-            // Comprobar preferencia de cortinilla
-            string usarCortinillaStr = PlayerPrefs.GetString("UsarCortinilla", "1");
-            usarCortinilla = usarCortinillaStr == "1";
+            Debug.LogWarning("SistemaPerks no está disponible - esto no debería ocurrir. Se intentará recuperar datos de PlayerPrefs como fallback");
+            // Fallback a PlayerPrefs solo en caso de emergencia
+            int necessitaTeleportInt = PlayerPrefs.GetInt("NecessitaTeleport", 0);
+            necessitaTeleport = necessitaTeleportInt == 1;
+            
+            if (necessitaTeleport)
+            {
+                float x = PlayerPrefs.GetFloat("DestiX", 0f);
+                float y = PlayerPrefs.GetFloat("DestiY", 0f);
+                float z = PlayerPrefs.GetFloat("DestiZ", 0f);
+                posicionFinal = new Vector3(x, y, z);
+                if (mostrarDebug) Debug.Log($"FALLBACK - Valors de teleport trobats via PlayerPrefs: ({x}, {y}, {z})");
+            }
         }
         
-        if (mostrarDebug) Debug.Log($"Comprovant teleport: NecessitaTeleport = {necessitaTeleport}");
-          // Si hay un teleport pendiente, posicionar al jugador
+        // Si hay un teleport pendiente, posicionar al jugador
         if (necessitaTeleport)
         {
-            Vector3 posicionFinal;
-            string spawnPointTag = "";
-            
-            // Usar SistemaPerks si está disponible
-            if (SistemaPerks.Instance != null)
-            {
-                spawnPointTag = SistemaPerks.Instance.ObtenirValorString("SpawnPointTag", "");
-            }
-            else
-            {
-                // Fallback si SistemaPerks no está disponible
-                spawnPointTag = PlayerPrefs.GetString("SpawnPointTag", "");
-            }
-            
-            if (!string.IsNullOrEmpty(spawnPointTag))
-            {
-                // Buscar el punto de spawn por tag
-                GameObject spawnPoint = GameObject.FindWithTag(spawnPointTag);
-                
-                if (spawnPoint != null)
-                {
-                    posicionFinal = spawnPoint.transform.position;
-                    
-                    if (mostrarDebug) Debug.Log($"Punto de spawn encontrado por tag: {spawnPointTag} en posición {posicionFinal}");
-                }
-                else
-                {
-                    if (mostrarDebug) Debug.LogWarning($"No se encontró un punto de spawn con tag: {spawnPointTag}");
-                    
-                    // Usar coordenadas específicas como respaldo
-                    if (SistemaPerks.Instance != null)
-                    {
-                        // Obtener posición usando SistemaPerks
-                        posicionFinal = SistemaPerks.Instance.ObtenirPosicioTeleport();
-                    }
-                    else
-                    {
-                        // Fallback a PlayerPrefs
-                        float x = PlayerPrefs.GetFloat("DestiX", 0f);
-                        float y = PlayerPrefs.GetFloat("DestiY", 0f);
-                        float z = PlayerPrefs.GetFloat("DestiZ", 0f);
-                        posicionFinal = new Vector3(x, y, z);
-                    }
-                    
-                    if (mostrarDebug) Debug.Log($"Usando coordenadas específicas como respaldo: {posicionFinal}");
-                }
-            }
-            else
-            {
-                // Obtener las coordenadas guardadas directamente
-                if (SistemaPerks.Instance != null)
-                {
-                    // Obtener posición usando SistemaPerks
-                    posicionFinal = SistemaPerks.Instance.ObtenirPosicioTeleport();
-                }
-                else
-                {
-                    // Fallback a PlayerPrefs
-                    float x = PlayerPrefs.GetFloat("DestiX", 0f);
-                    float y = PlayerPrefs.GetFloat("DestiY", 0f);
-                    float z = PlayerPrefs.GetFloat("DestiZ", 0f);
-                    posicionFinal = new Vector3(x, y, z);
-                }
-                
-                if (mostrarDebug) Debug.Log($"Valors de teleport trobats: {posicionFinal}");
-            }
-            
             // Desactivar el CharacterController temporalmente para evitar conflictos
             CharacterController controller = GetComponent<CharacterController>();
             if (controller != null)
@@ -170,19 +131,19 @@ public class PosicionadorJugador : MonoBehaviour
             
             // Asegurarse de que la cámara sigue al jugador
             AssignarCamera();
-              // Marcar el teleport como completado
+            
+            // Limpiar el flag de teleport para evitar teleports adicionales
             if (SistemaPerks.Instance != null)
             {
-                // Usar SistemaPerks para limpiar la información de teleport
                 SistemaPerks.Instance.MarcarTeleportCompletat();
-                SistemaPerks.Instance.GuardarValor("SpawnPointTag", "");
+                if (mostrarDebug) Debug.Log("SistemaPerks: Teleport marcat com completat");
             }
             else
             {
-                // Fallback a PlayerPrefs
+                // Fallback a PlayerPrefs solo en caso de emergencia
                 PlayerPrefs.SetInt("NecessitaTeleport", 0);
-                PlayerPrefs.DeleteKey("SpawnPointTag");
                 PlayerPrefs.Save();
+                Debug.LogWarning("FALLBACK - No se encontró SistemaPerks para marcar el teleport como completado. Usando PlayerPrefs directamente");
             }
             
             if (mostrarDebug) Debug.Log($"Jugador teleportat a la posició: {posicionFinal}");
@@ -219,38 +180,36 @@ public class PosicionadorJugador : MonoBehaviour
             if (mostrarDebug) Debug.LogWarning($"No se encontró la cámara: {DINAMIC_CAMERA_NAME}");
         }
     }
-    
-    // Método para iniciar un teleport desde TeleportJugador
+      // Método para iniciar un teleport desde TeleportJugador
     public void IniciarTeleport(Vector3 posicion, string escenaDestino)
     {
         if (mostrarDebug) Debug.Log($"Iniciando teleport a {posicion} en escena {escenaDestino}");
         
-        // Guardar la posición en PlayerPrefs
-        PlayerPrefs.SetFloat("DestiX", posicion.x);
-        PlayerPrefs.SetFloat("DestiY", posicion.y);
-        PlayerPrefs.SetFloat("DestiZ", posicion.z);
-        PlayerPrefs.SetInt("NecessitaTeleport", 1);
-        PlayerPrefs.Save();
-        
+        // Guardar la posición utilizando SistemaPerks
+        if (SistemaPerks.Instance != null)
+        {
+            SistemaPerks.Instance.GuardarPosicioTeleport(posicion);
+            if (mostrarDebug) Debug.Log($"Teleport guardado en SistemaPerks: {posicion} en escena {escenaDestino}");
+        }
+        else
+        {
+            Debug.LogWarning("SistemaPerks no está disponible - esto no debería ocurrir. Usando PlayerPrefs como fallback");
+            // Fallback a PlayerPrefs solo en caso de emergencia
+            PlayerPrefs.SetFloat("DestiX", posicion.x);
+            PlayerPrefs.SetFloat("DestiY", posicion.y);
+            PlayerPrefs.SetFloat("DestiZ", posicion.z);
+            PlayerPrefs.SetInt("NecessitaTeleport", 1);
+            PlayerPrefs.Save();
+            Debug.Log($"FALLBACK - Teleport guardado en PlayerPrefs: {posicion} en escena {escenaDestino}");
+        }
         // Cargar la escena de destino
         SceneManager.LoadScene(escenaDestino);
     }
     
-    // Sobrecarga para iniciar teleport usando tags de spawn points
-    public void IniciarTeleport(string spawnPointTag, string escenaDestino)
-    {
-        if (mostrarDebug) Debug.Log($"Iniciando teleport al punto de spawn '{spawnPointTag}' en escena {escenaDestino}");
-        
-        // Guardar el tag del punto de spawn para buscarlo en la escena de destino
-        PlayerPrefs.SetString("SpawnPointTag", spawnPointTag);
-        PlayerPrefs.SetInt("NecessitaTeleport", 1);
-        PlayerPrefs.Save();
-        
-        // Cargar la escena de destino
-        SceneManager.LoadScene(escenaDestino);
-    }    
     
-    // Método para deshacer la cortinilla con un pequeño retraso    
+
+    #region Cortinilla
+    
     private IEnumerator DesferCortinillaConRetraso(Cortinilla cortinilla)
     {
         // Pequeño retraso adicional para asegurar que la escena está completamente cargada
@@ -322,7 +281,7 @@ public class PosicionadorJugador : MonoBehaviour
             Debug.LogError("DesferCortinillaConRetraso: El GameObject de la cortinilla es nulo");
         }
     }
-    // Corrutina para buscar la cortinilla y deshacer su efecto
+      // Corrutina para buscar la cortinilla y deshacer su efecto
     private IEnumerator BuscarYDesferCortinilla()
     {
         // Esperamos para asegurarnos que toda la escena esté cargada
@@ -368,4 +327,5 @@ public class PosicionadorJugador : MonoBehaviour
             Debug.LogError("PosicionadorJugador: No se encontró ninguna cortinilla en la escena. ¡IMPORTANTE! Asegúrate de que existe un GameObject llamado 'ImageCortinilla' con el componente Cortinilla.cs en la jerarquía UI");
         }
     }
+    #endregion
 }
