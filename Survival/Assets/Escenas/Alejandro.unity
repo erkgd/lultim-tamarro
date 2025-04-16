@@ -13118,6 +13118,51 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1984261745}
   m_SourcePrefab: {fileID: 100100000, guid: c5bb25ec5731c094a9476f6d7603d5ff, type: 3}
+--- !u!1 &425566179
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 425566180}
+  - component: {fileID: 425566181}
+  m_Layer: 0
+  m_Name: SistemaPerks
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &425566180
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 425566179}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.6578152, y: 19.600855, z: -289.59897}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &425566181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 425566179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a4709b17e620194fa73efc207db1758, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  perksDesbloquejades: 00000000
 --- !u!1001 &426715086
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21368,27 +21413,27 @@ PrefabInstance:
     - target: {fileID: 7600172043550985529, guid: ee7902e1a136ab741a4d6d0fece474c2,
         type: 3}
       propertyPath: "nomEscenaDest\xED"
-      value: Alejandro
+      value: David
       objectReference: {fileID: 0}
     - target: {fileID: 7600172043550985529, guid: ee7902e1a136ab741a4d6d0fece474c2,
         type: 3}
       propertyPath: "posicioDest\xED.x"
-      value: 12.6
+      value: -75.7
       objectReference: {fileID: 0}
     - target: {fileID: 7600172043550985529, guid: ee7902e1a136ab741a4d6d0fece474c2,
         type: 3}
       propertyPath: "posicioDest\xED.y"
-      value: 3.2
+      value: 66.6
       objectReference: {fileID: 0}
     - target: {fileID: 7600172043550985529, guid: ee7902e1a136ab741a4d6d0fece474c2,
         type: 3}
       propertyPath: "posicioDest\xED.z"
-      value: -26.4
+      value: 87.7
       objectReference: {fileID: 0}
     - target: {fileID: 7600172043550985529, guid: ee7902e1a136ab741a4d6d0fece474c2,
         type: 3}
       propertyPath: destinacioSeleccionada
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7724800812229971574, guid: ee7902e1a136ab741a4d6d0fece474c2,
         type: 3}
@@ -72324,3 +72369,4 @@ SceneRoots:
   - {fileID: 7143145598374157710}
   - {fileID: 1395903356}
   - {fileID: 8315542136053357607}
+  - {fileID: 425566180}
