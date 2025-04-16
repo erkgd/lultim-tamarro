@@ -63,23 +63,29 @@ public class PosicionadorJugador : MonoBehaviour
                 }
             }
         }
-    }    
-    private IEnumerator ComprovarTeleport()
+    }    private IEnumerator ComprovarTeleport()
     {
         // Esperamos un momento para que todo esté inicializado
         yield return new WaitForSeconds(0.2f);
         
         bool necessitaTeleport = false;
+        bool usarCortinilla = true; // Por defecto, usamos cortinilla a menos que se indique lo contrario
         
         // Usar SistemaPerks si está disponible
         if (SistemaPerks.Instance != null)
         {
             necessitaTeleport = SistemaPerks.Instance.NecessitaTeleport();
+            // Comprobar preferencia de cortinilla
+            string usarCortinillaStr = SistemaPerks.Instance.ObtenirValorString("UsarCortinilla", "1");
+            usarCortinilla = usarCortinillaStr == "1";
         }
         else
         {
             // Fallback a PlayerPrefs si SistemaPerks no está disponible
             necessitaTeleport = PlayerPrefs.GetInt("NecessitaTeleport", 0) == 1;
+            // Comprobar preferencia de cortinilla
+            string usarCortinillaStr = PlayerPrefs.GetString("UsarCortinilla", "1");
+            usarCortinilla = usarCortinillaStr == "1";
         }
         
         if (mostrarDebug) Debug.Log($"Comprovant teleport: NecessitaTeleport = {necessitaTeleport}");
@@ -250,19 +256,49 @@ public class PosicionadorJugador : MonoBehaviour
         // Cargar la escena de destino
         SceneManager.LoadScene(escenaDestino);
     }
-    
-    // Método para deshacer la cortinilla con un pequeño retraso como el mio :)
+      // Método para deshacer la cortinilla con un pequeño retraso
     private IEnumerator DesferCortinillaConRetraso(Cortinilla cortinilla)
     {
         // Pequeño retraso para asegurar que la escena está completamente cargada
         yield return new WaitForSeconds(0.2f);
         
-        // Asegurarnos de que la cortinilla puede mostrarse de nuevo (por si acaso)
-        cortinilla.ResetearCortinilla();
+        // Verificar si el usuario tiene desactivadas las cortinillas en UIManager
+        bool usarCortinilla = true;
         
-        // Deshacer el efecto de la cortinilla
-        cortinilla.DesferCortinilla();
+        if (UIManager.Instance != null)
+        {
+            usarCortinilla = UIManager.Instance.EstaCortinillaActivada();
+            if (mostrarDebug) Debug.Log($"Preferencia de cortinilla desde UIManager: {(usarCortinilla ? "Activada" : "Desactivada")}");
+        }
+        else if (SistemaPerks.Instance != null)
+        {
+            // Obtener el valor guardado durante el teleport
+            string usarCortinillaStr = SistemaPerks.Instance.ObtenirValorString("UsarCortinilla", "1");
+            usarCortinilla = usarCortinillaStr == "1";
+            if (mostrarDebug) Debug.Log($"Preferencia de cortinilla desde SistemaPerks: {(usarCortinilla ? "Activada" : "Desactivada")}");
+        }
+        else
+        {
+            // Fallback a PlayerPrefs
+            string usarCortinillaStr = PlayerPrefs.GetString("UsarCortinilla", "1");
+            usarCortinilla = usarCortinillaStr == "1";
+            if (mostrarDebug) Debug.Log($"Preferencia de cortinilla desde PlayerPrefs: {(usarCortinilla ? "Activada" : "Desactivada")}");
+        }
         
-        if (mostrarDebug) Debug.Log("Efecto de cortinilla deshecho después de la transición entre escenas");
+        // Solo deshacemos la cortinilla si está activada la preferencia
+        if (usarCortinilla)
+        {
+            // Asegurarnos de que la cortinilla puede mostrarse de nuevo (por si acaso)
+            cortinilla.ResetearCortinilla();
+            
+            // Deshacer el efecto de la cortinilla
+            cortinilla.DesferCortinilla();
+            
+            if (mostrarDebug) Debug.Log("Efecto de cortinilla deshecho después de la transición entre escenas");
+        }
+        else
+        {
+            if (mostrarDebug) Debug.Log("Omitiendo efecto de cortinilla según preferencias del usuario");
+        }
     }
 }
