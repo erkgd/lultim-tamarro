@@ -27,7 +27,9 @@ public class Cortinilla : MonoBehaviour
     private bool yaSeHaMostrado = false;
     
     // Control per la auto-destrucción después de una transición
-    private bool transicionEnProgreso = false;    private void Awake()
+    private bool transicionEnProgreso = false;    
+    
+    private void Awake()
     {
         // Implementación de singleton persistente
         if (Instance == null)
