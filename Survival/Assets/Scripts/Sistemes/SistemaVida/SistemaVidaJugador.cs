@@ -100,8 +100,7 @@ public class SistemaVidaJugador : SistemaVida
         {
             StartCoroutine(Morir());
         }
-    }
-      public override IEnumerator Morir()
+    }    public override IEnumerator Morir()
     {
         // Configurar animación y estado
         if (animator != null)
@@ -111,24 +110,44 @@ public class SistemaVidaJugador : SistemaVida
         
         // Notificar muerte para desactivar controles
         InvocarMuerte();
-        // Mostrar cortinilla
+        
+        // Siempre usamos la cortinilla gestionada desde el SistemaVidaJugador
+        bool usarEfectoCortinilla = true;
+        
+        // Buscamos la cortinilla si no la tenemos ya asignada
+        if (cortinilla == null)
+        {
+            cortinilla = FindObjectOfType<Cortinilla>();
+            if (cortinilla == null)
+            {
+                Debug.LogError("No se encontró la cortinilla en la escena. Asegúrate de que existe en UI/ImageCortinilla");
+            }
+        }
+        
+        // Mostrar cortinilla para cerrar la escena actual
         if (cortinilla != null)
         {
+            // Aseguramos que la cortinilla está lista para usarse
+            cortinilla.ResetearCortinilla();
+            // Activamos la cortinilla (cierre)
             cortinilla.MostrarCortinilla();
-            // Esperamos un momento para que se vea la animación
+            Debug.Log("SistemaVidaJugador: Cortinilla activada al morir el jugador");
+            // Esperamos un momento para que se vea la animación de la cortinilla
             yield return new WaitForSeconds(0.5f);
         }
         else
         {
-            Debug.LogWarning("No se encontró la referencia a la cortinilla");
-            yield return null;
+            Debug.LogWarning("SistemaVidaJugador: No se pudo mostrar la cortinilla. Verificar que existe en la escena.");
+            yield return new WaitForSeconds(0.2f);
         }
+        
         // Esperar un momento antes de teleportar
         yield return new WaitForSeconds(tempsReviure);
         
         // IMPORTANTE: teleportamos pero NO deshacemos la cortinilla aquí
         // ya que estaríamos intentando usar la cortinilla de la escena anterior
-        TeleportarAlHub();
+        // La cortinilla se abrirá en la nueva escena mediante el PosicionadorJugador
+        TeleportarAlHub(usarEfectoCortinilla);
         
         // Revivir
         ReviureJugador();
@@ -173,7 +192,7 @@ public class SistemaVidaJugador : SistemaVida
         QuanCanviVida += handler;
     }      
     
-    public void TeleportarAlHub()
+    public void TeleportarAlHub(bool usarCortinilla = true)
     {
         PosicionadorJugador posicionador = GetComponent<PosicionadorJugador>();
 
@@ -184,25 +203,29 @@ public class SistemaVidaJugador : SistemaVida
             Debug.Log("Se ha añadido automáticamente el componente PosicionadorJugador al jugador");
         }
           if (posicionador != null)
-        {            // Guardar información del punto de spawn usando SistemaPerks
+        {
+            // Guardar la preferencia de usar cortinilla para el posicionador
             if (SistemaPerks.Instance != null)
             {
+                SistemaPerks.Instance.GuardarValor("UsarCortinilla", usarCortinilla ? "1" : "0");
+                
                 // Guardamos un tag identificativo del punto de spawn - usamos "Hub" como tag
                 SistemaPerks.Instance.GuardarValor("LastSpawnPoint", "Hub");
                 Debug.Log("Se guardó el punto de spawn a través de SistemaPerks");
-                
-                // También guardamos la posición del punto de spawn del Hub
+                  // También guardamos la posición del punto de spawn del Hub
                 SistemaPerks.Instance.GuardarPosicioTeleport(TPConstants.HUB_SPAWN_POINT);
             }
             else
             {
                 Debug.LogWarning("No se encontró SistemaPerks, usando PlayerPrefs directamente como fallback");
                 PlayerPrefs.SetString("LastSpawnPoint", "Hub");
+                PlayerPrefs.SetString("UsarCortinilla", usarCortinilla ? "1" : "0");
                 PlayerPrefs.Save();
             }
             
-            posicionador.IniciarTeleport("Hub", TPConstants.HUB_SCENE);
-            Debug.Log("Teleportando jugador al Hub...");
+            // Iniciamos el teleport
+            posicionador.IniciarTeleport(TPConstants.HUB_SPAWN_POINT, TPConstants.HUB_SCENE);
+            Debug.Log($"Teleportando jugador al Hub... (Cortinilla: {(usarCortinilla ? "Activada" : "Desactivada")})");
         }
         else
         {
