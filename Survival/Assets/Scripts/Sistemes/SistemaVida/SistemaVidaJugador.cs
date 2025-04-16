@@ -100,7 +100,7 @@ public class SistemaVidaJugador : SistemaVida
         {
             StartCoroutine(Morir());
         }
-    }      public override IEnumerator Morir()
+    }    public override IEnumerator Morir()
     {
         // Configurar animación y estado
         if (animator != null)
@@ -111,37 +111,42 @@ public class SistemaVidaJugador : SistemaVida
         // Notificar muerte para desactivar controles
         InvocarMuerte();
         
-        // Comprobar si el efecto de cortinilla está activado en las preferencias
+        // Siempre usamos la cortinilla gestionada desde el SistemaVidaJugador
         bool usarEfectoCortinilla = true;
-        if (UIManager.Instance != null)
+        
+        // Buscamos la cortinilla si no la tenemos ya asignada
+        if (cortinilla == null)
         {
-            usarEfectoCortinilla = UIManager.Instance.EstaCortinillaActivada();
+            cortinilla = FindObjectOfType<Cortinilla>();
+            if (cortinilla == null)
+            {
+                Debug.LogError("No se encontró la cortinilla en la escena. Asegúrate de que existe en UI/ImageCortinilla");
+            }
         }
         
-        // Mostrar cortinilla sólo si está activada en preferencias
-        if (usarEfectoCortinilla && cortinilla != null)
+        // Mostrar cortinilla para cerrar la escena actual
+        if (cortinilla != null)
         {
+            // Aseguramos que la cortinilla está lista para usarse
             cortinilla.ResetearCortinilla();
+            // Activamos la cortinilla (cierre)
             cortinilla.MostrarCortinilla();
-            // Esperamos un momento para que se vea la animación
+            Debug.Log("SistemaVidaJugador: Cortinilla activada al morir el jugador");
+            // Esperamos un momento para que se vea la animación de la cortinilla
             yield return new WaitForSeconds(0.5f);
-        }
-        else if (!usarEfectoCortinilla)
-        {
-            Debug.Log("Efecto de cortinilla desactivado en preferencias de usuario");
-            yield return new WaitForSeconds(0.2f); // Pequeña espera para ver la animación de muerte
         }
         else
         {
-            Debug.LogWarning("No se encontró la referencia a la cortinilla");
+            Debug.LogWarning("SistemaVidaJugador: No se pudo mostrar la cortinilla. Verificar que existe en la escena.");
             yield return new WaitForSeconds(0.2f);
         }
         
-        // Esperar un momento antes de teleportar (reducido si no hay cortinilla)
-        yield return new WaitForSeconds(usarEfectoCortinilla ? tempsReviure : tempsReviure * 0.5f);
+        // Esperar un momento antes de teleportar
+        yield return new WaitForSeconds(tempsReviure);
         
         // IMPORTANTE: teleportamos pero NO deshacemos la cortinilla aquí
         // ya que estaríamos intentando usar la cortinilla de la escena anterior
+        // La cortinilla se abrirá en la nueva escena mediante el PosicionadorJugador
         TeleportarAlHub(usarEfectoCortinilla);
         
         // Revivir
