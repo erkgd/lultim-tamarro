@@ -13,7 +13,9 @@ public class PosicionadorJugador : MonoBehaviour
     
     // Nombres de los objetos de cámara que debemos buscar
     private const string DINAMIC_CAMERA_NAME = "Dinamic Camera";    
-      void Start()
+    
+    
+    void Start()
     {
         Debug.Log($"PosicionadorJugador inicialitzat en {gameObject.name}");
         
@@ -52,7 +54,9 @@ public class PosicionadorJugador : MonoBehaviour
                 StartCoroutine(BuscarYDesferCortinilla());
             }
         }
-    }    private IEnumerator ComprovarTeleport()
+    }    
+    
+    private IEnumerator ComprovarTeleport()
     {
         // Esperamos un momento para que todo esté inicializado
         yield return new WaitForSeconds(0.2f);
@@ -244,7 +248,9 @@ public class PosicionadorJugador : MonoBehaviour
         
         // Cargar la escena de destino
         SceneManager.LoadScene(escenaDestino);
-    }    // Método para deshacer la cortinilla con un pequeño retraso    
+    }    
+    
+    // Método para deshacer la cortinilla con un pequeño retraso    
     private IEnumerator DesferCortinillaConRetraso(Cortinilla cortinilla)
     {
         // Pequeño retraso adicional para asegurar que la escena está completamente cargada
@@ -316,7 +322,7 @@ public class PosicionadorJugador : MonoBehaviour
             Debug.LogError("DesferCortinillaConRetraso: El GameObject de la cortinilla es nulo");
         }
     }
-      // Corrutina para buscar la cortinilla y deshacer su efecto
+    // Corrutina para buscar la cortinilla y deshacer su efecto
     private IEnumerator BuscarYDesferCortinilla()
     {
         // Esperamos para asegurarnos que toda la escena esté cargada
