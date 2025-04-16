@@ -191,7 +191,8 @@ public class SistemaVidaJugador : SistemaVida
     {
         QuanCanviVida += handler;
     }      
-      public void TeleportarAlHub(bool usarCortinilla = true)
+    
+    public void TeleportarAlHub(bool usarCortinilla = true)
     {
         PosicionadorJugador posicionador = GetComponent<PosicionadorJugador>();
 
@@ -211,8 +212,7 @@ public class SistemaVidaJugador : SistemaVida
                 // Guardamos un tag identificativo del punto de spawn - usamos "Hub" como tag
                 SistemaPerks.Instance.GuardarValor("LastSpawnPoint", "Hub");
                 Debug.Log("Se guardó el punto de spawn a través de SistemaPerks");
-                
-                // También guardamos la posición del punto de spawn del Hub
+                  // También guardamos la posición del punto de spawn del Hub
                 SistemaPerks.Instance.GuardarPosicioTeleport(TPConstants.HUB_SPAWN_POINT);
             }
             else
@@ -224,7 +224,7 @@ public class SistemaVidaJugador : SistemaVida
             }
             
             // Iniciamos el teleport
-            posicionador.IniciarTeleport("Hub", TPConstants.HUB_SCENE);
+            posicionador.IniciarTeleport(TPConstants.HUB_SPAWN_POINT, TPConstants.HUB_SCENE);
             Debug.Log($"Teleportando jugador al Hub... (Cortinilla: {(usarCortinilla ? "Activada" : "Desactivada")})");
         }
         else
