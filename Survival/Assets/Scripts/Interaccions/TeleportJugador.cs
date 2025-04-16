@@ -110,26 +110,40 @@ public class TeleportJugador : MonoBehaviour
             }
             
             if (mostrarDebug) Debug.Log($"Teleportando jugador a: {posicioDestí} en escena: {nomEscenaDestí}");
-            
-            // Usar el PosicionadorJugador si está disponible
+              // Intentar usar el PosicionadorJugador si está disponible o añadirlo si no existe
             PosicionadorJugador posicionador = jugador.GetComponent<PosicionadorJugador>();
+            if (posicionador == null)
+            {
+                if (mostrarDebug) Debug.Log($"No se encontró componente PosicionadorJugador, añadiéndolo automáticamente");
+                posicionador = jugador.AddComponent<PosicionadorJugador>();
+            }
+            
             if (posicionador != null)
             {
                 if (mostrarDebug) Debug.Log($"Usando PosicionadorJugador.IniciarTeleport");
                 posicionador.IniciarTeleport(posicioDestí, nomEscenaDestí);
                 return;
             }
-              // Método de respaldo sin componente PosicionadorJugador
-            if (mostrarDebug) Debug.Log($"No se encontró componente PosicionadorJugador, usando SistemaPerks");
-              // Usar SistemaPerks para guardar los datos de teleport
+              // Método de respaldo sin componente PosicionadorJugador (esto no debería ejecutarse nunca ahora)
+            if (mostrarDebug) Debug.Log($"Error al crear/usar PosicionadorJugador, usando SistemaPerks directamente");
+            
+            // Guardar en SistemaPerks para que el jugador en la escena de destino lo use
             if (SistemaPerks.Instance != null)
             {
-                SistemaPerks.Instance.GuardarPosicioTeleport(posicioDestí, true);
-                if (mostrarDebug) Debug.Log($"Datos de teleport guardados via SistemaPerks: {posicioDestí}");
+                SistemaPerks.Instance.GuardarPosicioTeleport(posicioDestí);
+                if (mostrarDebug) Debug.Log($"SistemaPerks: Posición guardada: DestiX={posicioDestí.x}, DestiY={posicioDestí.y}, DestiZ={posicioDestí.z}, NecessitaTeleport=1");
             }
             else
             {
-                Debug.LogError("No se encontró instancia de SistemaPerks. Asegúrate de añadir un GameObject con este componente en la escena.");
+                Debug.LogWarning("SistemaPerks no está disponible, usando PlayerPrefs directamente como fallback");
+                // Fallback a PlayerPrefs si SistemaPerks no está disponible
+                PlayerPrefs.SetFloat("DestiX", posicioDestí.x);
+                PlayerPrefs.SetFloat("DestiY", posicioDestí.y);
+                PlayerPrefs.SetFloat("DestiZ", posicioDestí.z);
+                PlayerPrefs.SetInt("NecessitaTeleport", 1);
+                PlayerPrefs.Save();
+                
+                if (mostrarDebug) Debug.Log($"PlayerPrefs guardados como fallback: DestiX={posicioDestí.x}, DestiY={posicioDestí.y}, DestiZ={posicioDestí.z}, NecessitaTeleport=1");
             }
 
             // Cargar la nueva escena
