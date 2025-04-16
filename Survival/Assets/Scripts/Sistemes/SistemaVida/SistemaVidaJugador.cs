@@ -100,8 +100,7 @@ public class SistemaVidaJugador : SistemaVida
         {
             StartCoroutine(Morir());
         }
-    }
-      public override IEnumerator Morir()
+    }      public override IEnumerator Morir()
     {
         // Configurar animación y estado
         if (animator != null)
@@ -111,24 +110,39 @@ public class SistemaVidaJugador : SistemaVida
         
         // Notificar muerte para desactivar controles
         InvocarMuerte();
-        // Mostrar cortinilla
-        if (cortinilla != null)
+        
+        // Comprobar si el efecto de cortinilla está activado en las preferencias
+        bool usarEfectoCortinilla = true;
+        if (UIManager.Instance != null)
         {
+            usarEfectoCortinilla = UIManager.Instance.EstaCortinillaActivada();
+        }
+        
+        // Mostrar cortinilla sólo si está activada en preferencias
+        if (usarEfectoCortinilla && cortinilla != null)
+        {
+            cortinilla.ResetearCortinilla();
             cortinilla.MostrarCortinilla();
             // Esperamos un momento para que se vea la animación
             yield return new WaitForSeconds(0.5f);
         }
+        else if (!usarEfectoCortinilla)
+        {
+            Debug.Log("Efecto de cortinilla desactivado en preferencias de usuario");
+            yield return new WaitForSeconds(0.2f); // Pequeña espera para ver la animación de muerte
+        }
         else
         {
             Debug.LogWarning("No se encontró la referencia a la cortinilla");
-            yield return null;
+            yield return new WaitForSeconds(0.2f);
         }
-        // Esperar un momento antes de teleportar
-        yield return new WaitForSeconds(tempsReviure);
+        
+        // Esperar un momento antes de teleportar (reducido si no hay cortinilla)
+        yield return new WaitForSeconds(usarEfectoCortinilla ? tempsReviure : tempsReviure * 0.5f);
         
         // IMPORTANTE: teleportamos pero NO deshacemos la cortinilla aquí
         // ya que estaríamos intentando usar la cortinilla de la escena anterior
-        TeleportarAlHub();
+        TeleportarAlHub(usarEfectoCortinilla);
         
         // Revivir
         ReviureJugador();
@@ -172,8 +186,7 @@ public class SistemaVidaJugador : SistemaVida
     {
         QuanCanviVida += handler;
     }      
-    
-    public void TeleportarAlHub()
+      public void TeleportarAlHub(bool usarCortinilla = true)
     {
         PosicionadorJugador posicionador = GetComponent<PosicionadorJugador>();
 
@@ -184,9 +197,12 @@ public class SistemaVidaJugador : SistemaVida
             Debug.Log("Se ha añadido automáticamente el componente PosicionadorJugador al jugador");
         }
           if (posicionador != null)
-        {            // Guardar información del punto de spawn usando SistemaPerks
+        {
+            // Guardar la preferencia de usar cortinilla para el posicionador
             if (SistemaPerks.Instance != null)
             {
+                SistemaPerks.Instance.GuardarValor("UsarCortinilla", usarCortinilla ? "1" : "0");
+                
                 // Guardamos un tag identificativo del punto de spawn - usamos "Hub" como tag
                 SistemaPerks.Instance.GuardarValor("LastSpawnPoint", "Hub");
                 Debug.Log("Se guardó el punto de spawn a través de SistemaPerks");
@@ -198,11 +214,13 @@ public class SistemaVidaJugador : SistemaVida
             {
                 Debug.LogWarning("No se encontró SistemaPerks, usando PlayerPrefs directamente como fallback");
                 PlayerPrefs.SetString("LastSpawnPoint", "Hub");
+                PlayerPrefs.SetString("UsarCortinilla", usarCortinilla ? "1" : "0");
                 PlayerPrefs.Save();
             }
             
+            // Iniciamos el teleport
             posicionador.IniciarTeleport("Hub", TPConstants.HUB_SCENE);
-            Debug.Log("Teleportando jugador al Hub...");
+            Debug.Log($"Teleportando jugador al Hub... (Cortinilla: {(usarCortinilla ? "Activada" : "Desactivada")})");
         }
         else
         {
