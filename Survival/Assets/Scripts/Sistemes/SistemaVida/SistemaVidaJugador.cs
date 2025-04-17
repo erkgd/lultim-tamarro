@@ -100,7 +100,9 @@ public class SistemaVidaJugador : SistemaVida
         {
             StartCoroutine(Morir());
         }
-    }    public override IEnumerator Morir()
+    }    
+    
+    public override IEnumerator Morir()
     {
         // Configurar animación y estado
         if (animator != null)
@@ -204,10 +206,6 @@ public class SistemaVidaJugador : SistemaVida
         }
         if (posicionador != null)
         {
-            // Guardar la preferencia de usar cortinilla para el posicionador
-            Debug.LogWarning("No se encontró SistemaPerks, usando PlayerPrefs directamente como fallback");
-            PlayerPrefs.SetString("LastSpawnPoint", "Hub");
-            PlayerPrefs.SetString("UsarCortinilla", usarCortinilla ? "1" : "0");
             PlayerPrefs.Save();
             // Iniciamos el teleport
             posicionador.IniciarTeleport(TPConstants.HUB_SPAWN_POINT, TPConstants.HUB_SCENE);
