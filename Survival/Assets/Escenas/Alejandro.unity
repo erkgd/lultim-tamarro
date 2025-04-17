@@ -72145,7 +72145,7 @@ PrefabInstance:
     - target: {fileID: 5420387213759523753, guid: 158e0f4c1845576449c27919f6973034,
         type: 3}
       propertyPath: vidaActual
-      value: 1
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 5420387213759523753, guid: 158e0f4c1845576449c27919f6973034,
         type: 3}
