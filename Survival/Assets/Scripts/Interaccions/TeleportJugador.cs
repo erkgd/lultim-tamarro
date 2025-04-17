@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using System.Collections;
 public class TeleportJugador : MonoBehaviour
 {
     // Enum for predefined teleport destinations
@@ -81,13 +81,29 @@ public class TeleportJugador : MonoBehaviour
         }
     }
     
-    private void OnTriggerEnter(Collider algo)
+    private IEnumerator OnTriggerEnter(Collider algo)
     {
         if (mostrarDebug) Debug.Log($"Colisión detectada con TeleportJugador por: {algo.name}");
         if (algo.CompareTag(etiquetaJugador))
-        {
+        {            
             if (algo.GetComponent<Jugador>() != null)
             {
+                Cortinilla cortinilla = FindObjectOfType<Cortinilla>();
+                if (cortinilla != null)
+                {
+                    
+                    cortinilla.ResetearCortinilla();
+                    // Activamos la cortinilla (cierre)
+                    cortinilla.MostrarCortinilla();
+                    // Esperamos un momento para que se vea la animación de la cortinilla
+                    yield return new WaitForSeconds(2f);
+
+                }
+                else
+                {
+                    Debug.LogError("No se encontró la cortinilla en la escena.");
+                }
+
                 if (mostrarDebug) Debug.Log($"Jugador válido detectado: {algo.name}, iniciando teleporte a {nomEscenaDestí} en posición {posicioDestí}");
                 TeletransportarJugador(algo.gameObject);
             }
