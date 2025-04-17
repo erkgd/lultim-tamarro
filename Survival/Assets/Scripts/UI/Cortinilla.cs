@@ -377,21 +377,6 @@ public class Cortinilla : MonoBehaviour
         // Esperar a que termine la animación de la cortinilla
         yield return new WaitForSeconds(duradaEfecte);
         
-        // Guardar posición si es necesario usando SistemaPerks
-        if (posicionDestino != default)
-        {
-            if (SistemaPerks.Instance != null)
-            {
-                // Usar SistemaPerks para guardar la posición
-                SistemaPerks.Instance.GuardarPosicioTeleport(posicionDestino, true);
-                Debug.Log($"Cortinilla: Guardada posición de destino {posicionDestino} para teleport usando SistemaPerks");
-            }
-            else
-            {
-                Debug.LogError("Cortinilla: No se encontró la instancia de SistemaPerks para guardar la posición");
-            }
-        }
-        
         // Cargar la nueva escena
         SceneManager.LoadScene(nombreEscena);
         
