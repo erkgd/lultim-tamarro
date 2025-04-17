@@ -1,6 +1,6 @@
 // Implementació:
-// 1. Este script gestiona la persistencia del jugador entre escenas
-// 2. DontDestroyOnLoad se usa para mantener un único jugador
+// 1. Añadir este script al jugador en CADA escena
+// 2. No uses DontDestroyOnLoad - cada escena debe tener su propio jugador
  
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,77 +8,11 @@ using System.Collections;
 
 public class PosicionadorJugador : MonoBehaviour
 {
-    // Singleton pattern
-    private static PosicionadorJugador _instance;
-    public static PosicionadorJugador Instance { get { return _instance; } }
-    
     // Configuración
-    [SerializeField] private bool mostrarDebug = false;
+    [SerializeField] private bool mostrarDebug = true;
     
     // Nombres de los objetos de cámara que debemos buscar
-    private const string DINAMIC_CAMERA_NAME = "Dinamic Camera";
-    
-    private void Awake()
-    {
-        // Si ya existe una instancia y no somos nosotros, nos destruimos
-        if (_instance != null && _instance != this)
-        {
-            Debug.Log($"PosicionadorJugador: Ya existe una instancia, destruyendo duplicado {gameObject.name}");
-            Destroy(gameObject);
-            return;
-        }
-        
-        // Establecemos la instancia singleton
-        _instance = this;
-        
-        // No destruir al cargar nuevas escenas
-        DontDestroyOnLoad(gameObject);
-        
-        // Registrar callback para cuando se cargue una nueva escena
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-    
-    private void OnDestroy()
-    {
-        // Desregistrar el callback para evitar memory leaks
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-        
-        // Si esta instancia es la singleton, limpiamos la referencia
-        if (_instance == this)
-        {
-            _instance = null;
-        }
-    }
-    
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        Debug.Log($"PosicionadorJugador: Escena cargada: {scene.name}");
-        
-        // Verificar si hay otros jugadores en la escena y eliminarlos
-        VerificarDuplicadosJugador();
-        
-        // Cuando se carga una nueva escena, verificamos si hay teleport pendiente
-        StartCoroutine(ComprovarTeleport());
-        
-        // Buscar y abrir cortinilla si existe
-        StartCoroutine(BuscarYDesferCortinilla());
-    }
-    
-    private void VerificarDuplicadosJugador()
-    {
-        // Buscar todos los objetos con el tag "Player"
-        GameObject[] jugadores = GameObject.FindGameObjectsWithTag("Player");
-        
-        foreach (GameObject jugador in jugadores)
-        {
-            // Si encontramos un jugador que no sea el nuestro, lo eliminamos
-            if (jugador != gameObject)
-            {
-                Debug.Log($"PosicionadorJugador: Eliminando jugador duplicado: {jugador.name}");
-                Destroy(jugador);
-            }
-        }
-    }
+    private const string DINAMIC_CAMERA_NAME = "Dinamic Camera";      
     
     void Start()
     {
@@ -87,23 +21,18 @@ public class PosicionadorJugador : MonoBehaviour
         // Al iniciar, comprobamos si hay una solicitud de teleport pendiente
         StartCoroutine(ComprovarTeleport());
         
-        // Si hay un punto de aparición guardado, significa que venimos de otra escena
-        string lastSpawnPoint = "";
+        // Iniciamos la transición de cortinilla
         StartCoroutine(BuscarYDesferCortinilla());
     
-        // Solo como último recurso usamos PlayerPrefs directamente
-        lastSpawnPoint = PlayerPrefs.GetString("LastSpawnPoint", "");
-        Debug.Log($"PosicionadorJugador: LastSpawnPoint desde PlayerPrefs = '{lastSpawnPoint}'");
+        // Verificamos si hay un punto de aparición guardado
+        string lastSpawnPoint = PlayerPrefs.GetString("LastSpawnPoint", "");
+        if (mostrarDebug) Debug.Log($"PosicionadorJugador: LastSpawnPoint = '{lastSpawnPoint}'");
         
         if (!string.IsNullOrEmpty(lastSpawnPoint))
         {
             PlayerPrefs.DeleteKey("LastSpawnPoint");
             PlayerPrefs.Save();
-            
-            // Esperamos un momento para asegurarnos de que todo esté cargado
-            StartCoroutine(BuscarYDesferCortinilla());
         }
-        
     }
     
     private IEnumerator ComprovarTeleport()
@@ -149,7 +78,7 @@ public class PosicionadorJugador : MonoBehaviour
             PlayerPrefs.SetInt("NecessitaTeleport", 0);
             PlayerPrefs.Save();
             
-            if (mostrarDebug) Debug.Log($"Jugador teleportat a la posició: {posicionFinal} aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+            if (mostrarDebug) Debug.Log($"Jugador teleportat a la posició: {posicionFinal}");
         }
         else
         {
@@ -182,6 +111,7 @@ public class PosicionadorJugador : MonoBehaviour
             if (mostrarDebug) Debug.LogWarning($"No se encontró la cámara: {DINAMIC_CAMERA_NAME}");
         }
     }
+
     public void IniciarTeleport(Vector3 posicion, string escenaDestino)
     {
         if (mostrarDebug) Debug.Log($"Iniciando teleport a {posicion} en escena {escenaDestino}");
@@ -203,8 +133,6 @@ public class PosicionadorJugador : MonoBehaviour
     
     private IEnumerator DesferCortinillaConRetraso(Cortinilla cortinilla)
     {
-        // Pequeño retraso adicional para asegurar que la escena está completamente cargada
-        yield return new WaitForSeconds(1.0f);
         
         Debug.Log("DesferCortinillaConRetraso: Iniciando apertura de cortinilla");
         
@@ -276,7 +204,7 @@ public class PosicionadorJugador : MonoBehaviour
     private IEnumerator BuscarYDesferCortinilla()
     {
         // Esperamos para asegurarnos que toda la escena esté cargada
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(3.5f);
         
         Debug.Log("PosicionadorJugador: Buscando cortinilla para deshacer efecto...");
         
