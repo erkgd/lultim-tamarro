@@ -1,24 +1,21 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 using System.Collections.Generic;
 
 public class VidaUI : MonoBehaviour
 {
     public enum DisplayType
     {
-        Type1, // Modo actual: 6 corazones en una fila
-        Type2  // Nuevo modo: 10 corazones en 2 filas de 5 cada una
+        Type1, // 6 corazones en una fila
+        Type2  // 10 corazones en 2 filas de 5 cada una
     }
 
     [Header("Configuración de Display")]
     public DisplayType displayType = DisplayType.Type1;
 
-    // Referencia al sistema de vida del jugador
-    private SistemaVidaJugador sistemaVida;
-
     [Header("Elementos de UI para Tipo 1")]
     public List<Image> heartImagesType1;
-
     [Header("Elementos de UI para Tipo 2")]
     public List<Image> heartImagesType2;
 
@@ -27,79 +24,93 @@ public class VidaUI : MonoBehaviour
     public Sprite halfHeartSprite;
     public Sprite emptyHeartSprite;
 
-    void Start()
+    private SistemaVidaJugador sistemaVida;
+
+    void Awake()
     {
-        // Obtener referencia al sistema de vida del jugador
+        // 1) Encontrar el sistema de vida
         sistemaVida = FindObjectOfType<SistemaVidaJugador>();
         if (sistemaVida == null)
-        {
             Debug.LogError("No se encontró SistemaVidaJugador en la escena.");
+
+        // 2) Suscribirse ANTES de que se llame a DesbloquejarPerk
+        if (SistemaPerks.Instance != null)
+        {
+            SistemaPerks.Instance.OnPerkChanged += HandlePerkChanged;  // :contentReference[oaicite:0]{index=0}&#8203;:contentReference[oaicite:1]{index=1}
+            Debug.Log("VidaUI: suscrito a OnPerkChanged en Awake");
         }
+    }
 
-        // COPILOT: Aplicar la configuración inicial de visibilidad
-        ApplyDisplayType();
-        // Actualizar UI inicial de corazones
+    void OnDestroy()
+    {
+        // Desuscribir para evitar fugas de memoria
+        if (SistemaPerks.Instance != null)
+            SistemaPerks.Instance.OnPerkChanged -= HandlePerkChanged;
+    }
+
+    void Start()
+    {
+        // 3) Estado inicial de la UI basado en si el perk 3 ya está desbloqueado
+        bool perk3Activo = SistemaPerks.Instance != null 
+                            && SistemaPerks.Instance.EstaDesbloquejada(3);    // :contentReference[oaicite:2]{index=2}&#8203;:contentReference[oaicite:3]{index=3}
+        UpdateDisplayType(perk3Activo);
         UpdateHeartsUI();
     }
 
-    /// <summary>
-    /// Cambia el modo de visualización (Type1/Type2) y refresca la UI.
-    /// </summary>
-    public void SetDisplayType(DisplayType type)
+    // Se llama inmediatamente cuando DesbloquejarPerk(3) invoca el evento
+    private void HandlePerkChanged(int perkIndex)
     {
-        // COPILOT: Ajustar el displayType y actualizar la UI
-        displayType = type;
-        ApplyDisplayType();
-        UpdateHeartsUI();
+        if (perkIndex == 3)
+        {
+            bool isActive = SistemaPerks.Instance.EstaDesbloquejada(3);
+            Debug.Log($"VidaUI: evento Perk 3 cambiado a: {(isActive ? "activo" : "inactivo")}");
+            UpdateDisplayType(isActive);
+            UpdateDisplayType(displayType == DisplayType.Type1);
+            UpdateHeartsUI();
+        }
     }
 
-    /// <summary>
-    /// Oculta o muestra cada grupo de corazones según el displayType.
-    /// </summary>
-    private void ApplyDisplayType()
+    // Aplica el tipo correcto y muestra/oculta los grupos de corazones
+    private void UpdateDisplayType(bool useType2)
     {
-        // COPILOT: Lógica para alternar entre Type1 y Type2
-        bool isType1 = displayType == DisplayType.Type1;
+        displayType = useType2 ? DisplayType.Type2 : DisplayType.Type1;
         foreach (var img in heartImagesType1)
-            img.gameObject.SetActive(isType1);
+            if (img != null) img.gameObject.SetActive(displayType == DisplayType.Type1);
         foreach (var img in heartImagesType2)
-            img.gameObject.SetActive(!isType1);
+            if (img != null) img.gameObject.SetActive(displayType == DisplayType.Type2);
+
+        Debug.Log($"VidaUI: DisplayType ahora es {displayType}");
+    }
+
+    // Actualiza los sprites de acuerdo a la vida actual
+    public void UpdateHeartsUI()
+    {
+        if (sistemaVida == null) return;
+        int currentLife = sistemaVida.VidaActual;
+        var heartList = (displayType == DisplayType.Type1) 
+            ? heartImagesType1 
+            : heartImagesType2;
+
+        for (int i = 0; i < heartList.Count; i++)
+        {
+            if (currentLife >= (i + 1) * 2)
+                heartList[i].sprite = fullHeartSprite;
+            else if (currentLife >= i * 2 + 1)
+                heartList[i].sprite = halfHeartSprite;
+            else
+                heartList[i].sprite = emptyHeartSprite;
+        }
+    }
+
+    // Método opcional si quieres alternar manualmente desde un botón
+    public void ToggleDisplayType()
+    {
+        UpdateDisplayType(displayType == DisplayType.Type1);
+        UpdateHeartsUI();
     }
 
     public void UpdateHealth(int vidaActual)
     {
         UpdateHeartsUI();
-    }
-
-    private List<Image> GetHeartList()
-    {
-        return displayType == DisplayType.Type1
-            ? heartImagesType1
-            : heartImagesType2;
-    }
-
-    public void UpdateHeartsUI()
-    {
-        if (sistemaVida == null) return;
-
-        int currentLife = sistemaVida.VidaActual;
-        Debug.Log($"Actualizando UI de vida: currentLife={currentLife}");
-
-        List<Image> heartImages = GetHeartList();
-        for (int i = 0; i < heartImages.Count; i++)
-        {
-            if (currentLife >= (i + 1) * 2)
-            {
-                heartImages[i].sprite = fullHeartSprite;
-            }
-            else if (currentLife >= i * 2 + 1)
-            {
-                heartImages[i].sprite = halfHeartSprite;
-            }
-            else
-            {
-                heartImages[i].sprite = emptyHeartSprite;
-            }
-        }
     }
 }
