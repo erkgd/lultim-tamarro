@@ -35,21 +35,35 @@ public class VidaUI : MonoBehaviour
         {
             Debug.LogError("No se encontró SistemaVidaJugador en la escena.");
         }
-        
-        // Configura la visibilidad de cada grupo según el tipo seleccionado
-        if (displayType == DisplayType.Type1)
-        {
-            foreach (var img in heartImagesType1) { img.gameObject.SetActive(true); }
-            foreach (var img in heartImagesType2) { img.gameObject.SetActive(false); }
-        }
-        else
-        {
-            foreach (var img in heartImagesType1) { img.gameObject.SetActive(false); }
-            foreach (var img in heartImagesType2) { img.gameObject.SetActive(true); }
-        }
-        
-        // Actualizar UI inicial
+
+        // COPILOT: Aplicar la configuración inicial de visibilidad
+        ApplyDisplayType();
+        // Actualizar UI inicial de corazones
         UpdateHeartsUI();
+    }
+
+    /// <summary>
+    /// Cambia el modo de visualización (Type1/Type2) y refresca la UI.
+    /// </summary>
+    public void SetDisplayType(DisplayType type)
+    {
+        // COPILOT: Ajustar el displayType y actualizar la UI
+        displayType = type;
+        ApplyDisplayType();
+        UpdateHeartsUI();
+    }
+
+    /// <summary>
+    /// Oculta o muestra cada grupo de corazones según el displayType.
+    /// </summary>
+    private void ApplyDisplayType()
+    {
+        // COPILOT: Lógica para alternar entre Type1 y Type2
+        bool isType1 = displayType == DisplayType.Type1;
+        foreach (var img in heartImagesType1)
+            img.gameObject.SetActive(isType1);
+        foreach (var img in heartImagesType2)
+            img.gameObject.SetActive(!isType1);
     }
 
     public void UpdateHealth(int vidaActual)
@@ -59,77 +73,33 @@ public class VidaUI : MonoBehaviour
 
     private List<Image> GetHeartList()
     {
-        return displayType == DisplayType.Type1 ? heartImagesType1 : heartImagesType2;
+        return displayType == DisplayType.Type1
+            ? heartImagesType1
+            : heartImagesType2;
     }
 
     public void UpdateHeartsUI()
     {
-        // Si no hay sistema de vida, no podemos actualizar la UI
         if (sistemaVida == null) return;
-        
+
         int currentLife = sistemaVida.VidaActual;
-        
-        // Log para depuración
         Debug.Log($"Actualizando UI de vida: currentLife={currentLife}");
-        
+
         List<Image> heartImages = GetHeartList();
-          // Recorremos cada corazón
         for (int i = 0; i < heartImages.Count; i++)
         {
-            // LÓGICA ACTUALIZADA:
-            // Cada corazón representa 2 puntos de vida.
-            // Calcular cuántos puntos de vida corresponden a este corazón.
-            
             if (currentLife >= (i + 1) * 2)
             {
-                // Corazón completo: Si la vida es suficiente para llenar este corazón
                 heartImages[i].sprite = fullHeartSprite;
-                Debug.Log($"Corazón {i}: COMPLETO (vida={currentLife}, índice={i*2})");
             }
             else if (currentLife >= i * 2 + 1)
             {
-                // Medio corazón: Si la vida es mayor o igual a la mitad de este corazón
                 heartImages[i].sprite = halfHeartSprite;
-                Debug.Log($"Corazón {i}: MITAD (vida={currentLife}, índice={i*2})");
             }
             else
             {
-                // Corazón vacío: Si no hay suficiente vida para este corazón
                 heartImages[i].sprite = emptyHeartSprite;
-                Debug.Log($"Corazón {i}: VACÍO (vida={currentLife}, índice={i*4})");
             }
         }
-    }
-
-    // Función que alterna el modo de visualización entre Type1 y Type2
-    public void ToggleDisplayType()
-    {
-        if (displayType == DisplayType.Type1)
-        {
-            displayType = DisplayType.Type2;
-            
-            foreach (var img in heartImagesType1)
-            {
-                img.gameObject.SetActive(false);
-            }
-            foreach (var img in heartImagesType2)
-            {
-                img.gameObject.SetActive(true);
-            }
-        }
-        else
-        {
-            displayType = DisplayType.Type1;
-            
-            foreach (var img in heartImagesType1)
-            {
-                img.gameObject.SetActive(true);
-            }
-            foreach (var img in heartImagesType2)
-            {
-                img.gameObject.SetActive(false);
-            }
-        }
-        UpdateHeartsUI();
     }
 }
