@@ -24,12 +24,17 @@ public class SistemaPerks : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject); // Mantenir entre escenes
+            
+            // ─── NUEVO: cargar estado de perks desde PlayerPrefs ───
+            CarregarEstatPerks();
+            Debug.Log("🔄 SistemaPerks: estat de les perks carregat");
         }
         else if (Instance != this)
         {
             Destroy(gameObject);
         }
     }
+
     #region Teleport
     // Guarda la posició de destí per a un teleport.
     // @param position: Posició de destí
