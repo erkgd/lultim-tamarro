@@ -1,44 +1,62 @@
 using UnityEngine;
+using System.Collections;
 
-public class SalvarAnimal : MonoBehaviour
+public class SaveAnimal : MonoBehaviour
 {
-    [Tooltip("Índice de perk a desbloquear al salvar este animal (3 = Vida extra)")]
-    [SerializeField] private int indexPerkVidaExtra = 3;
-    [SerializeField] private bool mostrarDebug = true;
+    [Header("Efectos y Sonido")]
+    [Tooltip("Prefab de partículas que se instanciará al salvar.")]
+    [SerializeField] private GameObject saveEffect;
+    [Tooltip("AudioClip que se reproducirá al salvar.")]
+    [SerializeField] private AudioClip saveSound;
+
+    private AudioSource audioSource;
+
+    void Awake()
+    {
+        // Asegurarnos de tener un AudioSource
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
+
+        audioSource.playOnAwake = false;
+        audioSource.volume = 1f;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("Player")) return;
+        if (!other.CompareTag("Player"))
+            return;
 
-        bool yaSalvado = PlayerPrefs.GetInt("AnimalSalvat", 0) == 1;
-        if (yaSalvado)
+        // 1) Desbloquear el perk 3 para cambiar la UI de Type1 a Type2
+        if (SistemaPerks.Instance != null && !SistemaPerks.Instance.EstaDesbloquejada(3))
         {
-            Debug.Log("ℹ️ Ya habías salvado este animal antes.");
+            SistemaPerks.Instance.DesbloquejarPerk(3);
+            Debug.Log("SaveAnimal: Perk 3 desbloqueada, UI debería actualizarse a Type2");
+        }
+
+        // 2) Instanciar efecto visual
+        if (saveEffect != null)
+        {
+            GameObject fx = Instantiate(saveEffect, transform.position, Quaternion.identity);
+            Destroy(fx, 4f);
+        }
+
+        // 3) Reproducir sonido y desactivar objeto tras el clip
+        if (saveSound != null)
+        {
+            audioSource.PlayOneShot(saveSound);
+            StartCoroutine(DisableAfterSound());
         }
         else
         {
-            // Marcar que lo has salvado
-            PlayerPrefs.SetInt("AnimalSalvat", 1);
-            PlayerPrefs.Save();
-
-            // 1) Desbloquear la perk en SistemaPerks
-            SistemaPerks.Instance.DesbloquejarPerk(indexPerkVidaExtra);
-            Debug.Log("🎉 Perk de vida desbloqueada (index 3)");
-
-            // 2) Activarla en tiempo real
-            var svj = other.GetComponent<SistemaVidaJugador>() 
-                ?? FindObjectOfType<SistemaVidaJugador>();
-            if (svj != null)
-            {
-                svj.ActivarPerkVidaExtra();
-                Debug.Log("💖 ActivarPerkVidaExtra() invocado desde SalvarAnimal");
-            }
-            else Debug.LogError("❌ No se encontró SistemaVidaJugador en el Player");
+            // Si no hay sonido, desactivar inmediatamente
+            gameObject.SetActive(false);
         }
-
-        // 3) Desactivar el animal
-        Debug.Log("🐾 Animal salvado: desactivando objeto");
-        gameObject.SetActive(false);
     }
 
+    private IEnumerator DisableAfterSound()
+    {
+        yield return new WaitForSeconds(saveSound.length);
+        gameObject.SetActive(false);
+    }
 }
