@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 // Sistema de gestió de perks (habilitats/avantatges) i dades persistents del jugador.
 public class SistemaPerks : MonoBehaviour
@@ -21,6 +22,9 @@ public class SistemaPerks : MonoBehaviour
 
     public event Action<int> OnPerkChanged; // Evento para notificar cambios en perks
 
+    // Agregamos la referencia a VidaUI
+    private VidaUI vidaUI;
+
     private void Awake()
     {
         // Configuració del Singleton
@@ -34,6 +38,12 @@ public class SistemaPerks : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    private void Start()
+    {
+        vidaUI = FindObjectOfType<VidaUI>();
+    }
+
     #region Teleport
     // Guarda la posició de destí per a un teleport.
     // @param position: Posició de destí
@@ -136,6 +146,12 @@ public class SistemaPerks : MonoBehaviour
             GuardarEstatPerks();
             Debug.Log($"Perk desbloquejada: {NomPerk(indexPerk)}");
             OnPerkChanged?.Invoke(indexPerk); // Notificar cambio
+
+            if (indexPerk == 3 && vidaUI != null)
+            {
+                // Se actualiza la UI de la vida al desbloquear el perk 3
+                vidaUI.UpdateHeartsUI();
+            }
         }
     }
     // Guarda l'estat de totes les perks a PlayerPrefs.
