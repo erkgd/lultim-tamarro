@@ -1,7 +1,6 @@
-
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using System.Collections;
 public class TeleportJugador : MonoBehaviour
 {
     // Enum for predefined teleport destinations
@@ -82,13 +81,29 @@ public class TeleportJugador : MonoBehaviour
         }
     }
     
-    private void OnTriggerEnter(Collider algo)
+    private IEnumerator OnTriggerEnter(Collider algo)
     {
         if (mostrarDebug) Debug.Log($"Colisión detectada con TeleportJugador por: {algo.name}");
         if (algo.CompareTag(etiquetaJugador))
-        {
+        {            
             if (algo.GetComponent<Jugador>() != null)
             {
+                Cortinilla cortinilla = FindObjectOfType<Cortinilla>();
+                if (cortinilla != null)
+                {
+                    
+                    cortinilla.ResetearCortinilla();
+                    // Activamos la cortinilla (cierre)
+                    cortinilla.MostrarCortinilla();
+                    // Esperamos un momento para que se vea la animación de la cortinilla
+                    yield return new WaitForSeconds(2f);
+
+                }
+                else
+                {
+                    Debug.LogError("No se encontró la cortinilla en la escena.");
+                }
+
                 if (mostrarDebug) Debug.Log($"Jugador válido detectado: {algo.name}, iniciando teleporte a {nomEscenaDestí} en posición {posicioDestí}");
                 TeletransportarJugador(algo.gameObject);
             }
@@ -97,8 +112,8 @@ public class TeleportJugador : MonoBehaviour
                 Debug.Log("El objeto colisionado tiene la etiqueta de jugador pero no es un jugador válido.");
             }
         }
-    }
-
+    }    
+    
     private void TeletransportarJugador(GameObject jugador)
     {
         if (jugador != null)
@@ -110,45 +125,27 @@ public class TeleportJugador : MonoBehaviour
             }
             
             if (mostrarDebug) Debug.Log($"Teleportando jugador a: {posicioDestí} en escena: {nomEscenaDestí}");
-              // Intentar usar el PosicionadorJugador si está disponible o añadirlo si no existe
+            
+            // Intentar usar PosicionadorJugador o agregarlo si no existe
             PosicionadorJugador posicionador = jugador.GetComponent<PosicionadorJugador>();
             if (posicionador == null)
             {
-                if (mostrarDebug) Debug.Log($"No se encontró componente PosicionadorJugador, añadiéndolo automáticamente");
+                if (mostrarDebug) Debug.Log($"No se encontró componente PosicionadorJugador, agregándolo automáticamente");
                 posicionador = jugador.AddComponent<PosicionadorJugador>();
             }
             
+            // Ahora sí debería existir el componente
             if (posicionador != null)
             {
                 if (mostrarDebug) Debug.Log($"Usando PosicionadorJugador.IniciarTeleport");
                 posicionador.IniciarTeleport(posicioDestí, nomEscenaDestí);
-                return;
-            }
-              // Método de respaldo sin componente PosicionadorJugador (esto no debería ejecutarse nunca ahora)
-            if (mostrarDebug) Debug.Log($"Error al crear/usar PosicionadorJugador, usando SistemaPerks directamente");
-            
-            // Guardar en SistemaPerks para que el jugador en la escena de destino lo use
-            if (SistemaPerks.Instance != null)
-            {
-                SistemaPerks.Instance.GuardarPosicioTeleport(posicioDestí);
-                if (mostrarDebug) Debug.Log($"SistemaPerks: Posición guardada: DestiX={posicioDestí.x}, DestiY={posicioDestí.y}, DestiZ={posicioDestí.z}, NecessitaTeleport=1");
             }
             else
             {
-                Debug.LogWarning("SistemaPerks no está disponible, usando PlayerPrefs directamente como fallback");
-                // Fallback a PlayerPrefs si SistemaPerks no está disponible
-                PlayerPrefs.SetFloat("DestiX", posicioDestí.x);
-                PlayerPrefs.SetFloat("DestiY", posicioDestí.y);
-                PlayerPrefs.SetFloat("DestiZ", posicioDestí.z);
-                PlayerPrefs.SetInt("NecessitaTeleport", 1);
-                PlayerPrefs.Save();
-                
-                if (mostrarDebug) Debug.Log($"PlayerPrefs guardados como fallback: DestiX={posicioDestí.x}, DestiY={posicioDestí.y}, DestiZ={posicioDestí.z}, NecessitaTeleport=1");
+                // Esto no debería ocurrir nunca, pero por seguridad
+                Debug.LogError("No se pudo crear el componente PosicionadorJugador, fallando al teleportar");
+                SceneManager.LoadScene(nomEscenaDestí);
             }
-
-            // Cargar la nueva escena
-            if (mostrarDebug) Debug.Log($"Cargando escena: {nomEscenaDestí}");
-            SceneManager.LoadScene(nomEscenaDestí);
         }
         else
         {
@@ -156,4 +153,3 @@ public class TeleportJugador : MonoBehaviour
         }
     }
 }
-
