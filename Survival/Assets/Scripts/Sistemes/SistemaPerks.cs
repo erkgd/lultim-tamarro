@@ -1,11 +1,13 @@
+using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 // Sistema de gestió de perks (habilitats/avantatges) i dades persistents del jugador.
 public class SistemaPerks : MonoBehaviour
 {
     // Singleton per a accés global
     public static SistemaPerks Instance { get; private set; }
-      // Claus per a PlayerPrefs relacionades amb el teleport
+    // Claus per a PlayerPrefs relacionades amb el teleport
     private const string KEY_DESTIX = "DestiX";
     private const string KEY_DESTIY = "DestiY";
     private const string KEY_DESTIZ = "DestiZ";
@@ -17,6 +19,12 @@ public class SistemaPerks : MonoBehaviour
     // 1--Resistència (Invencibilitat jugador)
     // 2--Atac (atac més fort)
     // 3--Vida (vida extra)    
+
+    public event Action<int> OnPerkChanged; // Evento para notificar cambios en perks
+
+    // Agregamos la referencia a VidaUI
+    private VidaUI vidaUI;
+
     private void Awake()
     {
         // Configuració del Singleton
@@ -30,6 +38,12 @@ public class SistemaPerks : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    private void Start()
+    {
+        vidaUI = FindObjectOfType<VidaUI>();
+    }
+
     #region Teleport
     // Guarda la posició de destí per a un teleport.
     // @param position: Posició de destí
@@ -62,7 +76,7 @@ public class SistemaPerks : MonoBehaviour
     {
         return PlayerPrefs.GetInt(KEY_NECESSITA_TELEPORT, 0) == 1;
     }
-      // Marca que el teleport ja ha estat realitzat.
+    // Marca que el teleport ja ha estat realitzat.
     public void MarcarTeleportCompletat()
     {
         PlayerPrefs.SetInt(KEY_NECESSITA_TELEPORT, 0);
@@ -71,7 +85,7 @@ public class SistemaPerks : MonoBehaviour
     }
     
     #endregion
-      #region Altres Preferències
+    #region Altres Preferències
     
     // Aquí es poden afegir altres mètodes per guardar/carregar diferents tipus de dades
     // Guarda un valor a PlayerPrefs.
@@ -103,7 +117,7 @@ public class SistemaPerks : MonoBehaviour
     {
         return PlayerPrefs.GetFloat(clau, valorPredeterminat);
     }
-      // Obté un valor de PlayerPrefs.
+    // Obté un valor de PlayerPrefs.
     public string ObtenirValorString(string clau, string valorPredeterminat = "")
     {
         return PlayerPrefs.GetString(clau, valorPredeterminat);
@@ -131,9 +145,16 @@ public class SistemaPerks : MonoBehaviour
             perksDesbloquejades[indexPerk] = true;
             GuardarEstatPerks();
             Debug.Log($"Perk desbloquejada: {NomPerk(indexPerk)}");
+            OnPerkChanged?.Invoke(indexPerk); // Notificar cambio
+
+            if (indexPerk == 3 && vidaUI != null)
+            {
+                // Se actualiza la UI de la vida al desbloquear el perk 3
+                vidaUI.UpdateHeartsUI();
+            }
         }
     }
-      // Guarda l'estat de totes les perks a PlayerPrefs.
+    // Guarda l'estat de totes les perks a PlayerPrefs.
     private void GuardarEstatPerks()
     {
         for (int i = 0; i < perksDesbloquejades.Length; i++)
@@ -142,7 +163,7 @@ public class SistemaPerks : MonoBehaviour
         }
         PlayerPrefs.Save();
     }
-      // Carrega l'estat de totes les perks des de PlayerPrefs.
+    // Carrega l'estat de totes les perks des de PlayerPrefs.
     public void CarregarEstatPerks()
     {
         for (int i = 0; i < perksDesbloquejades.Length; i++)
