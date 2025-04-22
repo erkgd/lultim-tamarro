@@ -13,7 +13,7 @@ public class SistemaVidaEnemic : SistemaVida
     
     // Eventos para comunicación
     public event Action OnIniciarAtac;
-    
+    public event Action QuanMoriEnemic;
     // Acceso a propiedades
     public int VidaActual => vidaActual;
     public int VidaMaxima => vidaMaxima;
@@ -72,6 +72,8 @@ public class SistemaVidaEnemic : SistemaVida
     
     public override IEnumerator Morir()
     {
+        QuanMoriEnemic?.Invoke();
+
         // Configurar animación y estado
         if (animator != null)
         {
