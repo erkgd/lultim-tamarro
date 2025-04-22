@@ -84,8 +84,8 @@ public class SistemaVidaJugador : SistemaVida
         // Notificar cambios
         NotificarCanviVida();
         
-        // Activar invencibilidad usando el Singleton
-        if (InvencibilitatJugador.Instance != null)
+        // Activar invencibilidad usando el Singleton i si el perk de resistència està desbloquejat   
+        if (InvencibilitatJugador.Instance != null && SistemaPerks.Instance.EstaDesbloquejada(1))
         {
             Debug.Log("Activando invencibilidad después del daño");
             InvencibilitatJugador.Instance.ActivarInvencibilitat();

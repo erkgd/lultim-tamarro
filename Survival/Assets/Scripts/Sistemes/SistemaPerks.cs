@@ -1,11 +1,13 @@
+using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 // Sistema de gestió de perks (habilitats/avantatges) i dades persistents del jugador.
 public class SistemaPerks : MonoBehaviour
 {
     // Singleton per a accés global
     public static SistemaPerks Instance { get; private set; }
-      // Claus per a PlayerPrefs relacionades amb el teleport
+    // Claus per a PlayerPrefs relacionades amb el teleport
     private const string KEY_DESTIX = "DestiX";
     private const string KEY_DESTIY = "DestiY";
     private const string KEY_DESTIZ = "DestiZ";
@@ -17,6 +19,12 @@ public class SistemaPerks : MonoBehaviour
     // 1--Resistència (Invencibilitat jugador)
     // 2--Atac (atac més fort)
     // 3--Vida (vida extra)    
+
+    public event Action<int> OnPerkChanged; // Evento para notificar cambios en perks
+
+    // Agregamos la referencia a VidaUI
+    private VidaUI vidaUI;
+
     private void Awake()
     {
         // Configuració del Singleton
@@ -30,7 +38,11 @@ public class SistemaPerks : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    
+
+    private void Start()
+    {
+        vidaUI = FindObjectOfType<VidaUI>();
+    }
 
     #region Altres Preferències
     
@@ -64,7 +76,7 @@ public class SistemaPerks : MonoBehaviour
     {
         return PlayerPrefs.GetFloat(clau, valorPredeterminat);
     }
-      // Obté un valor de PlayerPrefs.
+    // Obté un valor de PlayerPrefs.
     public string ObtenirValorString(string clau, string valorPredeterminat = "")
     {
         return PlayerPrefs.GetString(clau, valorPredeterminat);
@@ -92,9 +104,16 @@ public class SistemaPerks : MonoBehaviour
             perksDesbloquejades[indexPerk] = true;
             GuardarEstatPerks();
             Debug.Log($"Perk desbloquejada: {NomPerk(indexPerk)}");
+            OnPerkChanged?.Invoke(indexPerk); // Notificar cambio
+
+            if (indexPerk == 3 && vidaUI != null)
+            {
+                // Se actualiza la UI de la vida al desbloquear el perk 3
+                vidaUI.UpdateHeartsUI();
+            }
         }
     }
-      // Guarda l'estat de totes les perks a PlayerPrefs.
+    // Guarda l'estat de totes les perks a PlayerPrefs.
     private void GuardarEstatPerks()
     {
         for (int i = 0; i < perksDesbloquejades.Length; i++)
@@ -103,7 +122,7 @@ public class SistemaPerks : MonoBehaviour
         }
         PlayerPrefs.Save();
     }
-      // Carrega l'estat de totes les perks des de PlayerPrefs.
+    // Carrega l'estat de totes les perks des de PlayerPrefs.
     public void CarregarEstatPerks()
     {
         for (int i = 0; i < perksDesbloquejades.Length; i++)
