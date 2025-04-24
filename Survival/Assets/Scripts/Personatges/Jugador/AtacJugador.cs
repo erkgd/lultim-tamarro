@@ -140,8 +140,15 @@ public class AtacJugador : MonoBehaviour
                     Enemic scriptEnemic = enemic.GetComponent<Enemic>();
                     if (scriptEnemic != null)
                     {
-                        scriptEnemic.DecrementarVida(danyAtac, gameObject.name);
-                        
+                        // Si el PERK d'atac està desbloquejat, apliquem el dany amb el bonus
+                        if (SistemaPerks.Instance.EstaDesbloquejada(2))
+                        {
+                            scriptEnemic.DecrementarVida(danyAtac + 1, gameObject.name);
+                        }
+                        else
+                        {
+                            scriptEnemic.DecrementarVida(danyAtac, gameObject.name);
+                        }
                         // Comprovar si l'enemic ha mort i activar l'animació de mort
                         if (scriptEnemic.VidaActual <= 0)
                         {
