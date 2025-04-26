@@ -1,27 +1,27 @@
 using UnityEngine;
 
-public class RecojerPinya : MonoBehaviour
+public class RecollirPinya : MonoBehaviour
 {
-    // Cantidad de vida que se incrementará al recoger la pinya.
-    public int incremento = 4;
+    // quantitat de vida que incrementa el jugador al recollir la pinya
+    public int increment = 4;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            // Se obtiene el componente Jugador
+            // s'obte el component Jugador de l'objecte amb el tag "Player"
             Jugador jugador = other.GetComponent<Jugador>();
             if (jugador != null)
             {
-                // Se llama a la función para incrementar la vida.
-                jugador.IncrementarVida(incremento);
+                // Truquem a la funcio de incrementar vida
+                jugador.IncrementarVida(increment);
             }
             else
             {
                 Debug.LogWarning("El objeto 'Player' no tiene el componente Jugador.");
             }
 
-            // Se destruye el objeto pinya.
+            // Destruiim l'objecte de la pinya
             Destroy(gameObject);
         }
     }
