@@ -100,9 +100,7 @@ public class SistemaVidaJugador : SistemaVida
         {
             StartCoroutine(Morir());
         }
-    }    
-    
-    public override IEnumerator Morir()
+    }    public override IEnumerator Morir()
     {
         // Configurar animación y estado
         if (animator != null)
@@ -204,9 +202,27 @@ public class SistemaVidaJugador : SistemaVida
             posicionador = gameObject.AddComponent<PosicionadorJugador>();
             Debug.Log("Se ha añadido automáticamente el componente PosicionadorJugador al jugador");
         }
-        if (posicionador != null)
+          if (posicionador != null)
         {
-            PlayerPrefs.Save();
+            // Guardar la preferencia de usar cortinilla para el posicionador
+            if (SistemaPerks.Instance != null)
+            {
+                SistemaPerks.Instance.GuardarValor("UsarCortinilla", usarCortinilla ? "1" : "0");
+                
+                // Guardamos un tag identificativo del punto de spawn - usamos "Hub" como tag
+                SistemaPerks.Instance.GuardarValor("LastSpawnPoint", "Hub");
+                Debug.Log("Se guardó el punto de spawn a través de SistemaPerks");
+                  // También guardamos la posición del punto de spawn del Hub
+                SistemaPerks.Instance.GuardarPosicioTeleport(TPConstants.HUB_SPAWN_POINT);
+            }
+            else
+            {
+                Debug.LogWarning("No se encontró SistemaPerks, usando PlayerPrefs directamente como fallback");
+                PlayerPrefs.SetString("LastSpawnPoint", "Hub");
+                PlayerPrefs.SetString("UsarCortinilla", usarCortinilla ? "1" : "0");
+                PlayerPrefs.Save();
+            }
+            
             // Iniciamos el teleport
             posicionador.IniciarTeleport(TPConstants.HUB_SPAWN_POINT, TPConstants.HUB_SCENE);
             Debug.Log($"Teleportando jugador al Hub... (Cortinilla: {(usarCortinilla ? "Activada" : "Desactivada")})");
