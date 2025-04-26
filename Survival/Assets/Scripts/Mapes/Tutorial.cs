@@ -16,13 +16,12 @@ public class Tutorial : MonoBehaviour
 
     public GameObject enemicPractica;
     public GameObject vallaSortidaCombat;
-    public GameObject camiSortidaCombat;
+    
 
     private Vector3 vallaCombatSortidaPInicial;
     private Vector3 vallaCombatSortidaPFinal;
 
-    private Vector3 camiSortidaCombatPInicial;
-    private Vector3 camiSortidaCombatPFinal;
+   
 
     public Collider enemicPracticaCollider;
 
@@ -95,22 +94,18 @@ public class Tutorial : MonoBehaviour
             vallaCombatSortidaPFinal    = new Vector3(vallaSortidaCombat.transform.position.x, 21.6f, vallaSortidaCombat.transform.position.z);
         }
 
-        if (camiSortidaCombat != null)
-        {
-            camiSortidaCombatPInicial   = new Vector3(camiSortidaCombat.transform.position.x, 25.8f, camiSortidaCombat.transform.position.z);
-            camiSortidaCombatPFinal     = new Vector3(camiSortidaCombat.transform.position.x, 26.3f, camiSortidaCombat.transform.position.z);
-        }
+     
 
         if (barreraEntradaVidaDreta != null)
         {
             barreraEntradaVidaDretaPInicial = new Vector3(barreraEntradaVidaDreta.transform.localScale.x, barreraEntradaVidaDreta.transform.localScale.y,14.1998f);
-            barreraEntradaVidaDretaPFinal   = new Vector3(barreraEntradaVidaDreta.transform.localScale.x,barreraEntradaVidaDreta.transform.localScale.y,19.9f);
+            barreraEntradaVidaDretaPFinal   = new Vector3(barreraEntradaVidaDreta.transform.localScale.x,barreraEntradaVidaDreta.transform.localScale.y,20.5f);
         }
 
         if (barreraEntradaVidaEsquerra != null)
         {
             barreraEntradaVidaEsquerraPInicial  = new Vector3(barreraEntradaVidaEsquerra.transform.localScale.x, barreraEntradaVidaEsquerra.transform.localScale.y, 13.13898f);
-            barreraEntradaVidaEsquerraPFinal    = new Vector3(barreraEntradaVidaEsquerra.transform.localScale.x, barreraEntradaVidaEsquerra.transform.localScale.y, 19.81226f);
+            barreraEntradaVidaEsquerraPFinal    = new Vector3(barreraEntradaVidaEsquerra.transform.localScale.x, barreraEntradaVidaEsquerra.transform.localScale.y, 20.5f);
         }
 
         if (barreraSortidaVidaDreta != null)
@@ -253,7 +248,7 @@ public class Tutorial : MonoBehaviour
             tiempo += Time.deltaTime * velocidad;
             barreraEntradaVidaDreta.transform.localScale = Vector3.Lerp(barreraEntradaVidaDretaPInicial, barreraEntradaVidaDretaPFinal, tiempo);
             barreraEntradaVidaEsquerra.transform.localScale = Vector3.Lerp(barreraEntradaVidaEsquerraPInicial, barreraEntradaVidaEsquerraPFinal, tiempo);
-
+            entradaVida.enabled = false;
             yield return null;
         }
     }
@@ -278,9 +273,6 @@ public class Tutorial : MonoBehaviour
         {
             tiempo += Time.deltaTime * velocidad;
             vallaSortidaCombat.transform.position = Vector3.Lerp(vallaCombatSortidaPInicial, vallaCombatSortidaPFinal, tiempo);
-
-            camiSortidaCombat.transform.position = Vector3.Lerp(camiSortidaCombatPInicial, camiSortidaCombatPFinal, tiempo);
-
             yield return null;
         }
     }
