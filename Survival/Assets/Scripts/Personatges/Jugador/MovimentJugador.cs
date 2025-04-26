@@ -65,8 +65,10 @@ public class MovimentJugador : MonoBehaviour
         float currentSpeed = velocitat;
         if (estaCorrent)
         {
-            animator.SetBool("EstaCorrent", true);
+         
             currentSpeed = velocitatCorrer;
+            
+            animator.SetBool("EstaCorrent", true);
         }
         else
         {
@@ -128,4 +130,11 @@ public class MovimentJugador : MonoBehaviour
         yield return new WaitForSeconds(duracioKnockback);
         impulsExtern = Vector3.zero;
     }
+
+    public void CanviarVelocitatCorrerPerk(float novaVelocitat)
+    {
+        velocitatCorrer = novaVelocitat;
+        Debug.Log($"MovimentJugador: velocitatCorrer canviada a {novaVelocitat}");
+    }
+
 }
