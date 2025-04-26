@@ -116,8 +116,10 @@ public class MovimentJugador : MonoBehaviour
     public void AturarMoviment()
     {
         animator.SetBool("EstaMoviment", false);
+        animator.SetBool("EstaCorrent", false);
+
     }
-    
+
     // Método para aplicar knockback al jugador
     public void AplicarKnockback(Vector3 direccio, float forca)
     {
