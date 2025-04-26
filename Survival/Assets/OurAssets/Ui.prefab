@@ -357,8 +357,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8643421748975026548}
   m_Layer: 0
-  m_Name: UI
-  m_TagString: Untagged
+  m_Name: Ui
+  m_TagString: HUDCanvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -909,7 +909,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayType: 0
-  currentLife: 12
   heartImagesType1:
   - {fileID: 261052869145226324}
   - {fileID: 4031931484727089909}
