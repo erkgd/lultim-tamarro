@@ -9,6 +9,9 @@ public class Jugador : Personatge
 {
     [Header("Referències")]
     [SerializeField] private ParticleSystem efecteInvencibilitat;
+    [SerializeField] private SkinnedMeshRenderer meshRenderer;
+    [SerializeField] private Color colorPerkAtac = new Color(1f, 0.6f, 0.6f, 1f);
+    private Color colorOriginal;
     private CharacterController characterController;
     private Animator animator;
     private BoxCollider boxColliderAtac;
@@ -18,6 +21,7 @@ public class Jugador : Personatge
     [SerializeField] private int danyAtac = 1;
     [SerializeField] private float forcaKnockback = 5f;
     private bool atacant = false;
+    private bool perkAtacAplicat = false;
 
     // Componentes modularizados
     private MovimentJugador movimentJugador;
@@ -65,6 +69,20 @@ public class Jugador : Personatge
         boxColliderAtac = GetComponent<BoxCollider>();
         sistemaVida = GetComponent<SistemaVidaJugador>();
         
+        if (meshRenderer == null)
+        {
+            meshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
+            if (meshRenderer == null)
+            {
+                Debug.LogWarning("No s'ha trobat SkinnedMeshRenderer en el personatge");
+            }
+        }
+
+        if (meshRenderer != null)
+        {
+            colorOriginal = meshRenderer.material.color;
+        }
+
         if (boxColliderAtac != null)
             boxColliderAtac.enabled = false;
 
@@ -119,8 +137,37 @@ public class Jugador : Personatge
         sistemaVida.OnVidaCanviada += OnVidaCanviada;
         sistemaVida.OnMuerte += DesactivarControl;
         sistemaVida.OnRevivir += ActivarControl;
+
+        if (SistemaPerks.Instance != null)
+        {
+            if (SistemaPerks.Instance.EstaDesbloquejada(2) && !perkAtacAplicat)
+            {
+                AplicarPerkAtac();
+            }
+            SistemaPerks.Instance.OnPerkChanged += ComprovarPerkAtac;
+        }
     }
-    
+
+    private void ComprovarPerkAtac(int indexPerk)
+    {
+        if (indexPerk == 2 && !perkAtacAplicat)
+        {
+            AplicarPerkAtac();
+        }
+    }
+
+    private void AplicarPerkAtac()
+    {
+        danyAtac = Mathf.RoundToInt(danyAtac * 1.5f);
+        perkAtacAplicat = true;
+
+        if (meshRenderer != null)
+        {
+            meshRenderer.material.color = colorPerkAtac;
+            Debug.Log("Color del personatge actualitzat per perk d'atac");
+        }
+    }
+
     private void OnVidaCanviada()
     {
         NotificarCambiVida();
@@ -194,14 +241,23 @@ public class Jugador : Personatge
         movimentJugador.AplicarKnockback(direccio, forca);
     }
     
-    // Asegurarnos de desuscribirse de los eventos al destruir el objeto
-    public void OnDestroy()
+    private void OnDestroy()
     {
         if (sistemaVida != null)
         {
             sistemaVida.OnVidaCanviada -= OnVidaCanviada;
             sistemaVida.OnMuerte -= DesactivarControl;
             sistemaVida.OnRevivir -= ActivarControl;
+        }
+
+        if (SistemaPerks.Instance != null)
+        {
+            SistemaPerks.Instance.OnPerkChanged -= ComprovarPerkAtac;
+        }
+
+        if (meshRenderer != null)
+        {
+            meshRenderer.material.color = colorOriginal;
         }
     }
 }
