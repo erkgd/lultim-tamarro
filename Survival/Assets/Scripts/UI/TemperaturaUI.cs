@@ -50,6 +50,13 @@ public class TemperaturaUI : MonoBehaviour
         }
     }
 
+    // Aumenta la temperatura actual, mètode públic
+    public void AugmentarTemperatura(float quantitat)
+    {
+        temperaturaActual += quantitat;
+        ActualitzarText();
+    }
+
     private void ActualitzarText()
     {
         if (textTemperatura != null)
