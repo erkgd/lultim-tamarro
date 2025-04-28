@@ -155,7 +155,7 @@ public class AtacJugador : MonoBehaviour
                             Animator animatorEnemic = scriptEnemic.GetComponent<Animator>();
                             if (animatorEnemic != null)
                             {
-                                animatorEnemic.SetBool("EnemicMort", true);
+                                animatorEnemic.SetBool("senseVida", true);
                             }
                         }
                     }
