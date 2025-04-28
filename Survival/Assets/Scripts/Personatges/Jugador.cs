@@ -9,8 +9,8 @@ public class Jugador : Personatge
 {
     [Header("Referències")]
     [SerializeField] private ParticleSystem efecteInvencibilitat;
-    [SerializeField] private SkinnedMeshRenderer meshRenderer;
-    [SerializeField] private Color colorPerkAtac = new Color(1f, 0.6f, 0.6f, 1f);
+    [SerializeField] private SkinnedMeshRenderer[] meshRenderers;
+    [SerializeField] private Color colorPerkAtac = new Color(1f, 0.88f, 0f, 1f);
     private Color colorOriginal;
     private CharacterController characterController;
     private Animator animator;
@@ -69,18 +69,24 @@ public class Jugador : Personatge
         boxColliderAtac = GetComponent<BoxCollider>();
         sistemaVida = GetComponent<SistemaVidaJugador>();
         
-        if (meshRenderer == null)
+        // Buscar todos los SkinnedMeshRenderer
+        if (meshRenderers == null || meshRenderers.Length == 0)
         {
-            meshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
-            if (meshRenderer == null)
+            meshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
+            if (meshRenderers.Length == 0)
             {
-                Debug.LogWarning("No s'ha trobat SkinnedMeshRenderer en el personatge");
+                Debug.LogWarning("No s'han trobat SkinnedMeshRenderer en el personatge");
+            }
+            else
+            {
+                Debug.Log($"Trobats {meshRenderers.Length} SkinnedMeshRenderer en el personatge");
             }
         }
 
-        if (meshRenderer != null)
+        // Guardar el color original del primer mesh (asumimos que todos tienen el mismo color)
+        if (meshRenderers.Length > 0)
         {
-            colorOriginal = meshRenderer.material.color;
+            colorOriginal = meshRenderers[0].material.color;
         }
 
         if (boxColliderAtac != null)
@@ -161,10 +167,14 @@ public class Jugador : Personatge
         danyAtac = Mathf.RoundToInt(danyAtac * 1.5f);
         perkAtacAplicat = true;
 
-        if (meshRenderer != null)
+        // Aplicar el color a todos los meshes
+        foreach (var meshRenderer in meshRenderers)
         {
-            meshRenderer.material.color = colorPerkAtac;
-            Debug.Log("Color del personatge actualitzat per perk d'atac");
+            if (meshRenderer != null && meshRenderer.material != null)
+            {
+                meshRenderer.material.color = colorPerkAtac;
+                Debug.Log($"Color actualitzat per {meshRenderer.name}");
+            }
         }
     }
 
@@ -255,9 +265,13 @@ public class Jugador : Personatge
             SistemaPerks.Instance.OnPerkChanged -= ComprovarPerkAtac;
         }
 
-        if (meshRenderer != null)
+        // Restaurar el color original en todos los meshes
+        foreach (var meshRenderer in meshRenderers)
         {
-            meshRenderer.material.color = colorOriginal;
+            if (meshRenderer != null && meshRenderer.material != null)
+            {
+                meshRenderer.material.color = colorOriginal;
+            }
         }
     }
 }
