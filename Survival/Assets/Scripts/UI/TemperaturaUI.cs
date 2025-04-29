@@ -1,34 +1,24 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI; // Necesario para Image
+using UnityEngine.UI; 
 
 public class TemperaturaUI : MonoBehaviour
 {
     private Jugador jugador;
 
-    [Header("Configuración Temperatura")]
+    [Header("Configuració Temperatura")]
     [SerializeField] private float temperaturaMaxima = 200f;
     [SerializeField] private float temperaturaMinima = 0f;
     [SerializeField] private float temperaturaInicial = 200f;
     private float temperaturaActual;
 
-    [Header("Reducción de Temperatura")]
+    [Header("Reducció de Temperatura")]
     [SerializeField] private float quantitatReduccio = 1f;
     [SerializeField] private float tempsReduccio = 1f;
 
-    // --- MODIFICADO: Referencia a la imagen AZUL de relleno ---
-    [Header("Referencias UI Barra")]
-    [Tooltip("Arrastra aquí la Imagen UI AZUL que se llenará encima (ColdBarImage_Relleno).")]
-    [SerializeField] private Image coldBarImageRelleno; // Cambiado el nombre y el propósito
-    // --- FIN MODIFICADO ---
-
-    // --- ELIMINADO: Referencias antiguas (RectTransforms, gradient, etc.) ---
-    // [SerializeField] private RectTransform coldBarRect;
-    // [SerializeField] private RectTransform hotBarRect;
-    // private float anchoTotalBarra;
-    // [SerializeField] private bool usarGradientColor = true;
-    // [SerializeField] private Gradient gradientColorBarra;
-    // --- FIN ELIMINADO ---
+    [Header("Referències UI Barra")]
+    [Tooltip("Arrossega aquí la Imatge UI BLAVA que s'omplirà a sobre (BarraFredaImatge_Emplenat).")]
+    [SerializeField] private Image barraFredaImatgeEmplenament; // Canviat el nom i el propòsit
 
     private Coroutine reduccioCoroutine;
 
@@ -36,30 +26,28 @@ public class TemperaturaUI : MonoBehaviour
     {
         jugador = FindObjectOfType<Jugador>();
         if (jugador == null)
-            Debug.LogError($"{this.GetType().Name}: No se encontró Jugador.");
+            Debug.LogError($"{this.GetType().Name}: No s'ha trobat Jugador.");
 
-        // --- MODIFICADO: Comprobar la nueva referencia ---
-        if (coldBarImageRelleno == null)
+        if (barraFredaImatgeEmplenament == null)
         {
-            Debug.LogError($"{this.GetType().Name}: ¡Asigna la Imagen UI para la barra AZUL de relleno en el Inspector!");
+            Debug.LogError($"{this.GetType().Name}: Assigna la Imatge UI per a la barra BLAVA d'emplenament a l'Inspector!");
             enabled = false;
             return;
         }
-        // Asegurarse que es de tipo Filled (mejor hacerlo en editor, pero por si acaso)
-        if (coldBarImageRelleno.type != Image.Type.Filled) {
-             Debug.LogWarning($"{this.GetType().Name}: La imagen de relleno azul no es 'Filled'. Cambiando...");
-             coldBarImageRelleno.type = Image.Type.Filled;
-             coldBarImageRelleno.fillMethod = Image.FillMethod.Horizontal;
-             coldBarImageRelleno.fillOrigin = (int)Image.OriginHorizontal.Left; // Creciendo desde la izquierda
+        // Assegurar-se que és de tipus Filled (millor fer-ho a l'editor, però per si de cas)
+        if (barraFredaImatgeEmplenament.type != Image.Type.Filled) {
+             Debug.LogWarning($"{this.GetType().Name}: La imatge d'emplenament blava no és 'Filled'. Canviant...");
+             barraFredaImatgeEmplenament.type = Image.Type.Filled;
+             barraFredaImatgeEmplenament.fillMethod = Image.FillMethod.Horizontal;
+             barraFredaImatgeEmplenament.fillOrigin = (int)Image.OriginHorizontal.Left; // Creixent des de l'esquerra
         }
-        // --- FIN MODIFICADO ---
 
 
         temperaturaActual = temperaturaInicial;
         if (quantitatReduccio > 0 && tempsReduccio > 0) {
             reduccioCoroutine = StartCoroutine(ReduirTemperatura());
         }
-        ActualitzarBarra(); // Actualización inicial
+        ActualitzarBarra(); // Actualització inicial
     }
 
     private IEnumerator ReduirTemperatura()
@@ -76,7 +64,7 @@ public class TemperaturaUI : MonoBehaviour
 
                  if (temperaturaActual <= temperaturaMinima)
                  {
-                    jugador.DecrementarVida(999, "Temperatura Baja");
+                    jugador.DecrementarVida(999, "Temperatura Baixa");
                  }
             }
         }
@@ -98,22 +86,21 @@ public class TemperaturaUI : MonoBehaviour
         }
     }
 
-    // --- MODIFICADO: Actualiza solo el fillAmount de la barra AZUL ---
     private void ActualitzarBarra()
     {
-        if (coldBarImageRelleno == null) return;
+        if (barraFredaImatgeEmplenament == null) return;
 
-        // Valor normalizado (0 = min temp, 1 = max temp)
+        // Valor normalitzat (0 = temp mínima, 1 = temp màxima)
         float valorNormalitzat = Mathf.InverseLerp(temperaturaMinima, temperaturaMaxima, temperaturaActual);
 
-        // Queremos que la barra azul esté LLENA (fill=1) cuando la temp es MÍNIMA (norm=0)
-        // y VACÍA (fill=0) cuando la temp es MÁXIMA (norm=1).
-        // Por tanto, invertimos el valor normalizado:
-        float fillAmountAzul = 1f - valorNormalitzat;
+        // Volem que la barra blava estigui PLENA (fill=1) quan la temp és MÍNIMA (norm=0)
+        // i BUIDA (fill=0) quan la temp és MÀXIMA (norm=1).
+        // Per tant, invertim el valor normalitzat:
+        float emplenamentBlau = 1f - valorNormalitzat;
 
-        // Aplicar el fillAmount a la imagen azul
-        coldBarImageRelleno.fillAmount = fillAmountAzul;
+        // Aplicar el fillAmount a la imatge blava
+        barraFredaImatgeEmplenament.fillAmount = emplenamentBlau;
 
-        // Debug.Log($"Temp: {temperaturaActual}, Norm: {valorNormalitzat}, FillAzul: {fillAmountAzul}");
+        // Debug.Log($"Temp: {temperaturaActual}, Norm: {valorNormalitzat}, EmplenamentBlau: {emplenamentBlau}");
     }
 }
