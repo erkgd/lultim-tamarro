@@ -4759,22 +4759,32 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 316433546}
     m_Modifications:
     - target: {fileID: 7488852663541166423, guid: 5130c00c305217643b60a50c4cfd4c59,
         type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.2499999
+      objectReference: {fileID: 0}
+    - target: {fileID: 7488852663541166423, guid: 5130c00c305217643b60a50c4cfd4c59,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.2499999
+      objectReference: {fileID: 0}
+    - target: {fileID: 7488852663541166423, guid: 5130c00c305217643b60a50c4cfd4c59,
+        type: 3}
       propertyPath: m_LocalPosition.x
-      value: 150.53957
+      value: 17.696732
       objectReference: {fileID: 0}
     - target: {fileID: 7488852663541166423, guid: 5130c00c305217643b60a50c4cfd4c59,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 61.991356
+      value: 125.03975
       objectReference: {fileID: 0}
     - target: {fileID: 7488852663541166423, guid: 5130c00c305217643b60a50c4cfd4c59,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 17.103407
+      value: 51.73635
       objectReference: {fileID: 0}
     - target: {fileID: 7488852663541166423, guid: 5130c00c305217643b60a50c4cfd4c59,
         type: 3}
@@ -4821,6 +4831,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5130c00c305217643b60a50c4cfd4c59, type: 3}
+--- !u!4 &205122465 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7488852663541166423, guid: 5130c00c305217643b60a50c4cfd4c59,
+    type: 3}
+  m_PrefabInstance: {fileID: 205122464}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &205982336
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8466,6 +8482,7 @@ Transform:
   - {fileID: 222052369}
   - {fileID: 618406573}
   - {fileID: 461018227}
+  - {fileID: 205122465}
   m_Father: {fileID: 1692256375}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &318462273 stripped
@@ -77795,5 +77812,4 @@ SceneRoots:
   - {fileID: 2009860098}
   - {fileID: 1460186314}
   - {fileID: 1422707050}
-  - {fileID: 205122464}
   - {fileID: 321328594}
