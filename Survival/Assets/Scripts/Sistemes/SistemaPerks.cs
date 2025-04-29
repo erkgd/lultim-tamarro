@@ -44,6 +44,47 @@ public class SistemaPerks : MonoBehaviour
         vidaUI = FindObjectOfType<VidaUI>();
     }
 
+    #region Teleport
+    // Guarda la posició de destí per a un teleport.
+    // @param position: Posició de destí
+    // @param necessitaTeleport: Indica si es requereix teleport
+    public void GuardarPosicioTeleport(Vector3 position, bool necessitaTeleport = true)
+    {
+        PlayerPrefs.SetFloat(KEY_DESTIX, position.x);
+        PlayerPrefs.SetFloat(KEY_DESTIY, position.y);
+        PlayerPrefs.SetFloat(KEY_DESTIZ, position.z);
+        PlayerPrefs.SetInt(KEY_NECESSITA_TELEPORT, necessitaTeleport ? 1 : 0);
+        PlayerPrefs.Save();
+        
+        Debug.Log($"SistemaPerks: Guardada posició de teleport ({position.x}, {position.y}, {position.z}), NecessitaTeleport={necessitaTeleport}");
+    }    
+    // Obté la posició guardada per a teleport.
+    // @returns: Vector3 amb la posició guardada
+    public Vector3 ObtenirPosicioTeleport()
+    {
+        Vector3 posicio = new Vector3(
+            PlayerPrefs.GetFloat(KEY_DESTIX, 0f),
+            PlayerPrefs.GetFloat(KEY_DESTIY, 0f),
+            PlayerPrefs.GetFloat(KEY_DESTIZ, 0f)
+        );
+        
+        return posicio;
+    }
+    // Verifica si es requereix teleportar al jugador.
+    // @returns: True si és necessari teleportar
+    public bool NecessitaTeleport()
+    {
+        return PlayerPrefs.GetInt(KEY_NECESSITA_TELEPORT, 0) == 1;
+    }
+      // Marca que el teleport ja ha estat realitzat.
+    public void MarcarTeleportCompletat()
+    {
+        PlayerPrefs.SetInt(KEY_NECESSITA_TELEPORT, 0);
+        PlayerPrefs.Save();
+        Debug.Log("SistemaPerks: Teleport marcat com completat");
+    }
+
+    #endregion
     #region Altres Preferències
 
     // Aquí es poden afegir altres mètodes per guardar/carregar diferents tipus de dades
@@ -81,36 +122,6 @@ public class SistemaPerks : MonoBehaviour
     {
         return PlayerPrefs.GetString(clau, valorPredeterminat);
     }
-
-    public void GuardarPosicioTeleport(Vector3 position, bool necessitaTeleport = true)
-    {
-        PlayerPrefs.SetFloat(KEY_DESTIX, position.x);
-        PlayerPrefs.SetFloat(KEY_DESTIY, position.y);
-        PlayerPrefs.SetFloat(KEY_DESTIZ, position.z);
-        PlayerPrefs.SetInt(KEY_NECESSITA_TELEPORT, necessitaTeleport ? 1 : 0);
-        PlayerPrefs.Save();
-
-        Debug.Log($"SistemaPerks: Guardada posició de teleport ({position.x}, {position.y}, {position.z}), NecessitaTeleport={necessitaTeleport}");
-    }
-
-    public Vector3 ObtenirPosicioTeleport()
-    {
-        Vector3 posicio = new Vector3(
-            PlayerPrefs.GetFloat(KEY_DESTIX, 0f),
-            PlayerPrefs.GetFloat(KEY_DESTIY, 0f),
-            PlayerPrefs.GetFloat(KEY_DESTIZ, 0f)
-        );
-
-        return posicio;
-    }
-
-    public void MarcarTeleportCompletat()
-    {
-        PlayerPrefs.SetInt(KEY_NECESSITA_TELEPORT, 0);
-        PlayerPrefs.Save();
-        Debug.Log("SistemaPerks: Teleport marcat com completat");
-    }
-
 
     #endregion
     #region Perks

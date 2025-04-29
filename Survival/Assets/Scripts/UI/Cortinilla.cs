@@ -133,7 +133,7 @@ public class Cortinilla : MonoBehaviour
         imatgeCortinilla.material.SetFloat(RadioProperty, radiFinal);
         
         // Opcional: desactivar la imagen al terminar la animación, dependiendo de la necesidad
-        // imatgeCortinilla.gameObject.SetActive(false);
+        imatgeCortinilla.gameObject.SetActive(false);
     }
 
     // Corrutina per a l'animació
