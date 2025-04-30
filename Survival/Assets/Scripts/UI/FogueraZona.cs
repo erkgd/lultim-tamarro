@@ -1,19 +1,31 @@
 using UnityEngine;
+using System;
 
 public class FogueraZona : MonoBehaviour
 {
-    [SerializeField] private float radi = 5f; // Radio de calor de la hoguera
-    [SerializeField] private float quantitatAugment = 2f; // Cuánto sube la temperatura por ciclo
-    [SerializeField] private float tempsAugment = 1f; // Cada cuánto sube la temperatura
+    // Variables de la foguera
+    [Header("Configuració de la foguera")]
+    [SerializeField] private float radi = 5f; // Radi de calor de la foguera
+    [SerializeField] private float quantitatAugment = 5f; // Quantitat que augmenta la temperatura per cicle
+    [SerializeField] private float tempsAugment = 1f; // Temps que tarda en augmentar la temperatura
 
     private TemperaturaUI temperaturaUI;
     private bool jugadorDintre = false;
 
+    // Inicialització del script, troba el component TemperaturaUI
     private void Start()
     {
-        temperaturaUI = FindObjectOfType<TemperaturaUI>();
+        try
+        {
+            temperaturaUI = FindObjectOfType<TemperaturaUI>();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Error al trobar el component TemperaturaUI: " + e.Message);
+        }
     }
 
+    // Actualització del script, no fa res
     private void Update()
     {
         if (jugadorDintre && temperaturaUI != null)
@@ -22,35 +34,59 @@ public class FogueraZona : MonoBehaviour
         }
     }
 
+    // Quan el jugador entra en el trigger, canvia el bool i crida a la corrutina
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        try
         {
-            jugadorDintre = true;
-            StopAllCoroutines();
-            StartCoroutine(AugmentarTemperatura());
+            if (other.CompareTag("Player"))
+            {
+                jugadorDintre = true;
+                StopAllCoroutines();
+                StartCoroutine(AugmentarTemperatura());
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Error al trobar el component TemperaturaUI: " + e.Message);
         }
     }
 
+    // Quan el jugador surt del trigger, canvia el bool i para la corrutina
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        try
         {
-            jugadorDintre = false;
-            StopAllCoroutines();
+            if (other.CompareTag("Player"))
+            {
+                jugadorDintre = false;
+                StopAllCoroutines();
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Error al trobar el component TemperaturaUI: " + e.Message);
         }
     }
 
+    // Corrutina que augmenta la temperatura del jugador
     private System.Collections.IEnumerator AugmentarTemperatura()
     {
         while (jugadorDintre)
         {
-            temperaturaUI.AugmentarTemperatura(quantitatAugment);
+            try
+            {
+                temperaturaUI.AugmentarTemperatura(quantitatAugment);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Error al augmentar la temperatura: " + e.Message);
+            }
             yield return new WaitForSeconds(tempsAugment);
         }
     }
 
-    // Opcional: dibujar el área de calor en el editor
+    // Opcional: dibuixar el radi de calor en el editor
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = new Color(1f, 0.5f, 0f, 0.3f);

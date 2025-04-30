@@ -7,10 +7,10 @@ public class TemperaturaUI : MonoBehaviour
     private Jugador jugador;
 
     [Header("Configuració Temperatura")]
-    [SerializeField] private float temperaturaMaxima = 200f;
+    [SerializeField] private float temperaturaMaxima = 100f;
     [SerializeField] private float temperaturaMinima = 0f;
-    [SerializeField] private float temperaturaInicial = 200f;
-    private float temperaturaActual;
+    [SerializeField] private float temperaturaInicial = 100f;
+    [SerializeField] private float temperaturaActual;
 
     [Header("Reducció de Temperatura")]
     [SerializeField] private float quantitatReduccio = 1f;
