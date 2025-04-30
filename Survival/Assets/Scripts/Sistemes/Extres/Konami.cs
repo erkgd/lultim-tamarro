@@ -21,13 +21,6 @@ public class Konami : MonoBehaviour
     private int currentIndex = 0;
     private bool codeActivated = false;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
         if (codeActivated) return;
@@ -54,7 +47,6 @@ public class Konami : MonoBehaviour
         codeActivated = true;
         Debug.Log("¡Codi Konami activat!");
 
-        // Desbloquejar tots els Perks
         if (SistemaPerks.Instance != null)
         {
             for (int i = 0; i < 4; i++)
@@ -68,7 +60,7 @@ public class Konami : MonoBehaviour
         }
         else
         {
-            Debug.LogError("No se encontró SistemaPerks.Instance");
+            Debug.LogError("No s'ha trobat SistemaPerks.Instance");
         }
     }
 }
