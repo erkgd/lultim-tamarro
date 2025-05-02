@@ -86,7 +86,7 @@ public class VidaUI : MonoBehaviour
     public void UpdateHeartsUI()
     {
         if (sistemaVida == null) return;
-        int currentLife = sistemaVida.VidaActual;
+        float currentLife = sistemaVida.VidaActual;
         var heartList = (displayType == DisplayType.Type1) 
             ? heartImagesType1 
             : heartImagesType2;
@@ -109,7 +109,7 @@ public class VidaUI : MonoBehaviour
         UpdateHeartsUI();
     }
 
-    public void UpdateHealth(int vidaActual)
+    public void UpdateHealth(float vidaActual)
     {
         UpdateHeartsUI();
     }
