@@ -18,7 +18,7 @@ public class Jugador : Personatge
     private SistemaVidaJugador sistemaVida;
     
     // Variables para implementar las propiedades abstractas
-    [SerializeField] private int danyAtac = 1;
+    [SerializeField] private float danyAtac = 1f;
     [SerializeField] private float forcaKnockback = 5f;
     private bool atacant = false;
     private bool perkAtacAplicat = false;
@@ -49,9 +49,9 @@ public class Jugador : Personatge
     [SerializeField] private float radiEfecte = 1.0f;
 
     // Implementación de propiedades abstractas
-    public override int VidaActual => sistemaVida.VidaActual;
-    public override int VidaMaxima => sistemaVida.VidaMaxima;
-    public override int Dany => danyAtac;
+    public override float VidaActual => sistemaVida.VidaActual;
+    public override float VidaMaxima => sistemaVida.VidaMaxima;
+    public override float Dany => danyAtac;
     public override float ForcaKnockback => forcaKnockback;
 
     public CharacterController CharacterController => characterController;
@@ -209,12 +209,12 @@ public class Jugador : Personatge
     }
 
     // Métodos que delegan al sistema de vida
-    public override void DecrementarVida(int quantitat, string font = "")
+    public override void DecrementarVida(float quantitat, string font = "")
     {
-        sistemaVida.DecrementarVida(quantitat);
+        sistemaVida.DecrementarVida(quantitat, font);
     }
     
-    public void IncrementarVida(int quantitat)
+    public void IncrementarVida(float quantitat)
     {
         sistemaVida.IncrementarVida(quantitat);
     }
