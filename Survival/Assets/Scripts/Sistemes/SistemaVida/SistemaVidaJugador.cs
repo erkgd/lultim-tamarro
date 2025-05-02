@@ -10,8 +10,8 @@ public class SistemaVidaJugador : SistemaVida
     [SerializeField] private float tempsReviure = 1f;
 
     // Propiedades internas para gestionar la vida
-    [SerializeField] private int vidaMaxima = 24;
-    [SerializeField] private int vidaActual = 12;
+    [SerializeField] private float vidaMaxima = 24f;
+    [SerializeField] private float vidaActual = 12f;
     
     // Eventos para comunicación (eliminados los duplicados con la clase base)
     public event Action OnVidaCanviada;
@@ -19,8 +19,8 @@ public class SistemaVidaJugador : SistemaVida
     // Referencias a componentes
     private Animator animator;
     
-    public int VidaActual => vidaActual;
-    public int VidaMaxima => vidaMaxima;
+    public float VidaActual => vidaActual;
+    public float VidaMaxima => vidaMaxima;
     
     public override void Awake()
     {
@@ -44,7 +44,7 @@ public class SistemaVidaJugador : SistemaVida
         return vidaActual > 0;
     }
     
-    public void IncrementarVida(int quantitat)
+    public void IncrementarVida(float quantitat)
     {
         if (quantitat <= 0) return;
         
@@ -54,7 +54,7 @@ public class SistemaVidaJugador : SistemaVida
         NotificarCanviVida();
     }
     
-    public void DecrementarVida(int quantitat)
+    public void DecrementarVida(float quantitat, string font = "")
     {
         // Comprobación detallada con logs
         if (quantitat <= 0) {
@@ -74,9 +74,12 @@ public class SistemaVidaJugador : SistemaVida
         }
         
         // Log para depuración
-        Debug.Log($"Vida antes del daño: {vidaActual}");
+        if (!string.IsNullOrEmpty(font))
+            Debug.Log($"Vida antes del daño: {vidaActual} (Fuente: {font})");
+        else
+            Debug.Log($"Vida antes del daño: {vidaActual}");
         
-        vidaActual = Mathf.Max(vidaActual - quantitat, 0);
+        vidaActual = Mathf.Max(vidaActual - quantitat, 0f);
         
         // Log para depuración
         Debug.Log($"Vida después del daño: {vidaActual}, Cantidad de daño: {quantitat}");
@@ -100,7 +103,9 @@ public class SistemaVidaJugador : SistemaVida
         {
             StartCoroutine(Morir());
         }
-    }    public override IEnumerator Morir()
+    }
+    
+    public override IEnumerator Morir()
     {
         // Configurar animación y estado
         if (animator != null)
