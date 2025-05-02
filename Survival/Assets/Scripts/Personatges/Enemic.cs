@@ -15,7 +15,7 @@ public class Enemic : Personatge
     private SistemaVidaEnemic sistemaVida;
     
     // Variables para implementar propiedades abstractas
-    [SerializeField] private int dany = 1;
+    [SerializeField] private float dany = 1f;
     [SerializeField] private float forcaKnockback = 3f;
     private bool atacant = false;
     
@@ -43,9 +43,9 @@ public class Enemic : Personatge
     [SerializeField] private float tempsMaximPersecucio = 5f;
 
     // Implementación de propiedades abstractas a través del sistema de vida
-    public override int VidaActual => sistemaVida.VidaActual;
-    public override int VidaMaxima => sistemaVida.VidaMaxima;
-    public override int Dany => dany;
+    public override float VidaActual => sistemaVida.VidaActual;
+    public override float VidaMaxima => sistemaVida.VidaMaxima;
+    public override float Dany => dany;
     public override float ForcaKnockback => forcaKnockback;
 
     public NavMeshAgent Agent => agent;
@@ -54,7 +54,7 @@ public class Enemic : Personatge
     public bool Atacant { get => atacant; set => atacant = value; }
 
     // Propiedades adicionales para otras clases
-    public int DanyAtac => dany;
+    public float DanyAtac => dany;
     
     protected override void Awake()
     {
@@ -123,7 +123,7 @@ public class Enemic : Personatge
     }
 
     // Métodos que delegan al sistema de vida
-    public override void DecrementarVida(int quantitat, string font = "")
+    public override void DecrementarVida(float quantitat, string font = "")
     {
         sistemaVida.DecrementarVida(quantitat, font);
     }

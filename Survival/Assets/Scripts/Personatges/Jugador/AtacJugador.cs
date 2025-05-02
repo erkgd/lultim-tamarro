@@ -12,7 +12,7 @@ public class AtacJugador : MonoBehaviour
     private float tempsEntreAtacs;
     private float tempsAtac;
     private float angleVisioAtac;
-    private int danyAtac;
+    private float danyAtac;
     
     private float comptadorAtacs = 0f;
     
@@ -23,7 +23,7 @@ public class AtacJugador : MonoBehaviour
         boxColliderAtac = jugador.BoxColliderAtac;
     }
 
-    public void ConfigurarAtac(float rangAtacar, float tempsEntreAtacs, float tempsAtac, float angleVisioAtac, int danyAtac)
+    public void ConfigurarAtac(float rangAtacar, float tempsEntreAtacs, float tempsAtac, float angleVisioAtac, float danyAtac)
     {
         this.rangAtacar = rangAtacar;
         this.tempsEntreAtacs = tempsEntreAtacs;
