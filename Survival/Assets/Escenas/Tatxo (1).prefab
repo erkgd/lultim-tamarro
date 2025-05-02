@@ -339,7 +339,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19b182c968776e7418dec0b59d799a09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dany: 2
+  dany: 1.5
   forcaKnockback: 3
   duracioAnimacioAtac: 0.5
   tempsPerDesapareixer: 2
