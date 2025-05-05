@@ -59,7 +59,7 @@ public class PosicionadorJugador : MonoBehaviour
             float y = PlayerPrefs.GetFloat("DestiY", 0f);
             float z = PlayerPrefs.GetFloat("DestiZ", 0f);
             Vector3 posicionFinal = new Vector3(x, y, z);
-            
+            Debug.Log($"POSICIONADOR JUGADOR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1111");
             if (mostrarDebug) Debug.Log($"Valors de teleport trobats: ({x}, {y}, {z})");
             
             // Desactivar el CharacterController temporalmente para evitar conflictos
