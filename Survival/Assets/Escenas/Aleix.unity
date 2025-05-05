@@ -8692,6 +8692,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2734787349295546268, guid: 008aeca95a124204c914bd2b943d1121,
+        type: 3}
+      propertyPath: barraFredaImatgeEmplenament
+      value: 
+      objectReference: {fileID: 502569917}
     - target: {fileID: 4297267049608128940, guid: 008aeca95a124204c914bd2b943d1121,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -12938,6 +12943,18 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 2038563684}
   m_SourcePrefab: {fileID: 100100000, guid: 6183c42d274b909489ad594bf28d2bb4, type: 3}
+--- !u!114 &502569917 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1384705309466768455, guid: 008aeca95a124204c914bd2b943d1121,
+    type: 3}
+  m_PrefabInstance: {fileID: 321328594}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &503241348
 PrefabInstance:
   m_ObjectHideFlags: 0
