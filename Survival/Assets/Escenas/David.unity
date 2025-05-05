@@ -17783,6 +17783,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1777980256}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &561767269 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1384705309466768455, guid: 008aeca95a124204c914bd2b943d1121,
+    type: 3}
+  m_PrefabInstance: {fileID: 1894593841}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &564824846 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6f432f402a9b27044b6d14d651f762c7,
@@ -68462,6 +68474,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2734787349295546268, guid: 008aeca95a124204c914bd2b943d1121,
+        type: 3}
+      propertyPath: barraFredaImatgeEmplenament
+      value: 
+      objectReference: {fileID: 561767269}
     - target: {fileID: 4297267049608128940, guid: 008aeca95a124204c914bd2b943d1121,
         type: 3}
       propertyPath: m_AnchorMax.y
