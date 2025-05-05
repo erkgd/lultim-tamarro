@@ -142385,6 +142385,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7600172043550985529, guid: ee7902e1a136ab741a4d6d0fece474c2,
         type: 3}
+      propertyPath: indexPerkRequerit
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7600172043550985529, guid: ee7902e1a136ab741a4d6d0fece474c2,
+        type: 3}
       propertyPath: destinacioSeleccionada
       value: 2
       objectReference: {fileID: 0}

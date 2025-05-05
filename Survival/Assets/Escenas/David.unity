@@ -15561,6 +15561,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7600172043550985529, guid: ee7902e1a136ab741a4d6d0fece474c2,
         type: 3}
+      propertyPath: bloquejarSiTePerk
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7600172043550985529, guid: ee7902e1a136ab741a4d6d0fece474c2,
+        type: 3}
+      propertyPath: indexPerkRequerit
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7600172043550985529, guid: ee7902e1a136ab741a4d6d0fece474c2,
+        type: 3}
+      propertyPath: tancarCamiSiTePerk
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7600172043550985529, guid: ee7902e1a136ab741a4d6d0fece474c2,
+        type: 3}
       propertyPath: destinacioSeleccionada
       value: 6
       objectReference: {fileID: 0}
@@ -41420,6 +41435,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7600172043550985529, guid: ee7902e1a136ab741a4d6d0fece474c2,
         type: 3}
+      propertyPath: bloquejarSiTePerk
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7600172043550985529, guid: ee7902e1a136ab741a4d6d0fece474c2,
+        type: 3}
+      propertyPath: indexPerkRequerit
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7600172043550985529, guid: ee7902e1a136ab741a4d6d0fece474c2,
+        type: 3}
+      propertyPath: tancarCamiSiTePerk
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7600172043550985529, guid: ee7902e1a136ab741a4d6d0fece474c2,
+        type: 3}
       propertyPath: destinacioSeleccionada
       value: 5
       objectReference: {fileID: 0}
@@ -42459,6 +42489,21 @@ PrefabInstance:
         type: 3}
       propertyPath: "posicioDest\xED.z"
       value: 7.42
+      objectReference: {fileID: 0}
+    - target: {fileID: 7600172043550985529, guid: ee7902e1a136ab741a4d6d0fece474c2,
+        type: 3}
+      propertyPath: bloquejarSiTePerk
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7600172043550985529, guid: ee7902e1a136ab741a4d6d0fece474c2,
+        type: 3}
+      propertyPath: indexPerkRequerit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7600172043550985529, guid: ee7902e1a136ab741a4d6d0fece474c2,
+        type: 3}
+      propertyPath: tancarCamiSiTePerk
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7600172043550985529, guid: ee7902e1a136ab741a4d6d0fece474c2,
         type: 3}
@@ -52581,6 +52626,21 @@ PrefabInstance:
         type: 3}
       propertyPath: "posicioDest\xED.z"
       value: -97.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7600172043550985529, guid: ee7902e1a136ab741a4d6d0fece474c2,
+        type: 3}
+      propertyPath: bloquejarSiTePerk
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7600172043550985529, guid: ee7902e1a136ab741a4d6d0fece474c2,
+        type: 3}
+      propertyPath: indexPerkRequerit
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7600172043550985529, guid: ee7902e1a136ab741a4d6d0fece474c2,
+        type: 3}
+      propertyPath: tancarCamiSiTePerk
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7600172043550985529, guid: ee7902e1a136ab741a4d6d0fece474c2,
         type: 3}

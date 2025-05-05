@@ -31,7 +31,7 @@ public class TeleportJugador : MonoBehaviour
     [SerializeField] private int indexPerkRequerit = -1; // Per defecte, no es requereix cap perk
 
     [Tooltip("Si està activat, el camí es tancarà si el jugador té la perk requerida, en comptes d'obrir-se")]
-    [SerializeField] private bool tancarCamiSiTePerk = false;
+    [SerializeField] private bool bloquejarSiTePerk = false;
 
     private bool teletransportant = false; // Per evitar múltiples activacions
 
@@ -94,7 +94,7 @@ public class TeleportJugador : MonoBehaviour
 
     private IEnumerator OnTriggerEnter(Collider algo)
     {
-        if (teletransportant) yield break; // Evita execucions múltiples si ja s'està processant
+        if (teletransportant) yield break; // Evita execucions múltiples
 
         if (mostrarDebug) Debug.Log($"TeleportJugador ({name}): Col·lisió detectada amb: {algo.name}");
 
@@ -102,60 +102,80 @@ public class TeleportJugador : MonoBehaviour
         {
             if (algo.GetComponent<Jugador>() != null)
             {
-                // ***** COMPROVACIÓ DE LA PERK *****
-                bool perkDesbloquejada = false;
-                if (indexPerkRequerit < 0) // Si no es requereix cap perk (índex -1)
+                // ***** LÒGICA DE COMPROVACIÓ DE PERK MODIFICADA *****
+
+                bool potProcedir = false; // Indica si el teleport hauria de continuar
+
+                if (indexPerkRequerit < 0)
                 {
-                    perkDesbloquejada = true;
-                    if (mostrarDebug) Debug.Log($"TeleportJugador ({name}): No es requereix cap perk específica.");
-                }
-                else if (SistemaPerks.Instance != null)
-                {
-                    perkDesbloquejada = SistemaPerks.Instance.EstaDesbloquejada(indexPerkRequerit);
-                    if (mostrarDebug) Debug.Log($"TeleportJugador ({name}): Comprovant perk índex {indexPerkRequerit}. Estat: {(perkDesbloquejada ? "DESBLOQUEJADA" : "BLOQUEJADA")}");
+                    // Si no es requereix/comprova cap perk, sempre es pot procedir
+                    potProcedir = true;
+                    if (mostrarDebug) Debug.Log($"TeleportJugador ({name}): No es comprova cap perk específica. Teleport permès.");
                 }
                 else
                 {
-                    Debug.LogError($"TeleportJugador ({name}): SistemaPerks.Instance no trobat! No es pot comprovar la perk requerida.");
-                    // Decideix si vols permetre el teleport igualment o bloquejar-lo si el sistema de perks falla
-                    // perkDesbloquejada = false; // Bloquejar per seguretat
-                    // perkDesbloquejada = true; // Permetre si falla (compte!)
+                    // Es requereix comprovar una perk específica
+                    if (SistemaPerks.Instance != null)
+                    {
+                        bool teLaPerk = SistemaPerks.Instance.EstaDesbloquejada(indexPerkRequerit);
+
+                        if (bloquejarSiTePerk)
+                        {
+                            // Lògica INVERSA: es pot procedir si NO té la perk
+                            potProcedir = !teLaPerk;
+                            if (mostrarDebug) Debug.Log($"TeleportJugador ({name}): Mode BloquejarSiTePerk activat. Requereix NO tenir perk {indexPerkRequerit}. Estat actual: {(teLaPerk ? "TÉ PERK" : "NO TÉ PERK")}. Teleport {(potProcedir ? "permès" : "bloquejat")}.");
+                        }
+                        else
+                        {
+                            // Lògica NORMAL: es pot procedir si SÍ té la perk
+                            potProcedir = teLaPerk;
+                            if (mostrarDebug) Debug.Log($"TeleportJugador ({name}): Mode Normal activat. Requereix TENIR perk {indexPerkRequerit}. Estat actual: {(teLaPerk ? "TÉ PERK" : "NO TÉ PERK")}. Teleport {(potProcedir ? "permès" : "bloquejat")}.");
+                        }
+                    }
+                    else
+                    {
+                        // Error: no es troba el sistema de perks
+                        Debug.LogError($"TeleportJugador ({name}): SistemaPerks.Instance no trobat! No es pot comprovar la perk requerida {indexPerkRequerit}. Bloquejant teleport per seguretat.");
+                        potProcedir = false; // Bloqueja el teleport si falla el sistema
+                    }
                 }
 
-                // Si la perk està desbloquejada (o no es requereix), procedim
-                if (perkDesbloquejada && !tancarCamiSiTePerk)
+
+                // Si la condició es compleix (segons la lògica normal o inversa)
+                if (potProcedir)
                 {
                     teletransportant = true; // Marquem que estem processant el teleport
 
-                    if (mostrarDebug) Debug.Log($"TeleportJugador ({name}): Jugador vàlid detectat: {algo.name}. Perk requerida ({indexPerkRequerit}) complerta. Iniciant teletransport a {nomEscenaDestí} en posició {posicioDestí}");
+                    if (mostrarDebug) Debug.Log($"TeleportJugador ({name}): Jugador vàlid detectat: {algo.name}. Condició complerta. Iniciant teletransport a {nomEscenaDestí}...");
 
+                    // Gestió de la cortinilla
                     Cortinilla cortinilla = FindObjectOfType<Cortinilla>();
                     if (cortinilla != null)
                     {
                         cortinilla.ResetearCortinilla();
-                        cortinilla.MostrarCortinilla(); // Activa la cortinilla (tancament)
+                        cortinilla.MostrarCortinilla();
                         if (mostrarDebug) Debug.Log($"TeleportJugador ({name}): Mostrant cortinilla...");
-                        yield return new WaitForSeconds(1.5f); // Espera a que la cortinilla faci l'efecte (ajusta durada si cal)
+                        yield return new WaitForSeconds(1.5f); // Temps per l'animació de la cortinilla
                     }
                     else
                     {
                         Debug.LogError($"TeleportJugador ({name}): No s'ha trobat la cortinilla a l'escena.");
-                        // Espera igualment una mica si no hi ha cortinilla?
-                        yield return new WaitForSeconds(0.2f);
+                        yield return new WaitForSeconds(0.2f); // Petita espera igualment
                     }
 
+                    // Inicia el procés de canvi d'escena
                     TeletransportarJugador(algo.gameObject);
-                    // No resetegem teletransportant aquí, ja que es carrega una nova escena
                 }
                 else
                 {
-                    if (mostrarDebug) Debug.Log($"TeleportJugador ({name}): El jugador no té la perk requerida (índex {indexPerkRequerit}). Teleport bloquejat.");
-                    // Opcional: Pots afegir algun feedback visual o sonor per indicar que el teleport està bloquejat.
+                    // La condició no s'ha complert
+                    if (mostrarDebug) Debug.Log($"TeleportJugador ({name}): Condició de la perk no complerta. Teleport bloquejat.");
+                    // Opcional: Feedback visual/sonor per indicar bloqueig
                 }
             }
             else
             {
-                 if (mostrarDebug) Debug.Log($"TeleportJugador ({name}): L'objecte {algo.name} té l'etiqueta correcta però no el component Jugador.");
+                if (mostrarDebug) Debug.Log($"TeleportJugador ({name}): L'objecte {algo.name} té l'etiqueta correcta però no el component Jugador.");
             }
         }
     }
