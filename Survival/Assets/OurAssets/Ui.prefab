@@ -985,9 +985,10 @@ MonoBehaviour:
   temperaturaMaxima: 200
   temperaturaMinima: 0
   temperaturaInicial: 200
+  temperaturaActual: 0
   quantitatReduccio: 1
   tempsReduccio: 2
-  barraFredaImatgeEmplenament: {fileID: 0}
+  barraFredaImatgeEmplenament: {fileID: 1384705309466768455}
 --- !u!1 &3726185580597380778
 GameObject:
   m_ObjectHideFlags: 0

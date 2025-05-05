@@ -58,14 +58,16 @@ public class TemperaturaUI : MonoBehaviour
 
             if (jugador != null && jugador.VidaActual > 0)
             {
-                 temperaturaActual -= quantitatReduccio;
-                 temperaturaActual = Mathf.Max(temperaturaActual, temperaturaMinima);
-                 ActualitzarBarra();
+                temperaturaActual -= quantitatReduccio;
+                temperaturaActual = Mathf.Max(temperaturaActual, temperaturaMinima);
+                Debug.Log($"[Temperatura] Valor actual: {temperaturaActual}"); // <-- Nou Log
+                ActualitzarBarra();
 
-                 if (temperaturaActual <= temperaturaMinima)
-                 {
+                if (temperaturaActual <= temperaturaMinima)
+                {
+                    Debug.Log("[Temperatura] Condició de mort per fred complerta!"); // <-- Nou Log
                     jugador.DecrementarVida(999, "Temperatura Baixa");
-                 }
+                }
             }
         }
         reduccioCoroutine = null;
