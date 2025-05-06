@@ -30313,6 +30313,12 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!20 &821245797 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 7137191897809806057, guid: 69c8897708982f041a41919ca230c093,
+    type: 3}
+  m_PrefabInstance: {fileID: 425421634}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &825605577
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36633,7 +36639,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2651561580435257056, guid: 158e0f4c1845576449c27919f6973034,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1944119377}
+      addedObject: {fileID: 1944119383}
   m_SourcePrefab: {fileID: 100100000, guid: 158e0f4c1845576449c27919f6973034, type: 3}
 --- !u!1001 &1050437520
 PrefabInstance:
@@ -70891,7 +70897,7 @@ MonoBehaviour:
   barreraEntradaHub: {fileID: 1464330330}
   colliderEntradaHub: {fileID: 437829066}
   pontArribadaHub: {fileID: 174386593}
---- !u!114 &1944119377
+--- !u!114 &1944119383
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -70900,10 +70906,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 1944119370}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b70a3e1df02f2b2458fc497c911c454b, type: 3}
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mostrarDebug: 1
+  m_Actions: {fileID: -944628639613478452, guid: 73f4e414aa391bf48ac1b73a299eeaab,
+    type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 821245797}
 --- !u!4 &1944765530 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c5bb25ec5731c094a9476f6d7603d5ff,
