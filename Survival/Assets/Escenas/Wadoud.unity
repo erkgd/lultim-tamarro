@@ -180623,6 +180623,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2734787349295546268, guid: 008aeca95a124204c914bd2b943d1121,
         type: 3}
+      propertyPath: temperaturaActual
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 2734787349295546268, guid: 008aeca95a124204c914bd2b943d1121,
+        type: 3}
       propertyPath: barraFredaImatgeEmplenament
       value: 
       objectReference: {fileID: 1477574162}
