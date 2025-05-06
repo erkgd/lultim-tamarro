@@ -7,7 +7,7 @@ public class MainMenuController : MonoBehaviour
     [Header("Configuración Escenas")]
     // IMPORTANTE: Cambia "GameLevel" por el nombre EXACTO de tu primera escena jugable
     // Viendo tu MenuPausa.cs, podría ser "Escena Principal"
-    [SerializeField] private string firstLevelSceneName = "GameLevel";
+    [SerializeField] private string firstLevelSceneName = "David";
 
     // Ya NO necesitamos referencia al panel de confirmación
     // [SerializeField] private GameObject confirmQuitPanel;

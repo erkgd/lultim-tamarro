@@ -20,22 +20,24 @@ public class InputSystemManager : MonoBehaviour
     [SerializeField] private InputActionAsset acciones;
 
     private void Awake()
+{
+    // Implementación del patrón Singleton
+    if (instance == null)
     {
-        // Implementación del patrón Singleton
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-            
-            // Verificar si existe un EventSystem y crearlo si no existe
-            CrearEventSystemSiNoExiste();
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+        
+        // Verificar si existe un EventSystem y crearlo si no existe
+        CrearEventSystemSiNoExiste();
     }
+    else if (instance != this)
+    {
+        Destroy(this); 
+        if (mostrarMensajes)
+            Debug.LogWarning($"InputSystemManager: Instancia duplicada del componente InputSystemManager destruida en {gameObject.name}. La instancia original está en {instance.gameObject.name}.");
+        return;
+    }
+}
 
     /// <summary>
     /// Verifica si existe un EventSystem en la escena y crea uno si no existe
