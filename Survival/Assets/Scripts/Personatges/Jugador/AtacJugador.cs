@@ -123,6 +123,16 @@ public class AtacJugador : MonoBehaviour
         // Buscar enemics en un con davant del jugador
         Collider[] enemics = Physics.OverlapSphere(transform.position, rangAtacar);
         
+        // Obtenir el nom de la escena actual
+        string escenaActual = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        
+        // Modificador de dany per al mapa Jano (Bosc)
+        float modificadorDany = 1f;
+        if (escenaActual == TPConstants.BOSC_SCENE)
+        {
+            modificadorDany = 0.75f; // Reduir el dany a la meitat en el mapa Jano
+        }
+        
         foreach (Collider enemic in enemics)
         {
             // Comprovar si és un enemic
@@ -143,11 +153,11 @@ public class AtacJugador : MonoBehaviour
                         // Si el PERK d'atac està desbloquejat, apliquem el dany amb el bonus
                         if (SistemaPerks.Instance.EstaDesbloquejada(2))
                         {
-                            scriptEnemic.DecrementarVida(danyAtac + 1, gameObject.name);
+                            scriptEnemic.DecrementarVida((danyAtac + 1) * modificadorDany, gameObject.name);
                         }
                         else
                         {
-                            scriptEnemic.DecrementarVida(danyAtac, gameObject.name);
+                            scriptEnemic.DecrementarVida(danyAtac * modificadorDany, gameObject.name);
                         }
                         // Comprovar si l'enemic ha mort i activar l'animació de mort
                         if (scriptEnemic.VidaActual <= 0)
