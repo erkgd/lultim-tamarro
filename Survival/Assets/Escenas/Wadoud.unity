@@ -5578,6 +5578,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tatxo (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6788287568692058652, guid: 0db1c009b9acd614eb87d03b2c3183eb,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 2.3399825
+      objectReference: {fileID: 0}
+    - target: {fileID: 6788287568692058652, guid: 0db1c009b9acd614eb87d03b2c3183eb,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.66999125
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -20004,6 +20014,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Tatxo (12)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6788287568692058652, guid: 0db1c009b9acd614eb87d03b2c3183eb,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 2.2617817
+      objectReference: {fileID: 0}
+    - target: {fileID: 6788287568692058652, guid: 0db1c009b9acd614eb87d03b2c3183eb,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.63089085
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -38160,8 +38180,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 2.2637076, z: 1}
+  m_Center: {x: 0, y: 0.6318538, z: 0}
 --- !u!114 &477781444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44271,6 +44291,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Tatxo (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6788287568692058652, guid: 0db1c009b9acd614eb87d03b2c3183eb,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 2.3044438
+      objectReference: {fileID: 0}
+    - target: {fileID: 6788287568692058652, guid: 0db1c009b9acd614eb87d03b2c3183eb,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.6522219
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -54022,6 +54052,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Tatxo (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6788287568692058652, guid: 0db1c009b9acd614eb87d03b2c3183eb,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 2.3122997
+      objectReference: {fileID: 0}
+    - target: {fileID: 6788287568692058652, guid: 0db1c009b9acd614eb87d03b2c3183eb,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.65614986
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -69874,8 +69914,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 2.2144518, z: 1}
+  m_Center: {x: 0, y: 0.6072259, z: 0}
 --- !u!114 &871816703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70697,6 +70737,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Tatxo (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6788287568692058652, guid: 0db1c009b9acd614eb87d03b2c3183eb,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 2.2485447
+      objectReference: {fileID: 0}
+    - target: {fileID: 6788287568692058652, guid: 0db1c009b9acd614eb87d03b2c3183eb,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.62427235
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -89710,6 +89760,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Tatxo (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6788287568692058652, guid: 0db1c009b9acd614eb87d03b2c3183eb,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 2.3364453
+      objectReference: {fileID: 0}
+    - target: {fileID: 6788287568692058652, guid: 0db1c009b9acd614eb87d03b2c3183eb,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.66822267
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -118900,6 +118960,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tatxo (13)
       objectReference: {fileID: 0}
+    - target: {fileID: 6788287568692058652, guid: 0db1c009b9acd614eb87d03b2c3183eb,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 2.3277855
+      objectReference: {fileID: 0}
+    - target: {fileID: 6788287568692058652, guid: 0db1c009b9acd614eb87d03b2c3183eb,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.66389275
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -128923,6 +128993,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Tatxo (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6788287568692058652, guid: 0db1c009b9acd614eb87d03b2c3183eb,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 2.28372
+      objectReference: {fileID: 0}
+    - target: {fileID: 6788287568692058652, guid: 0db1c009b9acd614eb87d03b2c3183eb,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.64186
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -145715,6 +145795,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tatxo (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 6788287568692058652, guid: 0db1c009b9acd614eb87d03b2c3183eb,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 2.3438377
+      objectReference: {fileID: 0}
+    - target: {fileID: 6788287568692058652, guid: 0db1c009b9acd614eb87d03b2c3183eb,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.67191887
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -145856,6 +145946,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Tatxo (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6788287568692058652, guid: 0db1c009b9acd614eb87d03b2c3183eb,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 2.299615
+      objectReference: {fileID: 0}
+    - target: {fileID: 6788287568692058652, guid: 0db1c009b9acd614eb87d03b2c3183eb,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.64980745
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -149391,6 +149491,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Tatxo (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6788287568692058652, guid: 0db1c009b9acd614eb87d03b2c3183eb,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 2.368227
+      objectReference: {fileID: 0}
+    - target: {fileID: 6788287568692058652, guid: 0db1c009b9acd614eb87d03b2c3183eb,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.6841135
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -156166,8 +156276,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 2.1449008, z: 1}
+  m_Center: {x: 0, y: 0.5724504, z: 0}
 --- !u!114 &1902334487
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157593,6 +157703,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Tatxo (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6788287568692058652, guid: 0db1c009b9acd614eb87d03b2c3183eb,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 2.3744793
+      objectReference: {fileID: 0}
+    - target: {fileID: 6788287568692058652, guid: 0db1c009b9acd614eb87d03b2c3183eb,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.68723965
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -164637,6 +164757,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Tatxo (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6788287568692058652, guid: 0db1c009b9acd614eb87d03b2c3183eb,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 2.2472038
+      objectReference: {fileID: 0}
+    - target: {fileID: 6788287568692058652, guid: 0db1c009b9acd614eb87d03b2c3183eb,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.6236019
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -180532,6 +180662,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Tatxo (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6788287568692058652, guid: 0db1c009b9acd614eb87d03b2c3183eb,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 0.887944
+      objectReference: {fileID: 0}
+    - target: {fileID: 6788287568692058652, guid: 0db1c009b9acd614eb87d03b2c3183eb,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1.9904604
+      objectReference: {fileID: 0}
+    - target: {fileID: 6788287568692058652, guid: 0db1c009b9acd614eb87d03b2c3183eb,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 0.909729
+      objectReference: {fileID: 0}
+    - target: {fileID: 6788287568692058652, guid: 0db1c009b9acd614eb87d03b2c3183eb,
+        type: 3}
+      propertyPath: m_Center.x
+      value: 0.0031759907
+      objectReference: {fileID: 0}
+    - target: {fileID: 6788287568692058652, guid: 0db1c009b9acd614eb87d03b2c3183eb,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.4952302
+      objectReference: {fileID: 0}
+    - target: {fileID: 6788287568692058652, guid: 0db1c009b9acd614eb87d03b2c3183eb,
+        type: 3}
+      propertyPath: m_Center.z
+      value: -0.020759344
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
