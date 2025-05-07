@@ -25,10 +25,21 @@ public class InputSystemManager : MonoBehaviour
     if (instance == null)
     {
         instance = this;
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
+        
+        // Si no s'ha assignat l'InputActionAsset a l'inspector, intenta carregar-lo per nom
+        if (acciones == null)
+        {
+            acciones = Resources.Load<InputActionAsset>("Controls");
+            
+            if (acciones == null && mostrarMensajes)
+            {
+                Debug.LogWarning("InputSystemManager: No s'ha pogut carregar l'InputActionAsset 'Controls'. Assegura't que existeix a una carpeta Resources o assigna'l des de l'Inspector.");
+            }
+        }
         
         // Verificar si existe un EventSystem y crearlo si no existe
-        CrearEventSystemSiNoExiste();
+        //CrearEventSystemSiNoExiste();
     }
     else if (instance != this)
     {
@@ -65,7 +76,7 @@ public class InputSystemManager : MonoBehaviour
             }
             
             // Asegurarse de que persista entre escenas
-            DontDestroyOnLoad(eventoSistema);
+            //DontDestroyOnLoad(eventoSistema);
             
             if (mostrarMensajes)
                 Debug.Log("InputSystemManager: EventSystem creado automáticamente");
