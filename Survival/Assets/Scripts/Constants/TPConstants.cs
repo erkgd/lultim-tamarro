@@ -17,7 +17,7 @@ public static class TPConstants
     
     // Bosc (Jano)
     public static readonly string BOSC_SCENE = "Jano";
-    public static readonly Vector3 BOSC_SPAWN_POINT = new Vector3(58.04f, 6.11f, 7.42f);
+    public static readonly Vector3 BOSC_SPAWN_POINT = new Vector3(23.24f, -15.65f, -20.72f);
     
     // Engo (Alejandro)
     public static readonly string ENGO_SCENE = "Alejandro";
