@@ -11,6 +11,7 @@ public class FogueraZona : MonoBehaviour
 
     private TemperaturaUI temperaturaUI;
     private bool jugadorDintre = false;
+    private Coroutine reduccioCoroutine;
 
     // Inicialització del script, troba el component TemperaturaUI
     private void Start()
@@ -43,6 +44,11 @@ public class FogueraZona : MonoBehaviour
             {
                 jugadorDintre = true;
                 StopAllCoroutines();
+                // Detener la corrutina de reducción de temperatura
+                if (temperaturaUI != null)
+                {
+                    temperaturaUI.DetenerReduccionTemperatura();
+                }
                 StartCoroutine(AugmentarTemperatura());
             }
         }
@@ -61,6 +67,11 @@ public class FogueraZona : MonoBehaviour
             {
                 jugadorDintre = false;
                 StopAllCoroutines();
+                // Reiniciar la corrutina de reducción de temperatura
+                if (temperaturaUI != null)
+                {
+                    temperaturaUI.ReiniciarReduccionTemperatura();
+                }
             }
         }
         catch (Exception e)

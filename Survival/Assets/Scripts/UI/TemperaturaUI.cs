@@ -42,7 +42,6 @@ public class TemperaturaUI : MonoBehaviour
              barraFredaImatgeEmplenament.fillOrigin = (int)Image.OriginHorizontal.Left; // Creixent des de l'esquerra
         }
 
-
         temperaturaActual = temperaturaInicial;
         if (quantitatReduccio > 0 && tempsReduccio > 0) {
             reduccioCoroutine = StartCoroutine(ReduirTemperatura());
@@ -73,7 +72,24 @@ public class TemperaturaUI : MonoBehaviour
         reduccioCoroutine = null;
     }
 
-     public void AugmentarTemperatura(float quantitat)
+    public void DetenerReduccionTemperatura()
+    {
+        if (reduccioCoroutine != null)
+        {
+            StopCoroutine(reduccioCoroutine);
+            reduccioCoroutine = null;
+        }
+    }
+
+    public void ReiniciarReduccionTemperatura()
+    {
+        if (reduccioCoroutine == null && temperaturaActual > temperaturaMinima && quantitatReduccio > 0 && tempsReduccio > 0)
+        {
+            reduccioCoroutine = StartCoroutine(ReduirTemperatura());
+        }
+    }
+
+    public void AugmentarTemperatura(float quantitat)
     {
         if (quantitat <= 0 || temperaturaActual >= temperaturaMaxima || (jugador != null && jugador.VidaActual <= 0))
             return;
