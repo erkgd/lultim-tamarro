@@ -17,7 +17,7 @@ public static class TPConstants
     
     // Bosc (Jano)
     public static readonly string BOSC_SCENE = "Jano";
-    public static readonly Vector3 BOSC_SPAWN_POINT = new Vector3(23.24f, -15.65f, -20.72f);
+    public static readonly Vector3 BOSC_SPAWN_POINT = new Vector3(111.2648f, -15.80721f, 33.11017f);
     
     // Engo (Alejandro)
     public static readonly string ENGO_SCENE = "Alejandro";
@@ -25,5 +25,5 @@ public static class TPConstants
     
     // Ramio (Wadoud)
     public static readonly string RAMIO_SCENE = "Wadoud";
-    public static readonly Vector3 RAMIO_SPAWN_POINT = new Vector3(-157.06f, 4.86f, -204.1f);
+    public static readonly Vector3 RAMIO_SPAWN_POINT = new Vector3(-162.86f, 5.040005f, -204.47f);
 }
