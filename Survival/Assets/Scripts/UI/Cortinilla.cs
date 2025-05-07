@@ -9,7 +9,7 @@ public class Cortinilla : MonoBehaviour
     [SerializeField] private Material materialCortinilla;
 
     [Header("Configuració")]
-    [SerializeField] private float duradaEfecte = 1.5f;
+    [SerializeField] private float duradaEfecte = 2.0f;
     [SerializeField] private AnimationCurve corbaTransicio;
     [SerializeField] private bool inverseEffect = true; // Si és true, l'efecte va des de fora cap a dins (tancament)
 
@@ -108,8 +108,9 @@ public class Cortinilla : MonoBehaviour
         float percentatgeCompletat = 0f;
         
         // Valor inicial y final del radio (inverso al normal)
-        float radiInicial = inverseEffect ? 0f : 1f; // Inverso al efecto normal
-        float radiFinal = inverseEffect ? 1f : 0f;   // Inverso al efecto normal
+        // Para asegurar que la cortinilla cubra más espacio, usamos valores más extremos
+        float radiInicial = inverseEffect ? -0.3f : 1.3f; // Más allá del borde visible
+        float radiFinal = inverseEffect ? 1.3f : -0.3f;   // Más allá del borde visible
         
         // Establecemos el valor inicial
         imatgeCortinilla.material.SetFloat(RadioProperty, radiInicial);
@@ -143,8 +144,9 @@ public class Cortinilla : MonoBehaviour
         float percentatgeCompletat = 0f;
         
         // Valor inicial i final del radi
-        float radiInicial = inverseEffect ? 1f : 0f;
-        float radiFinal = inverseEffect ? 0f : 1f;
+        // Para asegurar que la cortinilla cubra más espacio, usamos valores más extremos
+        float radiInicial = inverseEffect ? 1.3f : -0.3f; // Más allá del borde visible
+        float radiFinal = inverseEffect ? -0.3f : 1.3f;   // Más allá del borde visible
         
         // Establim el valor inicial
         imatgeCortinilla.material.SetFloat(RadioProperty, radiInicial);
