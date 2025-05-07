@@ -2069,6 +2069,31 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1152880308}
     m_Modifications:
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Range
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.5019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 3024255670176979763, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
         type: 3}
       propertyPath: m_NavMeshLayer
@@ -2468,6 +2493,31 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1152880308}
     m_Modifications:
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Range
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.5019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 3024255670176979763, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
         type: 3}
       propertyPath: m_NavMeshLayer
@@ -3356,6 +3406,31 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1152880308}
     m_Modifications:
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Range
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.5019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 3024255670176979763, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
         type: 3}
       propertyPath: m_NavMeshLayer
@@ -10039,6 +10114,31 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1152880308}
     m_Modifications:
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Range
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.5019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 3024255670176979763, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
         type: 3}
       propertyPath: m_NavMeshLayer
@@ -10846,6 +10946,31 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1152880308}
     m_Modifications:
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Range
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.5019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 3024255670176979763, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
         type: 3}
       propertyPath: m_NavMeshLayer
@@ -32470,6 +32595,31 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1152880308}
     m_Modifications:
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Range
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.5019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 3024255670176979763, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
         type: 3}
       propertyPath: m_NavMeshLayer
@@ -33794,6 +33944,31 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1152880308}
     m_Modifications:
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Range
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.5019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 3024255670176979763, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
         type: 3}
       propertyPath: m_NavMeshLayer
@@ -34946,6 +35121,31 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1152880308}
     m_Modifications:
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Range
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.5019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 3024255670176979763, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
         type: 3}
       propertyPath: m_NavMeshLayer
@@ -40809,6 +41009,31 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1152880308}
     m_Modifications:
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Range
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.5019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 3024255670176979763, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
         type: 3}
       propertyPath: m_NavMeshLayer
@@ -48274,6 +48499,31 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1152880308}
     m_Modifications:
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Range
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.5019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 3024255670176979763, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
         type: 3}
       propertyPath: m_NavMeshLayer
@@ -54296,6 +54546,31 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1152880308}
     m_Modifications:
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Range
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.5019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 3024255670176979763, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
         type: 3}
       propertyPath: m_NavMeshLayer
@@ -72173,6 +72448,31 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1152880308}
     m_Modifications:
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Range
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.5019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 3024255670176979763, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
         type: 3}
       propertyPath: m_NavMeshLayer
@@ -78963,6 +79263,31 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1152880308}
     m_Modifications:
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Range
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.5019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 3024255670176979763, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
         type: 3}
       propertyPath: m_NavMeshLayer
@@ -83711,6 +84036,31 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1152880308}
     m_Modifications:
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Range
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.5019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 3024255670176979763, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
         type: 3}
       propertyPath: m_NavMeshLayer
@@ -90307,6 +90657,31 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1152880308}
     m_Modifications:
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Range
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.5019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 252588268248631561, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 3024255670176979763, guid: 3f3fe03e033d43a49ba2cfb47082b18f,
         type: 3}
       propertyPath: m_NavMeshLayer
