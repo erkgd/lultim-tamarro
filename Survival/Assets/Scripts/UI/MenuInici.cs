@@ -1,25 +1,22 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI; // Necesario si cambias el icono de música
+using UnityEngine.Video; // Para VideoPlayer
+using System.Collections; // Para Coroutines
 
 public class MainMenuController : MonoBehaviour
 {
     [Header("Configuración Escenas")]
-    // IMPORTANTE: Cambia "GameLevel" por el nombre EXACTO de tu primera escena jugable
-    // Viendo tu MenuPausa.cs, podría ser "Escena Principal"
     [SerializeField] private string firstLevelSceneName = "David";
 
-    // Ya NO necesitamos referencia al panel de confirmación
-    // [SerializeField] private GameObject confirmQuitPanel;
     [Header("Paneles UI")]
     [Tooltip("El panel principal del menú con Play, Salir, Música")]
-    [SerializeField] private GameObject mainMenuPanel; // Aún necesitamos este
+    [SerializeField] private GameObject mainMenuPanel;
 
     [Header("Música")]
     [Tooltip("El AudioSource que contiene la música de fondo del menú")]
     [SerializeField] private AudioSource backgroundMusicSource;
 
-    // --- Opcional: Para cambiar el icono del botón de música ---
     [Header("Iconos Música (Opcional)")]
     [Tooltip("El componente Image del botón para alternar la música")]
     [SerializeField] private Image musicButtonImage;
@@ -27,32 +24,79 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] private Sprite musicOnSprite;
     [Tooltip("El sprite que se muestra cuando la música está desactivada")]
     [SerializeField] private Sprite musicOffSprite;
-    // --- Fin Opcional ---
+
+    // --- CAMPOS PARA EL VIDEO ---
+    [Header("Video Intro")]
+    [Tooltip("Arrastra aquí el componente VideoPlayer que reproducirá el video.")]
+    [SerializeField] private VideoPlayer introVideoPlayer;
+    [Tooltip("Arrastra aquí el GameObject (Panel) que contiene el VideoPlayer y su RawImage.")]
+    [SerializeField] private GameObject videoPanel;
+    // --- FIN CAMPOS VIDEO ---
 
     void Start()
     {
-        // Asegurarse de que el panel principal esté visible
         if (mainMenuPanel != null)
             mainMenuPanel.SetActive(true);
-        // Ya no hay panel de confirmación que ocultar
+        
+        if (videoPanel != null)
+            videoPanel.SetActive(false);
 
-        // Actualizar el icono de música si se usa esa funcionalidad
         UpdateMusicButtonIcon();
-
-        // Asegurarse de que el tiempo fluya normalmente
         Time.timeScale = 1.0f;
     }
 
-    // --- Funciones para Botones ---
-
-    /// <summary>
-    /// Carga la primera escena del juego.
-    /// Conectar al botón "Play" / "Jugar".
-    /// </summary>
     public void PlayGame()
     {
+        if (introVideoPlayer != null && videoPanel != null)
+        {
+            StartCoroutine(PlayIntroAndLoadScene());
+        }
+        else
+        {
+            Debug.LogError("MainMenuController: VideoPlayer o VideoPanel no están asignados en el Inspector!");
+            // Fallback: Cargar la escena directamente si faltan componentes
+            if (!string.IsNullOrEmpty(firstLevelSceneName))
+            {
+                SceneManager.LoadScene(firstLevelSceneName);
+            }
+            else
+            {
+                Debug.LogError("MainMenuController: El nombre de la escena del primer nivel no está configurado!");
+            }
+        }
+    }
+
+    private IEnumerator PlayIntroAndLoadScene()
+    {
+        // 1. Ocultar el Menú Principal
+        if (mainMenuPanel != null)
+            mainMenuPanel.SetActive(false);
+
+        // 2. Preparar y reproducir el vídeo
+        videoPanel.SetActive(true);
+        introVideoPlayer.Prepare(); 
+
+        while (!introVideoPlayer.isPrepared)
+        {
+            yield return null;
+        }
+        introVideoPlayer.Play();
+        Debug.Log("Video de introducción iniciado.");
+
+        // 3. Esperar a que termine el vídeo
+        while (introVideoPlayer.isPlaying)
+        {
+            yield return null;
+        }
+        Debug.Log("Video de introducción finalizado.");
+
+        // 4. Ocultar el panel del vídeo (opcional, ya que cargaremos una nueva escena)
+        // videoPanel.SetActive(false); // Puedes mantenerlo o quitarlo
+
+        // 5. Cargar la siguiente escena
         if (!string.IsNullOrEmpty(firstLevelSceneName))
         {
+            Debug.Log($"Cargando escena: {firstLevelSceneName}");
             SceneManager.LoadScene(firstLevelSceneName);
         }
         else
@@ -61,66 +105,28 @@ public class MainMenuController : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Cierra la aplicación directamente.
-    /// Conectar al botón "Salir" del menú principal.
-    /// </summary>
-    public void QuitGame() // Renombramos y simplificamos
+    public void QuitGame()
     {
         Debug.Log("SALIENDO DEL JUEGO...");
         Application.Quit();
-
-        // Código para detener el modo Play en el editor de Unity
         #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
         #endif
     }
 
-    // Ya NO necesitamos RequestQuit ni CancelQuit
-
-    /// <summary>
-    /// Activa o desactiva la música de fondo.
-    /// Conectar al botón de Música (el icono de altavoz).
-    /// </summary>
     public void ToggleMusic()
     {
-        if (backgroundMusicSource == null)
-        {
-            Debug.LogWarning("MainMenuController: No se ha asignado un AudioSource para la música.");
-            return;
-        }
-
-        if (backgroundMusicSource.isPlaying)
-        {
-            backgroundMusicSource.Pause(); // O .Stop() si prefieres que reinicie
-        }
-        else
-        {
-            backgroundMusicSource.Play();
-        }
-
-        // Actualizar el icono si está configurado
+        if (backgroundMusicSource == null) return;
+        if (backgroundMusicSource.isPlaying) backgroundMusicSource.Pause();
+        else backgroundMusicSource.Play();
         UpdateMusicButtonIcon();
     }
 
-    // --- Funciones Auxiliares ---
-
-    /// <summary>
-    /// Actualiza el icono del botón de música según si está sonando o no.
-    /// </summary>
     private void UpdateMusicButtonIcon()
     {
-        // Solo intentar actualizar si todos los componentes necesarios están asignados
         if (musicButtonImage != null && musicOnSprite != null && musicOffSprite != null && backgroundMusicSource != null)
         {
-            if (backgroundMusicSource.isPlaying)
-            {
-                musicButtonImage.sprite = musicOnSprite;
-            }
-            else
-            {
-                musicButtonImage.sprite = musicOffSprite;
-            }
+            musicButtonImage.sprite = backgroundMusicSource.isPlaying ? musicOnSprite : musicOffSprite;
         }
     }
 }
