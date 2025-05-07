@@ -57,7 +57,7 @@ public class SistemaVideo : MonoBehaviour
             CargarVideo(rutaVideo);
             
             if (reproducirAutomaticamente)
-            {º
+            {
                 videoPlayer.Play();
             }
         }
