@@ -8,6 +8,10 @@ TagManager:
   - MiniBoss
   - Pinya
   - HUDCanvas
+  - Isard
+  - "Escur\xE7o"
+  - Ocell
+  - Marmota
   layers:
   - Default
   - TransparentFX

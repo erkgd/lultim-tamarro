@@ -858,6 +858,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Marmota
       objectReference: {fileID: 0}
+    - target: {fileID: 4950779065795438720, guid: 8cb75dc2fdd63734988b8358f1314d25,
+        type: 3}
+      propertyPath: m_TagString
+      value: Marmota
+      objectReference: {fileID: 0}
     - target: {fileID: 7621313499760456227, guid: 8cb75dc2fdd63734988b8358f1314d25,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -11075,6 +11080,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: "Fais\xE1"
       objectReference: {fileID: 0}
+    - target: {fileID: 6788538757290762323, guid: ad4137f595ec8e2449cacca9df7d3735,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ocell
+      objectReference: {fileID: 0}
     - target: {fileID: 6788538757856321318, guid: ad4137f595ec8e2449cacca9df7d3735,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -13042,6 +13052,64 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1789877876}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &974035451
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 974035452}
+  - component: {fileID: 974035453}
+  m_Layer: 0
+  m_Name: SistemaAnimalHub
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &974035452
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 974035451}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 152.44156, y: -79.805725, z: 60.788734}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1030198166}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &974035453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 974035451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e8a3eee317bef946a72af25fbd8c30d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mostrarDebug: 1
+  configAnimales:
+  - tagAnimal: "escur\xE7o"
+    indexPerk: 0
+    mostrarSiDesbloqueada: 1
+  - tagAnimal: marmota
+    indexPerk: 1
+    mostrarSiDesbloqueada: 1
+  - tagAnimal: ocell
+    indexPerk: 2
+    mostrarSiDesbloqueada: 1
+  - tagAnimal: isard
+    indexPerk: 3
+    mostrarSiDesbloqueada: 1
 --- !u!1 &978244219
 GameObject:
   m_ObjectHideFlags: 0
@@ -13400,6 +13468,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 974035452}
   - {fileID: 306839253}
   - {fileID: 1045815722}
   - {fileID: 1043871959}
@@ -19211,6 +19280,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: "Escur\xE7o"
       objectReference: {fileID: 0}
+    - target: {fileID: 4807929556901506227, guid: 5b5c678f31981e34f9122b87217da1ac,
+        type: 3}
+      propertyPath: m_TagString
+      value: "Escur\xE7o"
+      objectReference: {fileID: 0}
     - target: {fileID: 5442504493887559991, guid: 5b5c678f31981e34f9122b87217da1ac,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -20000,6 +20074,11 @@ PrefabInstance:
     - target: {fileID: 5279811246306103102, guid: 252ba5fa5d8167e42af72cf97baa830e,
         type: 3}
       propertyPath: m_Name
+      value: Isard
+      objectReference: {fileID: 0}
+    - target: {fileID: 5279811246306103102, guid: 252ba5fa5d8167e42af72cf97baa830e,
+        type: 3}
+      propertyPath: m_TagString
       value: Isard
       objectReference: {fileID: 0}
     - target: {fileID: 5374640460154292744, guid: 252ba5fa5d8167e42af72cf97baa830e,
