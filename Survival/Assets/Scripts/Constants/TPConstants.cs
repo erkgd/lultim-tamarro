@@ -8,7 +8,7 @@ public static class TPConstants
     public static readonly Vector3 PEDROSA_SPAWN_POINT = new Vector3(136.06f, 42f, -97.25f);
     
     // Hub (David)
-    public static readonly string HUB_SCENE = "David";
+    public static readonly string HUB_SCENE = "Hub";
     public static readonly Vector3 HUB_SPAWN_POINT = new Vector3(-75.7f, 66.6f, 87.7f);
     
     // Tutorial

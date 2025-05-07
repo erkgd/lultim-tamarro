@@ -81840,6 +81840,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mostrarDebug: 1
+--- !u!114 &2018783649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 116470177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa7216465d5b51949b4ec4d665d9895f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mostrarMensajes: 1
+  nombreEventSystem: EventSystem
+  acciones: {fileID: -944628639613478452, guid: 73f4e414aa391bf48ac1b73a299eeaab,
+    type: 3}
 --- !u!1 &2019769031 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: a6c7cabb26d10534199d525362b96114,
@@ -86978,6 +86994,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 2018783648}
+    - targetCorrespondingSourceObject: {fileID: 2651561580435257056, guid: 158e0f4c1845576449c27919f6973034,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2018783649}
   m_SourcePrefab: {fileID: 100100000, guid: 158e0f4c1845576449c27919f6973034, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
