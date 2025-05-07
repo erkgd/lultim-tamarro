@@ -57,7 +57,7 @@ public class MenuPausa : MonoBehaviour
         // Quan faci click, el joc es torna a activar i carreguem l'escena del HUB
         JocPausat = false;
         Time.timeScale = 1.0f;
-        SceneManager.LoadScene("David");
+        SceneManager.LoadScene("Hub");
     }
 
 
