@@ -5,7 +5,7 @@ public static class TPConstants
 {
     // Pedrosa (Aleix)
     public static readonly string PEDROSA_SCENE = "Aleix";
-    public static readonly Vector3 PEDROSA_SPAWN_POINT = new Vector3(136.06f, 42f, -97.25f);
+    public static readonly Vector3 PEDROSA_SPAWN_POINT = new Vector3(136.4396f, 41.66001f, -102.2884f);
     
     // Hub (David)
     public static readonly string HUB_SCENE = "Hub";

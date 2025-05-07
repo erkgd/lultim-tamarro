@@ -10,7 +10,7 @@ public class SistemaVidaJugador : SistemaVida
     [SerializeField] private float tempsReviure = 1f;
 
     // Propiedades internas para gestionar la vida
-    [SerializeField] private float vidaMaxima = 24f;
+    [SerializeField] private float vidaMaxima = 12f;
     [SerializeField] private float vidaActual = 12f;
     
     // Eventos para comunicación (eliminados los duplicados con la clase base)
@@ -32,6 +32,13 @@ public class SistemaVidaJugador : SistemaVida
         // Buscar dependencias
         if (vidaUI == null) vidaUI = FindObjectOfType<VidaUI>();
         if (cortinilla == null) cortinilla = FindObjectOfType<Cortinilla>();
+
+        if (SistemaPerks.Instance != null && SistemaPerks.Instance.EstaDesbloquejada(3)) 
+        {
+            vidaMaxima = 20f; 
+            vidaActual = 20f; 
+            Debug.Log("Jugador inicia con perk de vida. Vida Máxima: 40, Vida Actual: 40");
+        }
     }
     
     private void Start()
