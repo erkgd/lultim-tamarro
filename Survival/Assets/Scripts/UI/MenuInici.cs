@@ -68,32 +68,50 @@ public class MainMenuController : MonoBehaviour
 
     private IEnumerator PlayIntroAndLoadScene()
     {
+        Debug.Log("PlayIntroAndLoadScene coroutine iniciada.");
+
         // 1. Ocultar el Menú Principal
         if (mainMenuPanel != null)
+        {
+            Debug.Log("Ocultando MainMenuPanel.");
             mainMenuPanel.SetActive(false);
+        }
 
-        // 2. Preparar y reproducir el vídeo
+        // --- AÑADIR ESTA SECCIÓN PARA PARAR LA MÚSICA ---
+        // 2. Parar la música del menú
+        if (backgroundMusicSource != null && backgroundMusicSource.isPlaying)
+        {
+            Debug.Log("Deteniendo la música del menú.");
+            backgroundMusicSource.Stop(); // O .Pause() si prefieres poder reanudarla después tal cual
+        }
+        // --- FIN DE LA SECCIÓN PARA PARAR LA MÚSICA ---
+
+        // 3. Preparar y reproducir el vídeo (era el paso 2, ahora es el 3)
+        Debug.Log("Configurando video...");
         videoPanel.SetActive(true);
+        Debug.Log("VideoPanel activado.");
+
         introVideoPlayer.Prepare(); 
+        Debug.Log("Llamada a introVideoPlayer.Prepare()");
 
         while (!introVideoPlayer.isPrepared)
         {
+            Debug.Log("Esperando preparación del vídeo...");
             yield return null;
         }
-        introVideoPlayer.Play();
-        Debug.Log("Video de introducción iniciado.");
+        Debug.Log("Vídeo preparado.");
 
-        // 3. Esperar a que termine el vídeo
+        introVideoPlayer.Play();
+        Debug.Log("Llamada a introVideoPlayer.Play()");
+
+        // 4. Esperar a que termine el vídeo (era el paso 3, ahora es el 4)
         while (introVideoPlayer.isPlaying)
         {
             yield return null;
         }
-        Debug.Log("Video de introducción finalizado.");
-
-        // 4. Ocultar el panel del vídeo (opcional, ya que cargaremos una nueva escena)
-        // videoPanel.SetActive(false); // Puedes mantenerlo o quitarlo
-
-        // 5. Cargar la siguiente escena
+        Debug.Log("Video de introducción finalizado (isPlaying es false).");
+        
+        // 5. Cargar la siguiente escena (era el paso 5, ahora es el 5)
         if (!string.IsNullOrEmpty(firstLevelSceneName))
         {
             Debug.Log($"Cargando escena: {firstLevelSceneName}");
