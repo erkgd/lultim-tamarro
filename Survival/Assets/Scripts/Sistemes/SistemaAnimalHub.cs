@@ -29,9 +29,9 @@ public class SistemaAnimalHub : MonoBehaviour
     [SerializeField] private List<AnimalPerkConfig> animalesConfig = new List<AnimalPerkConfig>
     {
         new AnimalPerkConfig { etiqueta = "Escurço", indicePerk = 2, mostrarSiDesbloqueada = true },
-        new AnimalPerkConfig { etiqueta = "Marmota", indicePerk = 1, mostrarSiDesbloqueada = true },
+        new AnimalPerkConfig { etiqueta = "Marmota", indicePerk = 3, mostrarSiDesbloqueada = true },
         new AnimalPerkConfig { etiqueta = "Ocell", indicePerk = 0, mostrarSiDesbloqueada = true },
-        new AnimalPerkConfig { etiqueta = "Isard", indicePerk = 3, mostrarSiDesbloqueada = true }
+        new AnimalPerkConfig { etiqueta = "Isard", indicePerk = 1, mostrarSiDesbloqueada = true }
     };
 
     // Diccionario para almacenar los GameObjects de los animales
