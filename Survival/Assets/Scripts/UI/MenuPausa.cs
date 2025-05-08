@@ -34,6 +34,7 @@ public class MenuPausa : MonoBehaviour
     {
         // Treiem el menu
         MenuPausaUI.SetActive(false);
+        MenuConfirmUI.SetActive(false);
         // Activem el time del joc perqu� sigui funcionant
         Time.timeScale = 1.0f;
         // Indiquem que el joc torna a estar iniciat
