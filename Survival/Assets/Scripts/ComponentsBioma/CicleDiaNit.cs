@@ -9,7 +9,7 @@ using UnityEngine;
 
 public class CicleDiaNit : MonoBehaviour
 {
-    [Header("Configuració")]
+    /* [Header("Configuració")]
     [SerializeField] private float duracioEstaticsEnSegons = 40f;  // 40 segons amb el sol estatic (dia o nit)
     [SerializeField] private float duracioTransicioEnSegons = 5f;   // 5 segons de transició entre dia i nit
     [SerializeField] private bool cicleActiu = true;
@@ -270,7 +270,7 @@ public class CicleDiaNit : MonoBehaviour
     public bool EstaEnTransicio()
     {
         return estatActual == "TransicioDiaNit" || estatActual == "TransicioNitDia";
-    }
+    } */
 }
 
 /*using UnityEngine;
