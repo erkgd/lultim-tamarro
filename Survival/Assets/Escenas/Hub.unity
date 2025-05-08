@@ -20438,10 +20438,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2651561580435257056, guid: 158e0f4c1845576449c27919f6973034,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2121646663}
-    - targetCorrespondingSourceObject: {fileID: 2651561580435257056, guid: 158e0f4c1845576449c27919f6973034,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 2121646662}
     - targetCorrespondingSourceObject: {fileID: 2651561580435257056, guid: 158e0f4c1845576449c27919f6973034,
         type: 3}
@@ -20501,40 +20497,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &2121646663
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2121646660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 033d8d1459160264ab6c757c8bf2db83, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  vallaCombat: {fileID: 0}
-  velocidad: 2
-  entradaCombat: {fileID: 0}
-  enemicPractica: {fileID: 0}
-  vallaSortidaCombat: {fileID: 0}
-  enemicPracticaCollider: {fileID: 0}
-  barreraEntradaVidaEsquerra: {fileID: 0}
-  barreraEntradaVidaDreta: {fileID: 0}
-  entradaVida: {fileID: 0}
-  zonaVida: {fileID: 0}
-  pinya: {fileID: 0}
-  barreraSortidaVidaEsquerra: {fileID: 0}
-  barreraSortidaVidaDreta: {fileID: 0}
-  arbreSortidaZona: {fileID: 0}
-  zonaFogata: {fileID: 0}
-  textCanvaGroup: {fileID: 0}
-  druacioFade: 1
-  colliderPontTextEnable: {fileID: 0}
-  colliderPontTextDisable: {fileID: 0}
-  barreraEntradaHub: {fileID: 0}
-  colliderEntradaHub: {fileID: 0}
-  pontArribadaHub: {fileID: 0}
 --- !u!4 &2121646671 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3424967287040044122, guid: 158e0f4c1845576449c27919f6973034,
