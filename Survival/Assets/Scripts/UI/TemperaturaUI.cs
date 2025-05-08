@@ -21,6 +21,7 @@ public class TemperaturaUI : MonoBehaviour
     [SerializeField] private Image barraFredaImatgeEmplenament; // Canviat el nom i el propòsit
 
     private Coroutine reduccioCoroutine;
+    private bool reduccioDetenida = false;
 
     private void Start()
     {
@@ -55,7 +56,7 @@ public class TemperaturaUI : MonoBehaviour
         {
             yield return new WaitForSeconds(tempsReduccio);
 
-            if (jugador != null && jugador.VidaActual > 0)
+            if (jugador != null && jugador.VidaActual > 0 && !reduccioDetenida)
             {
                 temperaturaActual -= quantitatReduccio;
                 temperaturaActual = Mathf.Max(temperaturaActual, temperaturaMinima);
@@ -74,19 +75,12 @@ public class TemperaturaUI : MonoBehaviour
 
     public void DetenerReduccionTemperatura()
     {
-        if (reduccioCoroutine != null)
-        {
-            StopCoroutine(reduccioCoroutine);
-            reduccioCoroutine = null;
-        }
+        reduccioDetenida = true;
     }
 
     public void ReiniciarReduccionTemperatura()
     {
-        if (reduccioCoroutine == null && temperaturaActual > temperaturaMinima && quantitatReduccio > 0 && tempsReduccio > 0)
-        {
-            reduccioCoroutine = StartCoroutine(ReduirTemperatura());
-        }
+        reduccioDetenida = false;
     }
 
     public void AugmentarTemperatura(float quantitat)
@@ -97,11 +91,6 @@ public class TemperaturaUI : MonoBehaviour
         temperaturaActual += quantitat;
         temperaturaActual = Mathf.Min(temperaturaActual, temperaturaMaxima);
         ActualitzarBarra();
-
-        if (reduccioCoroutine == null && temperaturaActual > temperaturaMinima && quantitatReduccio > 0 && tempsReduccio > 0)
-        {
-            reduccioCoroutine = StartCoroutine(ReduirTemperatura());
-        }
     }
 
     private void ActualitzarBarra()

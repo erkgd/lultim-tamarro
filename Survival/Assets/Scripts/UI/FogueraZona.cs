@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 
+[RequireComponent(typeof(SphereCollider))]
 public class FogueraZona : MonoBehaviour
 {
     // Variables de la foguera
@@ -12,6 +13,7 @@ public class FogueraZona : MonoBehaviour
     private TemperaturaUI temperaturaUI;
     private bool jugadorDintre = false;
     private Coroutine reduccioCoroutine;
+    private SphereCollider sphereCollider;
 
     // Inicialització del script, troba el component TemperaturaUI
     private void Start()
@@ -19,10 +21,29 @@ public class FogueraZona : MonoBehaviour
         try
         {
             temperaturaUI = FindObjectOfType<TemperaturaUI>();
+            sphereCollider = GetComponent<SphereCollider>();
+            ActualitzarCollider();
         }
         catch (Exception e)
         {
             Debug.LogError("Error al trobar el component TemperaturaUI: " + e.Message);
+        }
+    }
+
+    private void OnValidate()
+    {
+        if (sphereCollider == null)
+            sphereCollider = GetComponent<SphereCollider>();
+            
+        ActualitzarCollider();
+    }
+
+    private void ActualitzarCollider()
+    {
+        if (sphereCollider != null)
+        {
+            sphereCollider.radius = radi;
+            sphereCollider.isTrigger = true;
         }
     }
 
