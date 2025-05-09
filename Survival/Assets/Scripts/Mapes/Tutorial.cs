@@ -90,7 +90,7 @@ public class Tutorial : MonoBehaviour
 
         if (vallaSortidaCombat != null)
         {
-            vallaCombatSortidaPInicial  = new Vector3(vallaSortidaCombat.transform.position.x, 26.67f, vallaSortidaCombat.transform.position.z);
+            vallaCombatSortidaPInicial  = new Vector3(vallaSortidaCombat.transform.position.x, 29.24f, vallaSortidaCombat.transform.position.z);
             vallaCombatSortidaPFinal    = new Vector3(vallaSortidaCombat.transform.position.x, 21.6f, vallaSortidaCombat.transform.position.z);
         }
 
@@ -271,7 +271,7 @@ public class Tutorial : MonoBehaviour
         float tiempo = 0;
         while (tiempo < 1)
         {
-            tiempo += Time.deltaTime * velocidad;
+            tiempo += Time.deltaTime * (velocidad/4);
             vallaSortidaCombat.transform.position = Vector3.Lerp(vallaCombatSortidaPInicial, vallaCombatSortidaPFinal, tiempo);
             yield return null;
         }
