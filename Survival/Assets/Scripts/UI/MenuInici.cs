@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI; // Necesario si cambias el icono de música
-using UnityEngine.Video; // Para VideoPlayer
 using System.Collections; // Para Coroutines
 
 public class MainMenuController : MonoBehaviour
@@ -23,95 +22,74 @@ public class MainMenuController : MonoBehaviour
     [Tooltip("El sprite que se muestra cuando la música está activada")]
     [SerializeField] private Sprite musicOnSprite;
     [Tooltip("El sprite que se muestra cuando la música está desactivada")]
-    [SerializeField] private Sprite musicOffSprite;
-
-    // --- CAMPOS PARA EL VIDEO ---
-    [Header("Video Intro")]
-    [Tooltip("Arrastra aquí el componente VideoPlayer que reproducirá el video.")]
-    [SerializeField] private VideoPlayer introVideoPlayer;
-    [Tooltip("Arrastra aquí el GameObject (Panel) que contiene el VideoPlayer y su RawImage.")]
-    [SerializeField] private GameObject videoPanel;
-    // --- FIN CAMPOS VIDEO ---
-
+    [SerializeField] private Sprite musicOffSprite;    // --- CAMPOS PARA LA ANIMACIÓN DE IMAGEN ---
+    [Header("Animación de Imagen")]
+    [Tooltip("GameObject con la imagen que se moverá")]
+    [SerializeField] private GameObject imageObject;
+    [Tooltip("Velocidad de movimiento de la imagen")]
+    [SerializeField] private float moveSpeed = 5f;
+    [Tooltip("La anchura total de la imagen que se quiere mostrar")]
+    [SerializeField] private float imageWidth = 1000f;
+    [Tooltip("El ancho del área visible (viewport)")]
+    [SerializeField] private float viewportWidth = 300f;
+      private Vector2 startPosition;
+    private float moveDistance;
+    // --- FIN CAMPOS PARA ANIMACIÓN ---
+    
     void Start()
     {
         if (mainMenuPanel != null)
             mainMenuPanel.SetActive(true);
         
-        if (videoPanel != null)
-            videoPanel.SetActive(false);
-
         UpdateMusicButtonIcon();
-        Time.timeScale = 1.0f;
-    }
-
-    public void PlayGame()
-    {
-        if (introVideoPlayer != null && videoPanel != null)
+        Time.timeScale = 1.0f;          // Inicializar posiciones para la animación
+        if (imageObject != null)
         {
-            StartCoroutine(PlayIntroAndLoadScene());
-        }
-        else
-        {
-            Debug.LogError("MainMenuController: VideoPlayer o VideoPanel no están asignados en el Inspector!");
-            // Fallback: Cargar la escena directamente si faltan componentes
-            if (!string.IsNullOrEmpty(firstLevelSceneName))
+            RectTransform rectTransform = imageObject.GetComponent<RectTransform>();
+            if (rectTransform != null)
             {
-                SceneManager.LoadScene(firstLevelSceneName);
+                startPosition = rectTransform.anchoredPosition;
+                // Calcular la distancia total que debe desplazarse la imagen (anchura completa - anchura visible)
+                moveDistance = imageWidth - viewportWidth;
+                
+                // Asegurar que la imagen comienza desde la posición donde se ve el inicio de la imagen
+                rectTransform.anchoredPosition = new Vector2(0, rectTransform.anchoredPosition.y);
             }
             else
             {
-                Debug.LogError("MainMenuController: El nombre de la escena del primer nivel no está configurado!");
+                Debug.LogError("El GameObject no tiene un componente RectTransform");
             }
         }
-    }
-
-    private IEnumerator PlayIntroAndLoadScene()
+    }    void Update()
     {
-        Debug.Log("PlayIntroAndLoadScene coroutine iniciada.");
-
-        // 1. Ocultar el Menú Principal
-        if (mainMenuPanel != null)
+        // Animación de la imagen (desplazamiento horizontal)
+        if (imageObject != null)
         {
-            Debug.Log("Ocultando MainMenuPanel.");
-            mainMenuPanel.SetActive(false);
+            RectTransform rectTransform = imageObject.GetComponent<RectTransform>();
+            if (rectTransform != null)
+            {
+                // Calcular nueva posición x
+                float newXPosition = rectTransform.anchoredPosition.x - moveSpeed * Time.deltaTime;
+                
+                // Si la imagen se ha movido lo suficiente para mostrar toda su longitud, reiniciar
+                if (newXPosition <= -moveDistance)
+                {
+                    newXPosition = 0; // Volver al inicio
+                }
+                
+                // Aplicar la nueva posición
+                rectTransform.anchoredPosition = new Vector2(newXPosition, rectTransform.anchoredPosition.y);
+            }
         }
-
-        // --- AÑADIR ESTA SECCIÓN PARA PARAR LA MÚSICA ---
-        // 2. Parar la música del menú
+    }public void PlayGame()
+    {
+        // Detener la música antes de cambiar de escena
         if (backgroundMusicSource != null && backgroundMusicSource.isPlaying)
         {
-            Debug.Log("Deteniendo la música del menú.");
-            backgroundMusicSource.Stop(); // O .Pause() si prefieres poder reanudarla después tal cual
+            backgroundMusicSource.Stop();
         }
-        // --- FIN DE LA SECCIÓN PARA PARAR LA MÚSICA ---
 
-        // 3. Preparar y reproducir el vídeo (era el paso 2, ahora es el 3)
-        Debug.Log("Configurando video...");
-        videoPanel.SetActive(true);
-        Debug.Log("VideoPanel activado.");
-
-        introVideoPlayer.Prepare(); 
-        Debug.Log("Llamada a introVideoPlayer.Prepare()");
-
-        while (!introVideoPlayer.isPrepared)
-        {
-            Debug.Log("Esperando preparación del vídeo...");
-            yield return null;
-        }
-        Debug.Log("Vídeo preparado.");
-
-        introVideoPlayer.Play();
-        Debug.Log("Llamada a introVideoPlayer.Play()");
-
-        // 4. Esperar a que termine el vídeo (era el paso 3, ahora es el 4)
-        while (introVideoPlayer.isPlaying)
-        {
-            yield return null;
-        }
-        Debug.Log("Video de introducción finalizado (isPlaying es false).");
-        
-        // 5. Cargar la siguiente escena (era el paso 5, ahora es el 5)
+        // Cargar directamente la escena del juego
         if (!string.IsNullOrEmpty(firstLevelSceneName))
         {
             Debug.Log($"Cargando escena: {firstLevelSceneName}");
