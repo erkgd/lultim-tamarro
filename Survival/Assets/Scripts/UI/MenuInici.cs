@@ -6,7 +6,7 @@ using System.Collections; // Para Coroutines
 public class MainMenuController : MonoBehaviour
 {
     [Header("Configuración Escenas")]
-    [SerializeField] private string firstLevelSceneName = "David";
+    [SerializeField] private string firstLevelSceneName = "Intro";
 
     [Header("Paneles UI")]
     [Tooltip("El panel principal del menú con Play, Salir, Música")]
@@ -22,66 +22,20 @@ public class MainMenuController : MonoBehaviour
     [Tooltip("El sprite que se muestra cuando la música está activada")]
     [SerializeField] private Sprite musicOnSprite;
     [Tooltip("El sprite que se muestra cuando la música está desactivada")]
-    [SerializeField] private Sprite musicOffSprite;    // --- CAMPOS PARA LA ANIMACIÓN DE IMAGEN ---
-    [Header("Animación de Imagen")]
-    [Tooltip("GameObject con la imagen que se moverá")]
-    [SerializeField] private GameObject imageObject;
-    [Tooltip("Velocidad de movimiento de la imagen")]
-    [SerializeField] private float moveSpeed = 5f;
-    [Tooltip("La anchura total de la imagen que se quiere mostrar")]
-    [SerializeField] private float imageWidth = 1000f;
-    [Tooltip("El ancho del área visible (viewport)")]
-    [SerializeField] private float viewportWidth = 300f;
-      private Vector2 startPosition;
-    private float moveDistance;
-    // --- FIN CAMPOS PARA ANIMACIÓN ---
-    
-    void Start()
+    [SerializeField] private Sprite musicOffSprite;
+      void Start()
     {
         if (mainMenuPanel != null)
             mainMenuPanel.SetActive(true);
         
         UpdateMusicButtonIcon();
-        Time.timeScale = 1.0f;          // Inicializar posiciones para la animación
-        if (imageObject != null)
-        {
-            RectTransform rectTransform = imageObject.GetComponent<RectTransform>();
-            if (rectTransform != null)
-            {
-                startPosition = rectTransform.anchoredPosition;
-                // Calcular la distancia total que debe desplazarse la imagen (anchura completa - anchura visible)
-                moveDistance = imageWidth - viewportWidth;
-                
-                // Asegurar que la imagen comienza desde la posición donde se ve el inicio de la imagen
-                rectTransform.anchoredPosition = new Vector2(0, rectTransform.anchoredPosition.y);
-            }
-            else
-            {
-                Debug.LogError("El GameObject no tiene un componente RectTransform");
-            }
-        }
-    }    void Update()
+        Time.timeScale = 1.0f;
+    }
+      void Update()
     {
-        // Animación de la imagen (desplazamiento horizontal)
-        if (imageObject != null)
-        {
-            RectTransform rectTransform = imageObject.GetComponent<RectTransform>();
-            if (rectTransform != null)
-            {
-                // Calcular nueva posición x
-                float newXPosition = rectTransform.anchoredPosition.x - moveSpeed * Time.deltaTime;
-                
-                // Si la imagen se ha movido lo suficiente para mostrar toda su longitud, reiniciar
-                if (newXPosition <= -moveDistance)
-                {
-                    newXPosition = 0; // Volver al inicio
-                }
-                
-                // Aplicar la nueva posición
-                rectTransform.anchoredPosition = new Vector2(newXPosition, rectTransform.anchoredPosition.y);
-            }
-        }
-    }public void PlayGame()
+        // Este método está vacío, pero se mantiene por si se necesita agregar funcionalidad en el futuro
+    }
+    public void PlayGame()
     {
         // Detener la música antes de cambiar de escena
         if (backgroundMusicSource != null && backgroundMusicSource.isPlaying)
