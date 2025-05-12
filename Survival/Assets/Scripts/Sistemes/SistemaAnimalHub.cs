@@ -4,7 +4,7 @@ using UnityEngine;
 
 /// <summary>
 /// Este sistema gestiona la visibilidad de los animales en el hub según el estado de desbloqueo de las perks.
-/// Cada animal se asocia con una perk específica y será visible solo si esa perk está desbloqueada.
+/// Cada animal se asocia con una perk específica y será visible solo si esa perk está desbloqueada.//
 /// </summary>
 public class SistemaAnimalHub : MonoBehaviour
 {
@@ -28,10 +28,10 @@ public class SistemaAnimalHub : MonoBehaviour
     [Tooltip("Configuración para cada animal en el mapa")]
     [SerializeField] private List<AnimalPerkConfig> animalesConfig = new List<AnimalPerkConfig>
     {
-        new AnimalPerkConfig { etiqueta = "Escurço", indicePerk = 2, mostrarSiDesbloqueada = true },
+        new AnimalPerkConfig { etiqueta = "Escurço", indicePerk = 1, mostrarSiDesbloqueada = true },
         new AnimalPerkConfig { etiqueta = "Marmota", indicePerk = 3, mostrarSiDesbloqueada = true },
         new AnimalPerkConfig { etiqueta = "Ocell", indicePerk = 0, mostrarSiDesbloqueada = true },
-        new AnimalPerkConfig { etiqueta = "Isard", indicePerk = 1, mostrarSiDesbloqueada = true }
+        new AnimalPerkConfig { etiqueta = "Isard", indicePerk = 2, mostrarSiDesbloqueada = true }
     };
 
     // Diccionario para almacenar los GameObjects de los animales
