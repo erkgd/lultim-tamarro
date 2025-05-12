@@ -666,7 +666,7 @@ MonoBehaviour:
   buscarAnimalesAutomaticamente: 1
   animalesConfig:
   - etiqueta: "Escur\xE7o"
-    indicePerk: 2
+    indicePerk: 1
     mostrarSiDesbloqueada: 1
     objetoAnimal: {fileID: 0}
   - etiqueta: Marmota
@@ -678,7 +678,7 @@ MonoBehaviour:
     mostrarSiDesbloqueada: 1
     objetoAnimal: {fileID: 0}
   - etiqueta: Isard
-    indicePerk: 1
+    indicePerk: 2
     mostrarSiDesbloqueada: 1
     objetoAnimal: {fileID: 0}
 --- !u!1001 &104884901
