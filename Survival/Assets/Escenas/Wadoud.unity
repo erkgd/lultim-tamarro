@@ -83318,6 +83318,11 @@ PrefabInstance:
       propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5565898631496330382, guid: 866afef61b207e542b60c0965c217240,
+        type: 3}
+      propertyPath: m_StitchLightmapSeams
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5952695356955226530, guid: 866afef61b207e542b60c0965c217240,
         type: 3}
       propertyPath: m_StaticEditorFlags
