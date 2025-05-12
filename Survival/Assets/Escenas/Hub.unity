@@ -1505,6 +1505,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 4eaea5ed6b5077143b6830e7756384b2, type: 2}
+    - target: {fileID: 3961114142717461643, guid: 5b5c678f31981e34f9122b87217da1ac,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4526051182192201800, guid: 5b5c678f31981e34f9122b87217da1ac,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -1595,7 +1600,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3961114142717461643, guid: 5b5c678f31981e34f9122b87217da1ac, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -4129,6 +4135,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 228031c783fac44499c9bca5048701a2, type: 2}
+    - target: {fileID: 6788538757290762321, guid: ad4137f595ec8e2449cacca9df7d3735,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6788538757290762322, guid: ad4137f595ec8e2449cacca9df7d3735,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -4214,7 +4225,8 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 228031c783fac44499c9bca5048701a2, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6788538757290762321, guid: ad4137f595ec8e2449cacca9df7d3735, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -4882,7 +4894,13 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 132ccd5865fe57b409e08ca2e980fc1f, type: 2}
-    m_RemovedComponents: []
+    - target: {fileID: 6795331777207300919, guid: 252ba5fa5d8167e42af72cf97baa830e,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 6795331777207300919, guid: 252ba5fa5d8167e42af72cf97baa830e, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -6948,12 +6966,18 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Marmota
       objectReference: {fileID: 0}
+    - target: {fileID: 7416841827033409389, guid: 8cb75dc2fdd63734988b8358f1314d25,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7621313499760456227, guid: 8cb75dc2fdd63734988b8358f1314d25,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 214cbf0570dd06b4aba7717d56d0ff06, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7416841827033409389, guid: 8cb75dc2fdd63734988b8358f1314d25, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
