@@ -82554,13 +82554,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guardarContadorEntreSesiones: 1
   contadorTextoUI: {fileID: 0}
-  tiposEnemigos:
-  - Blobo
-  - Amanita
-  - Greko
-  - Tatxo
-  enemigosTotalesDerrotados: 0
-  contadoresPorTipo: 
+  tipoEnemigoNivel: 0
+  enemigosDerrotados: 0
 --- !u!1001 &2046350150
 PrefabInstance:
   m_ObjectHideFlags: 0
