@@ -1,9 +1,10 @@
 using System;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
-// Sistema para contar y registrar enemigos derrotados
+/// <summary>
+/// Sistema simplificado para contar enemigos derrotados
+/// </summary>
 public class SistemaCounter : MonoBehaviour
 {
     // Singleton para acceso global
@@ -11,15 +12,14 @@ public class SistemaCounter : MonoBehaviour
 
     [Header("Configuración")]
     [SerializeField] private bool guardarContadorEntreSesiones = true;
-    [SerializeField] private TextMeshProUGUI contadorTextoUI; // Opcional: Referencia al elemento de UI para mostrar el contador
+    [SerializeField] private TextMeshProUGUI contadorTextoUI;
 
     [Header("Tipos de Enemigos")]
     [SerializeField] private string[] tiposEnemigos = {
         "Blobo",     // el rojo ciclope 0
-        "Amanita",     // seta 1
-        "Greko",  // volador 2
-        "Tatxo"   // pinchitos 3
-
+        "Amanita",   // seta 1
+        "Greko",     // volador 2
+        "Tatxo"      // pinchitos 3
     };
 
     [Header("Contadores")]
@@ -31,14 +31,15 @@ public class SistemaCounter : MonoBehaviour
     private const string KEY_TIPO_ENEMIGO_BASE = "EnemigosTipo_";
 
     // Eventos
-    public event Action<int> OnEnemigoDerrotado; // Se dispara cuando se derrota cualquier enemigo (total)
-    public event Action<int, int> OnEnemigoTipoDerrotado; // (tipoEnemigo, cantidad)    private void Awake()
+    public event Action<int> OnEnemigoDerrotado;
+
+    private void Awake()
     {
         // Configuración del Singleton
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Mantener entre escenas
+            DontDestroyOnLoad(gameObject);
             
             // Inicializar arrays
             if (contadoresPorTipo == null || contadoresPorTipo.Length != tiposEnemigos.Length)
@@ -63,7 +64,7 @@ public class SistemaCounter : MonoBehaviour
         // Suscribirse a eventos de muerte de enemigos
         SuscribirseAEventosMuerte();
         
-        // Actualizar UI si existe
+        // Actualizar UI
         ActualizarUI();
     }
     
@@ -76,17 +77,7 @@ public class SistemaCounter : MonoBehaviour
             // Nos suscribimos al evento de muerte
             enemigo.QuanMoriEnemic += () => RegistrarEnemigoEliminado(ObtenerTipoEnemigo(enemigo.gameObject));
         }
-        
-        Debug.Log($"SistemaCounter: Suscrito a {enemigos.Length} enemigos en la escena");
     }
-    
-    // Este método debe llamarse cuando se cargue una nueva escena
-    public void ActualizarSuscripcionesEnemigos()
-    {
-        SuscribirseAEventosMuerte();
-    }
-    
-    #region Gestión de Enemigos
     
     /// <summary>
     /// Registra un enemigo como eliminado
@@ -97,7 +88,6 @@ public class SistemaCounter : MonoBehaviour
         // Comprobar que el tipo es válido
         if (tipoEnemigo < 0 || tipoEnemigo >= contadoresPorTipo.Length)
         {
-            Debug.LogWarning($"SistemaCounter: Tipo de enemigo inválido: {tipoEnemigo}");
             tipoEnemigo = 0; // Tipo por defecto
         }
         
@@ -105,29 +95,31 @@ public class SistemaCounter : MonoBehaviour
         enemigosTotalesDerrotados++;
         contadoresPorTipo[tipoEnemigo]++;
         
-        Debug.Log($"SistemaCounter: Enemigo eliminado - Tipo: {tiposEnemigos[tipoEnemigo]}, " +
-                  $"Total de este tipo: {contadoresPorTipo[tipoEnemigo]}, Total global: {enemigosTotalesDerrotados}");
+        Debug.Log($"Enemigo eliminado - Tipo: {tiposEnemigos[tipoEnemigo]}, " +
+                 $"Total: {enemigosTotalesDerrotados}");
         
-        // Guardar datos si corresponde
+        // Guardar datos
         if (guardarContadorEntreSesiones)
         {
             GuardarContadores();
         }
         
-        // Disparar eventos
+        // Notificar
         OnEnemigoDerrotado?.Invoke(enemigosTotalesDerrotados);
-        OnEnemigoTipoDerrotado?.Invoke(tipoEnemigo, contadoresPorTipo[tipoEnemigo]);
         
         // Actualizar UI
         ActualizarUI();
-    }    /// <summary>
-    /// Determina el tipo de enemigo basándose en el nombre del GameObject
+    }
+    
+    /// <summary>
+    /// Determina el tipo de enemigo basándose en su nombre
     /// </summary>
     private int ObtenerTipoEnemigo(GameObject enemigo)
     {
+        if (enemigo == null) return 0;
+        
         string nombreEnemigo = enemigo.name.ToLower();
         
-        // Intentar determinar el tipo basado en el nombre
         for (int i = 0; i < tiposEnemigos.Length; i++)
         {
             if (nombreEnemigo.Contains(tiposEnemigos[i].ToLower()))
@@ -136,14 +128,7 @@ public class SistemaCounter : MonoBehaviour
             }
         }
         
-        // Comprobar tags específicos
-        if (enemigo.CompareTag("Boss") || nombreEnemigo.Contains("boss") || nombreEnemigo.Contains("jefe"))
-        {
-            return 3; // Jefe
-        }
-        
-        // Devolver el tipo genérico si no se puede determinar
-        return 0; // Tipo por defecto: "Normal"
+        return 0; // Tipo por defecto
     }
     
     /// <summary>
@@ -162,17 +147,14 @@ public class SistemaCounter : MonoBehaviour
     /// </summary>
     private void GuardarContadores()
     {
-        // Guardar total
         PlayerPrefs.SetInt(KEY_TOTAL_ENEMIGOS, enemigosTotalesDerrotados);
         
-        // Guardar contadores por tipo
         for (int i = 0; i < contadoresPorTipo.Length; i++)
         {
             PlayerPrefs.SetInt(KEY_TIPO_ENEMIGO_BASE + i, contadoresPorTipo[i]);
         }
         
         PlayerPrefs.Save();
-        Debug.Log("SistemaCounter: Contadores guardados en PlayerPrefs");
     }
     
     /// <summary>
@@ -180,20 +162,13 @@ public class SistemaCounter : MonoBehaviour
     /// </summary>
     private void CargarContadores()
     {
-        // Cargar total
         enemigosTotalesDerrotados = PlayerPrefs.GetInt(KEY_TOTAL_ENEMIGOS, 0);
         
-        // Cargar contadores por tipo
         for (int i = 0; i < contadoresPorTipo.Length; i++)
         {
             contadoresPorTipo[i] = PlayerPrefs.GetInt(KEY_TIPO_ENEMIGO_BASE + i, 0);
         }
-        
-        Debug.Log("SistemaCounter: Contadores cargados desde PlayerPrefs");
     }
-    
-    #endregion
-    #region API Pública
     
     /// <summary>
     /// Obtiene el total de enemigos derrotados
@@ -204,7 +179,7 @@ public class SistemaCounter : MonoBehaviour
     }
     
     /// <summary>
-    /// Obtiene el número de enemigos derrotados de un tipo específico
+    /// Obtiene el número de enemigos de un tipo específico
     /// </summary>
     public int ObtenerEnemigosPorTipo(int tipoEnemigo)
     {
@@ -213,28 +188,10 @@ public class SistemaCounter : MonoBehaviour
             return contadoresPorTipo[tipoEnemigo];
         }
         return 0;
-    }    /// <summary>
-    /// Obtiene el nombre del tipo de enemigo
-    /// </summary>
-    public string ObtenerNombreTipoEnemigo(int tipoEnemigo)
-    {
-        if (tipoEnemigo >= 0 && tipoEnemigo < tiposEnemigos.Length)
-        {
-            return tiposEnemigos[tipoEnemigo];
-        }
-        return "Desconocido";
     }
     
     /// <summary>
-    /// Obtiene un array con los contadores de todos los tipos de enemigos
-    /// </summary>
-    public int[] ObtenerTodosLosContadores()
-    {
-        return contadoresPorTipo.Clone() as int[];
-    }
-    
-    /// <summary>
-    /// Reinicia todos los contadores a cero
+    /// Reinicia todos los contadores
     /// </summary>
     public void ReiniciarContadores()
     {
@@ -250,49 +207,6 @@ public class SistemaCounter : MonoBehaviour
             GuardarContadores();
         }
         
-        // Actualizar UI
-        ActualizarUI();
-        
-        Debug.Log("SistemaCounter: Todos los contadores han sido reiniciados");
-    }
-    
-    /// <summary>
-    /// Configura el texto de la UI para mostrar el contador
-    /// </summary>
-    public void ConfigurarUITexto(TextMeshProUGUI textoUI)
-    {
-        contadorTextoUI = textoUI;
         ActualizarUI();
     }
-    
-    /// <summary>
-    /// Método para registrar manualmente un enemigo derrotado (útil para sistemas externos)
-    /// </summary>
-    public void RegistrarEnemigoEliminadoPorNombre(string nombreTipoEnemigo)
-    {
-        // Buscar el índice correspondiente al nombre
-        int tipoIndex = -1;
-        for (int i = 0; i < tiposEnemigos.Length; i++)
-        {
-            if (tiposEnemigos[i].Equals(nombreTipoEnemigo, StringComparison.OrdinalIgnoreCase))
-            {
-                tipoIndex = i;
-                break;
-            }
-        }
-        
-        if (tipoIndex >= 0)
-        {
-            RegistrarEnemigoEliminado(tipoIndex);
-        }
-        else
-        {
-            Debug.LogWarning($"SistemaCounter: Tipo de enemigo no encontrado: {nombreTipoEnemigo}");
-            // Registrar como tipo genérico
-            RegistrarEnemigoEliminado(0);
-        }
-    }
-    
-    #endregion
 }
-
