@@ -64,9 +64,9 @@ public class SistemaVidaEnemic : SistemaVida
         // En lugar de llamar directamente a Enemic, notificamos a través del evento
         OnIniciarAtac?.Invoke();
     }
-    
-    public override IEnumerator Morir()
+      public override IEnumerator Morir()
     {
+        // Notificar a los suscriptores de la muerte del enemigo
         QuanMoriEnemic?.Invoke();
 
         // Configurar animación y estado
@@ -80,6 +80,13 @@ public class SistemaVidaEnemic : SistemaVida
         {
             agent.isStopped = true;
             agent.enabled = false;
+        }
+        
+        // Notificar muerte al sistema de contadores si existe
+        if (SistemaCounter.Instance != null)
+        {
+            // Obtener el tipo de enemigo - se determina en SistemaCounter
+            SistemaCounter.Instance.RegistrarEnemigoEliminado(0); // El tipo se detecta automáticamente en SistemaCounter
         }
         
         // Notificar muerte
