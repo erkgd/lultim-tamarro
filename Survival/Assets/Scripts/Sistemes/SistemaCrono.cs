@@ -2,17 +2,28 @@ using UnityEngine;
 using System;
 
 
-[ExecuteInEditMode]
+
 public class SistemaCrono : MonoBehaviour
 {
+    public static SistemaCrono Instance { get; private set; }
+    
     float elapsedTime = 0.0f;
 
     string route="api/cronometro";
     
     void Awake()
     {
-        // Make this gameObject persist between scene loads
-        DontDestroyOnLoad(this.gameObject);
+        if(Instance == null)
+        {
+            Instance = this;
+            // Make this gameObject persist between scene loads
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else if (Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        
     }
 
     void Update() {

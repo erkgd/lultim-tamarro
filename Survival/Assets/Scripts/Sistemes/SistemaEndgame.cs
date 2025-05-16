@@ -13,7 +13,6 @@ public class SistemaEndgame : MonoBehaviour
     public static SistemaEndgame Instance { get; private set; }
     
     [Header("Configuración")]
-    [SerializeField] private float intervaloComprobacion = 5.0f;  // Tiempo entre comprobaciones de perks
     [SerializeField] private bool mostrarDebug = true;  // Mostrar mensajes de debug
     
     // Endpoint para enviar los datos
@@ -25,27 +24,22 @@ public class SistemaEndgame : MonoBehaviour
     
     // Evento para notificar cuando se completa el juego
     public event Action OnJuegoCompletado;
-
-
-    private void Start()
+    
+    private void Awake()
     {
-        // Iniciar la coroutine para comprobar perks periódicamente
-        StartCoroutine(ComprobarPerksRutina());
+        // Configurar el singleton
+        Instance = this;
         
         if (mostrarDebug)
-            Debug.Log("SistemaEndgame: Sistema iniciado. Comprobando perks cada " + intervaloComprobacion + " segundos.");
+            Debug.Log("SistemaEndgame: Sistema inicializado.");
     }
-
-    /// <summary>
-    /// Coroutine para comprobar periódicamente si todos los perks están desbloqueados
-    /// </summary>
-    private IEnumerator ComprobarPerksRutina()
+    private void Start()
     {
-        while (!todosPerksDesbloqueados)
-        {
-            ComprobarPerks();
-            yield return new WaitForSeconds(intervaloComprobacion);
-        }
+        // Comprobar perks solo una vez al iniciar
+        ComprobarPerks();
+        
+        if (mostrarDebug)
+            Debug.Log("SistemaEndgame: Sistema iniciado. Comprobando perks al inicio.");
     }
 
     /// <summary>
