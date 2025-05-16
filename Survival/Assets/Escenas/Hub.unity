@@ -9451,6 +9451,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1112122299}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1105699359
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1105699360}
+  - component: {fileID: 1105699361}
+  m_Layer: 0
+  m_Name: SistemaCounter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1105699360
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105699359}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 11.09601, y: -37.100872, z: 48.227512}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1105699361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105699359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 081f81816cd41db49a0c21dafc7f06b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  contadorTextoUI: {fileID: 0}
+  enemigosDerrotados: 0
 --- !u!1001 &1106704974
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11801,7 +11847,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecad28a0f6c600949aeea6ac66b0765c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  intervaloComprobacion: 5
   mostrarDebug: 1
 --- !u!1 &1432032185
 GameObject:
@@ -20680,6 +20725,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 911141176}
   m_LocalEulerAnglesHint: {x: 0, y: -66.198, z: 0}
+--- !u!1 &2129174436
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2129174437}
+  - component: {fileID: 2129174438}
+  m_Layer: 0
+  m_Name: SistemaCrono
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2129174437
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2129174436}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 11.09601, y: -37.100872, z: 48.227512}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2129174438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2129174436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f21d75d56f2f5b74ea365dbfe6c8e822, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2131177239
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20824,3 +20913,5 @@ SceneRoots:
   - {fileID: 933856274}
   - {fileID: 516666168}
   - {fileID: 1418122756}
+  - {fileID: 2129174437}
+  - {fileID: 1105699360}

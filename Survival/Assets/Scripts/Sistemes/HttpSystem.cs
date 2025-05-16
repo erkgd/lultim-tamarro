@@ -80,9 +80,7 @@ public class HttpSystem : MonoBehaviour
     public void PostRequest(string url, string data, Action<string> callback)
     {
         StartCoroutine(PostRequestCoroutine(url, data, callback));
-    }
-
-    private IEnumerator PostRequestCoroutine(string url, string data, Action<string> callback)
+    }    private IEnumerator PostRequestCoroutine(string url, string data, Action<string> callback)
     {
         using (UnityWebRequest webRequest = new UnityWebRequest(url, "POST"))
         {
@@ -99,7 +97,7 @@ public class HttpSystem : MonoBehaviour
             }
             else
             {
-                Debug.LogError($"Error en la petición HTTP: {webRequest.error}");
+                Debug.LogError($"Error en la petición HTTP: {webRequest.error} - URL: {url}");
                 callback(null);
             }
         }

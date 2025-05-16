@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 
 /// <summary>
 /// Sistema que gestiona el final del juego y envía estadísticas al servidor 
@@ -16,8 +17,8 @@ public class SistemaEndgame : MonoBehaviour
     [SerializeField] private bool mostrarDebug = true;  // Mostrar mensajes de debug
     
     // Endpoint para enviar los datos
-    private string endpoint = "api/intodata";
-    
+    private string endpoint = "http://localhost:8080/puntuacions/";
+
     // Tracking de estado
     private bool todosPerksDesbloqueados = false;
     private bool datosEnviados = false;
@@ -117,8 +118,7 @@ public class SistemaEndgame : MonoBehaviour
         if (SistemaCounter.Instance != null)
         {
             enemigosEliminados = SistemaCounter.Instance.ObtenerTotalEnemigos();
-        }
-        else
+        }        else
         {
             Debug.LogWarning("SistemaEndgame: SistemaCounter no encontrado.");
         }
@@ -126,12 +126,17 @@ public class SistemaEndgame : MonoBehaviour
         // Crear objeto de datos para enviar
         EndgameData datos = new EndgameData
         {
-            time = tiempoJuego,
-            enemy = enemigosEliminados
+            nom_usuari = "ERK",
+            tiemps_jugat = (int)tiempoJuego,
+            enemics_derrotats = enemigosEliminados,
         };
-        
-        // Convertir a JSON
+          // Convertir a JSON
         string jsonData = JsonUtility.ToJson(datos);
+        
+        // Log detallado del objeto y la URL antes de enviar
+        Debug.Log($"[SistemaEndgame] Enviando datos a {endpoint}:");
+        Debug.Log($"[SistemaEndgame] JSON: {jsonData}");
+        Debug.Log($"[SistemaEndgame] nom_usuari: {datos.nom_usuari}, tiemps_jugat: {datos.tiemps_jugat}, enemics_derrotats: {datos.enemics_derrotats}");
         
         if (mostrarDebug)
             Debug.Log($"SistemaEndgame: Enviando datos al servidor: {jsonData}");
@@ -139,7 +144,7 @@ public class SistemaEndgame : MonoBehaviour
         // Enviar datos usando HttpSystem
         if (HttpSystem.Instance != null)
         {
-            HttpSystem.Instance.SendRequest(endpoint, jsonData, "POST", OnDatosEnviados);
+            HttpSystem.Instance.PostRequest(endpoint, jsonData, OnDatosEnviados);
         }
         else
         {
@@ -170,6 +175,7 @@ public class SistemaEndgame : MonoBehaviour
 [Serializable]
 public class EndgameData
 {
-    public float time;
-    public int enemy;
+    public string nom_usuari;
+    public int tiemps_jugat;
+    public int enemics_derrotats;
 }
