@@ -1,0 +1,22 @@
+# 1. Imatge base
+FROM postgres:17
+
+# 2. Configuració de variables d'entorn per a PostgreSQL
+ENV POSTGRES_USER tamarro_user
+ENV POSTGRES_PASSWORD tamarro_password
+ENV POSTGRES_DB tamarro_db
+
+# 3. Variables per a configuració del motor PostgreSQL
+ENV PGDATA /var/lib/postgresql/data
+
+# 4. Copiar el nostre script d'inicialització
+COPY db/init.db /docker-entrypoint-initdb.d/init.sql
+
+# 5. Configuració personalitzada (opcional)
+# COPY pg_custom.conf /etc/postgresql/postgresql.conf
+
+# 6. Exposar el port estàndard de PostgreSQL
+EXPOSE 5432
+
+# 7. El comandament d'execució ve predeterminat per la imatge base de PostgreSQL
+# CMD ["postgres"] (s'executa automàticament) 

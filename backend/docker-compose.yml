@@ -1,0 +1,44 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: . # El directori actual és el context de construcció
+      dockerfile: Containerfile.api # Especifica quin Containerfile utilitzar
+    image: api_tamarro_img # Nom que donem a la imatge construïda (opcional però útil)
+    container_name: api_tamarro_container # Nom del contenidor en execució
+    ports:
+      - "8080:8080" # Mapeja port_host:port_contenidor
+    environment:
+      - DATABASE_URL=postgresql://tamarro_user:tamarro_password@db:5432/tamarro_db
+    volumes:
+      # Per a desenvolupament: munta el codi font local dins del contenidor
+      # Això permet canvis en calent si Uvicorn s'executa amb --reload
+      - ./api:/app/api
+    depends_on:
+      db:
+        condition: service_healthy # Espera fins que la BD estigui llesta
+    restart: unless-stopped
+
+  db:
+    build:
+      context: . # El directori actual és el context de construcció
+      dockerfile: Containerfile.database # Utilitzem el nostre Containerfile personalitzat
+    image: db_tamarro_img # Nom que donem a la imatge construïda
+    container_name: tamarro_db_container
+    ports:
+      - "5432:5432" # Mapeja el port de PostgreSQL
+    volumes:
+      # Volum anomenat per persistir les dades de la base de dades
+      - postgres_data_tamarro:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tamarro_user -d tamarro_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+
+volumes:
+  postgres_data_tamarro: # Defineix el volum anomenat
+    driver: local
