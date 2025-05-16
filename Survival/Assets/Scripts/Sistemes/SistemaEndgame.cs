@@ -127,7 +127,7 @@ public class SistemaEndgame : MonoBehaviour
         EndgameData datos = new EndgameData
         {
             nom_usuari = "ERK",
-            tiemps_jugat = (int)tiempoJuego,
+            temps_jugat = (int)tiempoJuego,
             enemics_derrotats = enemigosEliminados,
         };
           // Convertir a JSON
@@ -136,7 +136,7 @@ public class SistemaEndgame : MonoBehaviour
         // Log detallado del objeto y la URL antes de enviar
         Debug.Log($"[SistemaEndgame] Enviando datos a {endpoint}:");
         Debug.Log($"[SistemaEndgame] JSON: {jsonData}");
-        Debug.Log($"[SistemaEndgame] nom_usuari: {datos.nom_usuari}, tiemps_jugat: {datos.tiemps_jugat}, enemics_derrotats: {datos.enemics_derrotats}");
+        Debug.Log($"[SistemaEndgame] nom_usuari: {datos.nom_usuari}, temps_jugat: {datos.temps_jugat}, enemics_derrotats: {datos.enemics_derrotats}");
         
         if (mostrarDebug)
             Debug.Log($"SistemaEndgame: Enviando datos al servidor: {jsonData}");
@@ -176,6 +176,6 @@ public class SistemaEndgame : MonoBehaviour
 public class EndgameData
 {
     public string nom_usuari;
-    public int tiemps_jugat;
+    public int temps_jugat;
     public int enemics_derrotats;
 }

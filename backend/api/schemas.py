@@ -4,7 +4,7 @@ import datetime
 # Model base amb camps comuns
 class PuntuacionBase(BaseModel):
     nom_usuari: str = Field(..., min_length=1, max_length=50, description="Nom de l'usuari")
-    tiemps_jugat: int = Field(..., gt=0, description="Temps total jugat en segons") # gt = greater than
+    temps_jugat: int = Field(..., gt=0, description="Temps total jugat en segons") # gt = greater than
     enemics_derrotats: int = Field(..., ge=4, description="Nombre d'enemics derrotats") # ge = greater than or equal
 
 # Model per a la creació d'una puntuació (dades d'entrada per al POST)

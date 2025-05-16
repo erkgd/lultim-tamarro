@@ -13,7 +13,7 @@ async def crear_nova_puntuacion(puntuacion: schemas.PuntuacionCreate):
     """
     Crea un nou registre de puntuació amb les dades proporcionades.
     - nom_usuari: Nom del jugador (str)
-    - tiemps_jugat: Temps en segons (int > 0)
+    - temps_jugat: Temps en segons (int > 0)
     - enemics_derrotats: Enemics derrotats (int >= 0)
     Retorna la puntuació creada amb el seu ID i data de sessió.
     """

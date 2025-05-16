@@ -4,18 +4,18 @@
 CREATE TABLE IF NOT EXISTS puntuacions (
     id SERIAL PRIMARY KEY,
     nom_usuari VARCHAR(50) NOT NULL,
-    tiemps_jugat INTEGER NOT NULL,
+    temps_jugat INTEGER NOT NULL,
     enemics_derrotats INTEGER NOT NULL,
     data_partida TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL
 );
 
 -- Crear índexs per millorar el rendiment de les consultes
 CREATE INDEX IF NOT EXISTS idx_puntuacions_nom_usuari ON puntuacions(nom_usuari);
-CREATE INDEX IF NOT EXISTS idx_puntuacions_tiemps_jugat ON puntuacions(tiemps_jugat);
+CREATE INDEX IF NOT EXISTS idx_puntuacions_temps_jugat ON puntuacions(temps_jugat);
 CREATE INDEX IF NOT EXISTS idx_puntuacions_enemics_derrotats ON puntuacions(enemics_derrotats);
 
 -- Inserir dades de prova
-INSERT INTO puntuacions (nom_usuari, tiemps_jugat, enemics_derrotats) VALUES
+INSERT INTO puntuacions (nom_usuari, temps_jugat, enemics_derrotats) VALUES
     ('Arnau', 120, 15),
     ('Laura', 90, 20),
     ('Marc', 105, 18),

@@ -8,7 +8,7 @@ async def crear_puntuacion(puntuacion: schemas.PuntuacionCreate) -> schemas.Punt
     """
     query = models.puntuacions.insert().values(
         nom_usuari=puntuacion.nom_usuari,
-        tiemps_jugat=puntuacion.tiemps_jugat,
+        temps_jugat=puntuacion.temps_jugat,
         enemics_derrotats=puntuacion.enemics_derrotats
         # data_partida s'estableix per defecte per la BD
     )
@@ -34,7 +34,7 @@ async def obtenir_puntuacions_per_temps(limit: int = 10) -> List[schemas.Puntuac
     """
     query = (
         models.puntuacions.select()
-        .order_by(models.puntuacions.c.tiemps_jugat.asc(), models.puntuacions.c.enemics_derrotats.desc())
+        .order_by(models.puntuacions.c.temps_jugat.asc(), models.puntuacions.c.enemics_derrotats.desc())
         .limit(limit)
     )
     resultats_db = await database.fetch_all(query)
@@ -43,11 +43,11 @@ async def obtenir_puntuacions_per_temps(limit: int = 10) -> List[schemas.Puntuac
 async def obtenir_puntuacions_per_enemics(limit: int = 10) -> List[schemas.Puntuacion]:
     """
     Obté les 'limit' millors puntuacions ordenades per enemics_derrotats (DESC)
-    i després per tiemps_jugat (ASC) com a desempat.
+    i després per temps_jugat (ASC) com a desempat.
     """
     query = (
         models.puntuacions.select()
-        .order_by(models.puntuacions.c.enemics_derrotats.desc(), models.puntuacions.c.tiemps_jugat.asc())
+        .order_by(models.puntuacions.c.enemics_derrotats.desc(), models.puntuacions.c.temps_jugat.asc())
         .limit(limit)
     )
     resultats_db = await database.fetch_all(query)

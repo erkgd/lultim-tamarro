@@ -7,7 +7,7 @@ puntuacions = sqlalchemy.Table(
     metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True, index=True, autoincrement=True),
     sqlalchemy.Column("nom_usuari", sqlalchemy.String, index=True, nullable=False),
-    sqlalchemy.Column("tiemps_jugat", sqlalchemy.Integer, nullable=False), # En segons
+    sqlalchemy.Column("temps_jugat", sqlalchemy.Integer, nullable=False), # En segons
     sqlalchemy.Column("enemics_derrotats", sqlalchemy.Integer, nullable=False),
     sqlalchemy.Column(
         "data_partida",

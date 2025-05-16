@@ -4,13 +4,13 @@ services:
   api:
     build:
       context: . # El directori actual és el context de construcció
-      dockerfile: Containerfile.api # Especifica quin Containerfile utilitzar
-    image: api_tamarro_img # Nom que donem a la imatge construïda (opcional però útil)
+      dockerfile: Containerfile.api # Especifica quin Containerfile utilitzar per l'api
+    image: api_tamarro_img # Nom que donem a la imatge construïda 
     container_name: api_tamarro_container # Nom del contenidor en execució
     ports:
       - "8080:8080" # Mapeja port_host:port_contenidor
     environment:
-      - DATABASE_URL=postgresql://tamarro_user:tamarro_password@db:5432/tamarro_db
+      - DATABASE_URL=postgresql://tamarro_user:tamarro_password@db:5432/tamarro_db 
     volumes:
       # Per a desenvolupament: munta el codi font local dins del contenidor
       # Això permet canvis en calent si Uvicorn s'executa amb --reload
