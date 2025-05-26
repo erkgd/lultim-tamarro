@@ -702,6 +702,8 @@ MonoBehaviour:
   velocitatParticules: 0.5
   taxaEmissioParticules: 40
   radiEfecte: 1
+  soAtac: {fileID: 8300000, guid: ea18e44de34944f4ea9eb10750d31d6e, type: 3}
+  volumAtac: 1
 --- !u!95 &1864953920641409879
 Animator:
   serializedVersion: 5

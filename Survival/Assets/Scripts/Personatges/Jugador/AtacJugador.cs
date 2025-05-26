@@ -15,7 +15,10 @@ public class AtacJugador : MonoBehaviour
     private float danyAtac;
     
     private float comptadorAtacs = 0f;
-    
+
+    private AudioClip sonidoAtac;
+    private float volumenAtac;
+
     private void Awake()
     {
         jugador = GetComponent<Jugador>();
@@ -31,7 +34,13 @@ public class AtacJugador : MonoBehaviour
         this.angleVisioAtac = angleVisioAtac;
         this.danyAtac = danyAtac;
     }
-    
+
+    public void SetAudioAtac(AudioClip clip, float volumen)
+    {
+        sonidoAtac = clip;
+        volumenAtac = volumen;
+    }
+
     public void ActualitzarAtac()
     {
         // Actualitzem el temporitzador d'atacs
@@ -84,8 +93,24 @@ public class AtacJugador : MonoBehaviour
             boxColliderAtac.enabled = false;
 
         jugador.Atacant = false;  // Usamos la propiedad pública
+
+        if (sonidoAtac != null)
+        {
+            // Creamos un AudioSource efímero en la posición del jugador
+            GameObject tempGO = new GameObject("TempAudioAtac");
+            tempGO.transform.position = transform.position;
+            AudioSource aSource = tempGO.AddComponent<AudioSource>();
+            aSource.clip = sonidoAtac;
+            aSource.volume = volumenAtac;    // puede ser >1
+            aSource.spatialBlend = 0f;       // 2D: sin atenuación por distancia
+            aSource.Play();
+            Destroy(tempGO, sonidoAtac.length);
+        }
+        
+
+
     }
-    
+
     // Optimització del mètode per verificar si estem mirant cap a un enemic
     private bool EstaMirantEnemic()
     {

@@ -2,27 +2,36 @@ using UnityEngine;
 
 public class RecollirPinya : MonoBehaviour
 {
-    // quantitat de vida que incrementa el jugador al recollir la pinya
     public int increment = 4;
+    public AudioClip sonidoRecogida;
+    [Range(0f, 3f)]
+    public float volumen = 1f;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            // s'obte el component Jugador de l'objecte amb el tag "Player"
-            Jugador jugador = other.GetComponent<Jugador>();
-            if (jugador != null)
-            {
-                // Truquem a la funcio de incrementar vida
-                jugador.IncrementarVida(increment);
-            }
-            else
-            {
-                Debug.LogWarning("El objeto 'Player' no tiene el componente Jugador.");
-            }
+        if (!other.CompareTag("Player")) return;
 
-            // Destruiim l'objecte de la pinya
-            Destroy(gameObject);
-        }
+        Jugador jugador = other.GetComponent<Jugador>();
+        if (jugador != null)
+            jugador.IncrementarVida(increment);
+        else
+            Debug.LogWarning("El objeto 'Player' no tiene el componente Jugador.");
+
+        // 1) Creamos un GameObject temporal
+        GameObject tempGO = new GameObject("AudioTemp");
+        tempGO.transform.position = transform.position;
+
+        // 2) Le añadimos AudioSource
+        AudioSource aSource = tempGO.AddComponent<AudioSource>();
+        aSource.clip = sonidoRecogida;
+        aSource.volume = volumen;           // puede ser hasta, p.ej., 3
+        aSource.spatialBlend = 0f;          // 0 = 2D (sin roll-off)
+        aSource.Play();
+
+        // 3) Destruir el AudioSource cuando termine
+        Destroy(tempGO, sonidoRecogida.length);
+
+        // 4) Destruir la piña inmediatamente
+        Destroy(gameObject);
     }
 }

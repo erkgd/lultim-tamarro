@@ -42,6 +42,14 @@ public class Enemic : Personatge
     [SerializeField] private float rangDeteccio = 10f;
     [SerializeField] private float tempsMaximPersecucio = 5f;
 
+    // Clips de so per assignar des de l'Inspector
+    [Header("Àudio")]
+    [SerializeField] private AudioClip soRebreDany;
+    [SerializeField, Range(0f, 3f)] private float volumRebreDany = 1f;
+    [SerializeField] private AudioClip soMoureMort;
+    [SerializeField, Range(0f, 3f)] private float volumMorte = 1f;
+
+
     // Implementación de propiedades abstractas a través del sistema de vida
     public override float VidaActual => sistemaVida.VidaActual;
     public override float VidaMaxima => sistemaVida.VidaMaxima;
@@ -104,6 +112,13 @@ public class Enemic : Personatge
         sistemaVida.OnIniciarAtac += () => {
             StartCoroutine(ExecutarAtacPublic());
         };
+
+        // 1) Subscriure's a l'esdeveniment de mort per reproduir el so
+        sistemaVida.OnMuerte += () =>
+        {
+            if (soMoureMort != null)
+                AudioSource.PlayClipAtPoint(soMoureMort, transform.position, volumMorte);
+        };
     }
 
     private void Update()
@@ -125,9 +140,25 @@ public class Enemic : Personatge
     // Métodos que delegan al sistema de vida
     public override void DecrementarVida(float quantitat, string font = "")
     {
+   
+        // 1) Creamos un GameObject temporal
+        GameObject tempGO = new GameObject("AudioTemp");
+        tempGO.transform.position = transform.position;
+
+        // 2) Le añadimos AudioSource
+        AudioSource aSource = tempGO.AddComponent<AudioSource>();
+        aSource.clip = soRebreDany;
+        aSource.volume = volumRebreDany;           // puede ser hasta, p.ej., 3
+        aSource.spatialBlend = 0f;          // 0 = 2D (sin roll-off)
+        aSource.Play();
+
+        // 3) Destruir el AudioSource cuando termine
+        Destroy(tempGO, soRebreDany.length);
+
+        // Delegar al sistema de vida
         sistemaVida.DecrementarVida(quantitat, font);
     }
-    
+
     // Método público para comprobar si está vivo (necesario para MovimentEnemic)
     public bool EsViu()
     {

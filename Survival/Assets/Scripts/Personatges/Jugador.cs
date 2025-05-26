@@ -60,7 +60,12 @@ public class Jugador : Personatge
 
     // Propiedad para acceder al estado de ataque
     public bool Atacant { get => atacant; set => atacant = value; }
-    
+
+    [Header("Àudio d'Atac")]
+    [SerializeField] private AudioClip soAtac;
+    [SerializeField, Range(0f, 3f)] private float volumAtac = 1f;
+
+
     protected override void Awake()
     {
         // Inicializar components
@@ -107,6 +112,7 @@ public class Jugador : Personatge
 
         // Configurar AtacJugador
         atacJugador.ConfigurarAtac(rangAtacar, tempsEntreAtacs, tempsAtac, angleVisioAtac, danyAtac);
+        atacJugador.SetAudioAtac(soAtac, volumAtac);
 
         // Asegurarse de que exista el componente InvencibilitatJugador para el Singleton
         InvencibilitatJugador invencibilitat = GetComponent<InvencibilitatJugador>();
