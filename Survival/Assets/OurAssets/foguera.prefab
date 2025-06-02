@@ -296,6 +296,8 @@ MonoBehaviour:
   radi: 8
   quantitatAugment: 2
   tempsAugment: 1
+  efecteSo: {fileID: 8300000, guid: 2199935237378e647b689c450f6d2a97, type: 3}
+  volum: 1.24
 --- !u!1 &8692181433386062094
 GameObject:
   m_ObjectHideFlags: 0

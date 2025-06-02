@@ -358,6 +358,10 @@ MonoBehaviour:
   tempsEntreAtacs: 2
   rangDeteccio: 10
   tempsMaximPersecucio: 5
+  soRebreDany: {fileID: 8300000, guid: 88a7fbfa0da51fb4da341fcb935b9e63, type: 3}
+  volumRebreDany: 1
+  soMoureMort: {fileID: 8300000, guid: 88a7fbfa0da51fb4da341fcb935b9e63, type: 3}
+  volumMorte: 1
 --- !u!65 &6788287568692058652
 BoxCollider:
   m_ObjectHideFlags: 0

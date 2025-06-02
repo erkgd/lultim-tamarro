@@ -89,7 +89,7 @@ public class SistemaVidaEnemic : SistemaVida
             SistemaCounter.Instance.RegistrarEnemigoEliminado(0); // El tipo se detecta automáticamente en SistemaCounter
         }
         
-        // Notificar muerte
+        // Notificar muerte (esto invoca OnMuerte de la clase base)
         InvocarMuerte();
         
         // Reproducir animación de muerte y esperar

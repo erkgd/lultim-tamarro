@@ -475,6 +475,10 @@ MonoBehaviour:
   tempsEntreAtacs: 2
   rangDeteccio: 10
   tempsMaximPersecucio: 5
+  soRebreDany: {fileID: 8300000, guid: f6ddd146526a0c942be5c5d68e8ba2fc, type: 3}
+  volumRebreDany: 1
+  soMoureMort: {fileID: 8300000, guid: f6ddd146526a0c942be5c5d68e8ba2fc, type: 3}
+  volumMorte: 1
 --- !u!4 &744473907752621817 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 535702951195797787, guid: 35f16650380449c78eeac51057eaff2a,

@@ -65,6 +65,12 @@ public class Jugador : Personatge
     [SerializeField] private AudioClip soAtac;
     [SerializeField, Range(0f, 3f)] private float volumAtac = 1f;
 
+    [Header("Àudio de Dany")]
+    [SerializeField] private AudioClip soDany;
+    [SerializeField, Range(0f, 3f)] private float volumDany = 1f;
+    
+    // Variable per mantenir referència a l'àudio actual de dany
+    private GameObject audioDanyActual;
 
     protected override void Awake()
     {
@@ -218,6 +224,9 @@ public class Jugador : Personatge
     public override void DecrementarVida(float quantitat, string font = "")
     {
         sistemaVida.DecrementarVida(quantitat, font);
+        
+        // Reproduir l'àudio de dany
+        CrearAudioDany();
     }
     
     public void IncrementarVida(float quantitat)
@@ -257,6 +266,33 @@ public class Jugador : Personatge
         movimentJugador.AplicarKnockback(direccio, forca);
     }
     
+    // Mètode per crear l'àudio de dany
+    private void CrearAudioDany()
+    {
+        if (soDany != null)
+        {
+            // Destruir l'àudio anterior si existeix
+            if (audioDanyActual != null)
+            {
+                Destroy(audioDanyActual);
+            }
+
+            // 1) Creem un GameObject temporal
+            audioDanyActual = new GameObject("AudioDanyTemp");
+            audioDanyActual.transform.position = transform.position;
+
+            // 2) Fiquem el AudioSource
+            AudioSource aSource = audioDanyActual.AddComponent<AudioSource>();
+            aSource.clip = soDany;
+            aSource.volume = volumDany;
+            aSource.spatialBlend = 0f; // 0 = 2D (sense roll-off)
+            aSource.Play();
+
+            // 3) Destruim el AudioSource quan termini
+            Destroy(audioDanyActual, soDany.length);
+        }
+    }
+    
     private void OnDestroy()
     {
         if (sistemaVida != null)
@@ -269,6 +305,13 @@ public class Jugador : Personatge
         if (SistemaPerks.Instance != null)
         {
             SistemaPerks.Instance.OnPerkChanged -= ComprovarPerkAtac;
+        }
+
+        // Netejar l'àudio de dany si existeix
+        if (audioDanyActual != null)
+        {
+            Destroy(audioDanyActual);
+            audioDanyActual = null;
         }
 
         // Restaurar el color original en todos los meshes

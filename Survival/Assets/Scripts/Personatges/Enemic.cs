@@ -48,7 +48,9 @@ public class Enemic : Personatge
     [SerializeField, Range(0f, 3f)] private float volumRebreDany = 1f;
     [SerializeField] private AudioClip soMoureMort;
     [SerializeField, Range(0f, 3f)] private float volumMorte = 1f;
-
+    
+    // Variable per mantenir referència a l'àudio actual de mort
+    private GameObject audioMortActual;
 
     // Implementación de propiedades abstractas a través del sistema de vida
     public override float VidaActual => sistemaVida.VidaActual;
@@ -116,8 +118,7 @@ public class Enemic : Personatge
         // 1) Subscriure's a l'esdeveniment de mort per reproduir el so
         sistemaVida.OnMuerte += () =>
         {
-            if (soMoureMort != null)
-                AudioSource.PlayClipAtPoint(soMoureMort, transform.position, volumMorte);
+            CrearAudioMort();
         };
     }
 
@@ -197,5 +198,32 @@ public class Enemic : Personatge
     {
         // Usar el método protegido de la clase base en lugar de reflexión
         InvocarQuanCanviVida();
+    }
+    
+    // Mètode per crear l'àudio de mort
+    private void CrearAudioMort()
+    {
+        if (soMoureMort != null)
+        {
+            // Destruir l'àudio anterior si existeix
+            if (audioMortActual != null)
+            {
+                Destroy(audioMortActual);
+            }
+
+            // 1) Creem un GameObject temporal
+            audioMortActual = new GameObject("AudioMortTemp");
+            audioMortActual.transform.position = transform.position;
+
+            // 2) Fiquem el AudioSource
+            AudioSource aSource = audioMortActual.AddComponent<AudioSource>();
+            aSource.clip = soMoureMort;
+            aSource.volume = volumMorte;
+            aSource.spatialBlend = 0f; // 0 = 2D (sense roll-off)
+            aSource.Play();
+
+            // 3) Destruim el AudioSource quan termini
+            Destroy(audioMortActual, soMoureMort.length);
+        }
     }
 }

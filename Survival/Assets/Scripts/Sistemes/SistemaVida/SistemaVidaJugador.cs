@@ -87,6 +87,8 @@ public class SistemaVidaJugador : SistemaVida
             Debug.Log($"Vida antes del daño: {vidaActual}");
         
         vidaActual = Mathf.Max(vidaActual - quantitat, 0f);
+
+        animator.SetTrigger("TrRepMal");
         
         // Log para depuración
         Debug.Log($"Vida después del daño: {vidaActual}, Cantidad de daño: {quantitat}");

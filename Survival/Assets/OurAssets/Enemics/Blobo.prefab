@@ -594,6 +594,10 @@ MonoBehaviour:
   tempsEntreAtacs: 2
   rangDeteccio: 10
   tempsMaximPersecucio: 5
+  soRebreDany: {fileID: 8300000, guid: c49e058c575c1ed4faf049f7def4bba8, type: 3}
+  volumRebreDany: 1
+  soMoureMort: {fileID: 8300000, guid: c49e058c575c1ed4faf049f7def4bba8, type: 3}
+  volumMorte: 1
 --- !u!195 &3130521423967911263
 NavMeshAgent:
   m_ObjectHideFlags: 0

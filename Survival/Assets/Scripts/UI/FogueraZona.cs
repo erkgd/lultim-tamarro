@@ -14,6 +14,14 @@ public class FogueraZona : MonoBehaviour
     private bool jugadorDintre = false;
     private Coroutine reduccioCoroutine;
     private SphereCollider sphereCollider;
+    
+    // Variable per mantenir referència a l'àudio actual
+    private GameObject audioActual;
+
+    // Efecte de so quan estigui el jugador dins de la zona de calor
+    public AudioClip efecteSo;
+    [Range(0f, 3f)]
+    public float volum = 1f;
 
     // Inicialització del script, troba el component TemperaturaUI
     private void Start()
@@ -47,14 +55,6 @@ public class FogueraZona : MonoBehaviour
         }
     }
 
-    // Actualització del script, no fa res
-    private void Update()
-    {
-        if (jugadorDintre && temperaturaUI != null)
-        {
-            // El augment es gestiona per corrutina, així que aquí no fem res
-        }
-    }
 
     // Quan el jugador entra en el trigger, canvia el bool i crida a la corrutina
     private void OnTriggerEnter(Collider other)
@@ -70,6 +70,10 @@ public class FogueraZona : MonoBehaviour
                 {
                     temperaturaUI.DetenerReduccionTemperatura();
                 }
+                
+                // Crear l'àudio una sola vegada en entrar
+                CrearAudio();
+                
                 StartCoroutine(AugmentarTemperatura());
             }
         }
@@ -88,6 +92,14 @@ public class FogueraZona : MonoBehaviour
             {
                 jugadorDintre = false;
                 StopAllCoroutines();
+                
+                // Parar l'àudio actual si s'està reproduint
+                if (audioActual != null)
+                {
+                    Destroy(audioActual);
+                    audioActual = null;
+                }
+                
                 // Reiniciar la corrutina de reducción de temperatura
                 if (temperaturaUI != null)
                 {
@@ -99,6 +111,7 @@ public class FogueraZona : MonoBehaviour
         {
             Debug.LogError("Error al trobar el component TemperaturaUI: " + e.Message);
         }
+        
     }
 
     // Corrutina que augmenta la temperatura del jugador
@@ -115,6 +128,25 @@ public class FogueraZona : MonoBehaviour
                 Debug.LogError("Error al augmentar la temperatura: " + e.Message);
             }
             yield return new WaitForSeconds(tempsAugment);
+        }
+    }
+    
+    // Mètode per crear l'àudio
+    private void CrearAudio()
+    {
+        if (efecteSo != null)
+        {
+            // 1) Creem un GameObject temporal
+            audioActual = new GameObject("AudioTemp");
+            audioActual.transform.position = transform.position;
+
+            // 2) Fiquem el AudioSource
+            AudioSource aSource = audioActual.AddComponent<AudioSource>();
+            aSource.clip = efecteSo;
+            aSource.volume = volum;
+            aSource.spatialBlend = 0f; // 0 = 2D (sense roll-off)
+            aSource.loop = true; // Fer que l'àudio es reprodueixi en bucle
+            aSource.Play();
         }
     }
 

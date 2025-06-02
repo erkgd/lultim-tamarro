@@ -17,18 +17,18 @@ public class RecollirPinya : MonoBehaviour
         else
             Debug.LogWarning("El objeto 'Player' no tiene el componente Jugador.");
 
-        // 1) Creamos un GameObject temporal
+        // 1) Creem un GameObject temporal
         GameObject tempGO = new GameObject("AudioTemp");
         tempGO.transform.position = transform.position;
 
-        // 2) Le añadimos AudioSource
+        // 2) Fiquem el AudioSource
         AudioSource aSource = tempGO.AddComponent<AudioSource>();
         aSource.clip = sonidoRecogida;
         aSource.volume = volumen;           // puede ser hasta, p.ej., 3
         aSource.spatialBlend = 0f;          // 0 = 2D (sin roll-off)
         aSource.Play();
 
-        // 3) Destruir el AudioSource cuando termine
+        // 3) Destruim el AudioSource quan termini
         Destroy(tempGO, sonidoRecogida.length);
 
         // 4) Destruir la piña inmediatamente
