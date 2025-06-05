@@ -108,7 +108,7 @@ public class TeleportJugador : MonoBehaviour
 
                 if (indexPerkRequerit < 0)
                 {
-                    // Si no es requereix/comprova cap perk, sempre es pot procedir
+                    // Si no es requereix/comprova cap perk, siempre es pot procedir
                     potProcedir = true;
                     if (mostrarDebug) Debug.Log($"TeleportJugador ({name}): No es comprova cap perk específica. Teleport permès.");
                 }
@@ -203,6 +203,13 @@ public class TeleportJugador : MonoBehaviour
                  if (mostrarDebug) Debug.Log($"TeleportJugador ({name}): Utilitzant PosicionadorJugador.IniciarTeleport");
                 // Guardem la informació del teleport per a la següent escena
                 SistemaPerks.Instance?.GuardarPosicioTeleport(posicioDestí, true);
+
+                // Si el destino es el HUB, avisamos a SistemaEndgame
+                if (nomEscenaDestí == TPConstants.HUB_SCENE && SistemaEndgame.Instance != null)
+                {
+                    SistemaEndgame.Instance.OnPlayerEnterHub();
+                }
+
                 // Carreguem l'escena directament. PosicionadorJugador a la nova escena s'encarregarà de la posició.
                 SceneManager.LoadScene(nomEscenaDestí);
             }
@@ -211,6 +218,12 @@ public class TeleportJugador : MonoBehaviour
                 Debug.LogError($"TeleportJugador ({name}): No s'ha pogut crear el component PosicionadorJugador, fallant al teleportar");
                 // Com a fallback, intentem carregar l'escena igualment
                  SistemaPerks.Instance?.GuardarPosicioTeleport(posicioDestí, true);
+
+                if (nomEscenaDestí == TPConstants.HUB_SCENE && SistemaEndgame.Instance != null)
+                {
+                    SistemaEndgame.Instance.OnPlayerEnterHub();
+                }
+
                 SceneManager.LoadScene(nomEscenaDestí);
             }
         }
