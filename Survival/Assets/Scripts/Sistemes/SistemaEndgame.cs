@@ -19,6 +19,7 @@ public class SistemaEndgame : MonoBehaviour
     [SerializeField] private GameObject rankingPanel;
     [SerializeField] private TMP_InputField inputNomJugador;
     [SerializeField] private Button botonEnviar;
+    [SerializeField] private Button botonCerrar;
     [SerializeField] private Transform rankingContainer;
     [SerializeField] private GameObject rankingItemPrefab;
     [SerializeField] private TMP_Text textoTiempo;
@@ -67,11 +68,13 @@ public class SistemaEndgame : MonoBehaviour
         {
             botonEnviar.onClick.AddListener(EnviarPuntuacion);
         }
-        // Comprobar perks solo una vez al iniciar
-        ComprobarPerks();
+        if (botonCerrar != null)
+        {
+            botonCerrar.onClick.AddListener(CerrarPanelRanking);
+        }
         
         if (mostrarDebug)
-            Debug.Log("SistemaEndgame: Sistema iniciado. Comprobando perks al inicio.");
+            Debug.Log("SistemaEndgame: Sistema iniciado.");
     }
 
     private void Update()
@@ -84,47 +87,16 @@ public class SistemaEndgame : MonoBehaviour
     }
 
     /// <summary>
-    /// Comprueba si todos los perks están desbloqueados y envía datos si es necesario
-    /// </summary>
-    public void ComprobarPerks()
-    {
-        // Si ya se completó el juego, no seguir comprobando
-        if (datosEnviados)
-            return;
-
-        // Verificar que todos los sistemas necesarios estén disponibles
-        if (SistemaPerks.Instance == null)
-        {
-            Debug.LogWarning("SistemaEndgame: SistemaPerks no encontrado.");
-            return;
-        }
-
-        // Comprobar si todos los perks están desbloqueados
-        bool todosDesbloqueados = ComprobarTodosPerksDesbloqueados();
-
-        if (todosDesbloqueados && !todosPerksDesbloqueados)
-        {
-            // Primera vez que detectamos todos los perks desbloqueados
-            todosPerksDesbloqueados = true;
-            
-            if (mostrarDebug)
-                Debug.Log("SistemaEndgame: ¡Todos los perks están desbloqueados! Esperando regreso al HUB para mostrar ranking...");
-            
-            // NO ENVIAR DATOS AQUÍ
-            // Solo mostrar el ranking cuando el jugador regrese al HUB
-            // El método OnVolverAlHubTrasTodasPerks() debe ser llamado desde el TP del HUB
-            // y ahí se mostrará el menú de ranking
-
-            // Notificar que el juego se ha completado (opcional)
-            OnJuegoCompletado?.Invoke();
-        }
-    }
-
-    /// <summary>
     /// Comprueba si todos los perks están desbloqueados
     /// </summary>
     private bool ComprobarTodosPerksDesbloqueados()
     {
+        if (SistemaPerks.Instance == null)
+        {
+            Debug.LogWarning("SistemaEndgame: SistemaPerks no encontrado.");
+            return false;
+        }
+
         // El SistemaPerks tiene 4 perks definidos (0: Velocitat, 1: Resistència, 2: Atac, 3: Vida)
         for (int i = 0; i < 4; i++)
         {
@@ -387,20 +359,6 @@ public class SistemaEndgame : MonoBehaviour
             tiempo.Seconds);
     }
 
-    public void OnVolverAlHubTrasTodasPerks()
-    {
-        StartCoroutine(MostrarRankingConDelay());
-    }
-
-    private IEnumerator MostrarRankingConDelay()
-    {
-        Debug.Log("[SistemaEndgame][LOG] -> MostrarRankingConDelay iniciado. Esperando 1 segundo...");
-        yield return new WaitForSeconds(1f);
-        Debug.Log("[SistemaEndgame][LOG] -> Llamando a MostrarPanelRanking...");
-        MostrarPanelRanking();
-    }
-
-    // Añade este método para que lo llame el TP del HUB cuando el jugador entra
     public void OnPlayerEnterHub()
     {
         Debug.Log("[SistemaEndgame][LOG] -> OnPlayerEnterHub llamado. todosPerksDesbloqueados=" + todosPerksDesbloqueados + ", rankingEnviado=" + rankingEnviado);
@@ -412,13 +370,30 @@ public class SistemaEndgame : MonoBehaviour
         // Si todos los perks están desbloqueados y aún no se ha mostrado el ranking
         if (todosDesbloqueados && !rankingEnviado)
         {
-            todosPerksDesbloqueados = true; // Asegurarnos de que esta variable esté actualizada
+            todosPerksDesbloqueados = true;
             Debug.Log("[SistemaEndgame][LOG] -> Condición para mostrar ranking CUMPLIDA. Llamando a MostrarRankingConDelay...");
             StartCoroutine(MostrarRankingConDelay());
         }
         else
         {
             Debug.Log("[SistemaEndgame][LOG] -> No se cumplen las condiciones para mostrar el ranking. todosDesbloqueados=" + todosDesbloqueados + ", rankingEnviado=" + rankingEnviado);
+        }
+    }
+
+    private IEnumerator MostrarRankingConDelay()
+    {
+        Debug.Log("[SistemaEndgame][LOG] -> MostrarRankingConDelay iniciado. Esperando 1 segundo...");
+        yield return new WaitForSeconds(1f);
+        Debug.Log("[SistemaEndgame][LOG] -> Llamando a MostrarPanelRanking...");
+        MostrarPanelRanking();
+    }
+
+    private void CerrarPanelRanking()
+    {
+        if (rankingPanel != null)
+        {
+            rankingPanel.SetActive(false);
+            Debug.Log("[SistemaEndgame] Panel de ranking CERRADO");
         }
     }
 }
