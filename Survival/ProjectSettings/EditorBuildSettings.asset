@@ -6,17 +6,29 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Escenas/Escena Principal.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Escenas/MenuInicial.unity
+    guid: ddeba485f57b45b4ab90e90f20163686
+  - enabled: 1
+    path: Assets/Escenas/David.unity
+    guid: ce63e74c050a2cb479e73412b9184334
+  - enabled: 1
+    path: Assets/Escenas/Alejandro.unity
+    guid: 7631e6156a34a07468f72b502a84cb02
   - enabled: 1
     path: Assets/Escenas/Aleix.unity
     guid: 78a3ed016804d98489100263d6e92e9e
   - enabled: 1
-    path: Assets/Escenas/David.unity
+    path: Assets/Escenas/Hub.unity
     guid: 8c2afbceb4358b2489de07d7009b6491
   - enabled: 1
-    path: Assets/Escenas/MenuInicial.unity
-    guid: ddeba485f57b45b4ab90e90f20163686
+    path: Assets/Escenas/Jano.unity
+    guid: a9ebe5a3b6ef94751aaf631ee2b45950
+  - enabled: 1
+    path: Assets/Escenas/Wadoud.unity
+    guid: 0b8ce4678032b0c46bdf61d278dd0214
+  - enabled: 1
+    path: Assets/Escenas/Intro.unity
+    guid: 97d9a907e1d734f43889e08db85ccf70
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 238c889f2fe79ab478ac06bebea4f207,
       type: 2}

@@ -12,10 +12,13 @@ public class AtacJugador : MonoBehaviour
     private float tempsEntreAtacs;
     private float tempsAtac;
     private float angleVisioAtac;
-    private int danyAtac;
+    private float danyAtac;
     
     private float comptadorAtacs = 0f;
-    
+
+    private AudioClip sonidoAtac;
+    private float volumenAtac;
+
     private void Awake()
     {
         jugador = GetComponent<Jugador>();
@@ -23,7 +26,7 @@ public class AtacJugador : MonoBehaviour
         boxColliderAtac = jugador.BoxColliderAtac;
     }
 
-    public void ConfigurarAtac(float rangAtacar, float tempsEntreAtacs, float tempsAtac, float angleVisioAtac, int danyAtac)
+    public void ConfigurarAtac(float rangAtacar, float tempsEntreAtacs, float tempsAtac, float angleVisioAtac, float danyAtac)
     {
         this.rangAtacar = rangAtacar;
         this.tempsEntreAtacs = tempsEntreAtacs;
@@ -31,7 +34,13 @@ public class AtacJugador : MonoBehaviour
         this.angleVisioAtac = angleVisioAtac;
         this.danyAtac = danyAtac;
     }
-    
+
+    public void SetAudioAtac(AudioClip clip, float volumen)
+    {
+        sonidoAtac = clip;
+        volumenAtac = volumen;
+    }
+
     public void ActualitzarAtac()
     {
         // Actualitzem el temporitzador d'atacs
@@ -84,8 +93,24 @@ public class AtacJugador : MonoBehaviour
             boxColliderAtac.enabled = false;
 
         jugador.Atacant = false;  // Usamos la propiedad pública
+
+        if (sonidoAtac != null)
+        {
+            // Creamos un AudioSource efímero en la posición del jugador
+            GameObject tempGO = new GameObject("TempAudioAtac");
+            tempGO.transform.position = transform.position;
+            AudioSource aSource = tempGO.AddComponent<AudioSource>();
+            aSource.clip = sonidoAtac;
+            aSource.volume = volumenAtac;    // puede ser >1
+            aSource.spatialBlend = 0f;       // 2D: sin atenuación por distancia
+            aSource.Play();
+            Destroy(tempGO, sonidoAtac.length);
+        }
+        
+
+
     }
-    
+
     // Optimització del mètode per verificar si estem mirant cap a un enemic
     private bool EstaMirantEnemic()
     {
@@ -123,6 +148,16 @@ public class AtacJugador : MonoBehaviour
         // Buscar enemics en un con davant del jugador
         Collider[] enemics = Physics.OverlapSphere(transform.position, rangAtacar);
         
+        // Obtenir el nom de la escena actual
+        string escenaActual = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        
+        // Modificador de dany per al mapa Jano (Bosc)
+        float modificadorDany = 1f;
+        if (escenaActual == TPConstants.BOSC_SCENE)
+        {
+            modificadorDany = 0.75f; // Reduir el dany a la meitat en el mapa Jano
+        }
+        
         foreach (Collider enemic in enemics)
         {
             // Comprovar si és un enemic
@@ -140,15 +175,22 @@ public class AtacJugador : MonoBehaviour
                     Enemic scriptEnemic = enemic.GetComponent<Enemic>();
                     if (scriptEnemic != null)
                     {
-                        scriptEnemic.DecrementarVida(danyAtac, gameObject.name);
-                        
+                        // Si el PERK d'atac està desbloquejat, apliquem el dany amb el bonus
+                        if (SistemaPerks.Instance.EstaDesbloquejada(2))
+                        {
+                            scriptEnemic.DecrementarVida((danyAtac + 1) * modificadorDany, gameObject.name);
+                        }
+                        else
+                        {
+                            scriptEnemic.DecrementarVida(danyAtac * modificadorDany, gameObject.name);
+                        }
                         // Comprovar si l'enemic ha mort i activar l'animació de mort
                         if (scriptEnemic.VidaActual <= 0)
                         {
                             Animator animatorEnemic = scriptEnemic.GetComponent<Animator>();
                             if (animatorEnemic != null)
                             {
-                                animatorEnemic.SetBool("EnemicMort", true);
+                                animatorEnemic.SetBool("senseVida", true);
                             }
                         }
                     }

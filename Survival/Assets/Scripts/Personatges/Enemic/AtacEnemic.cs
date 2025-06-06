@@ -46,7 +46,7 @@ public class AtacEnemic : MonoBehaviour
             Personatge personatgeJugador = jugador.GetComponent<Personatge>();
             if (personatgeJugador != null)
             {
-                personatgeJugador.DecrementarVida(enemic.DanyAtac);
+                personatgeJugador.DecrementarVida(enemic.DanyAtac, $"Atac de {enemic.name}");
 
                 Jugador jugadorScript = jugador.GetComponent<Jugador>();
                 if (jugadorScript != null)

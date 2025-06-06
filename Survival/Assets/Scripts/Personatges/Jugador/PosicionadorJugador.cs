@@ -9,17 +9,36 @@ using System.Collections;
 public class PosicionadorJugador : MonoBehaviour
 {
     // Configuración
-    [SerializeField] private bool mostrarDebug = false;
+    [SerializeField] private bool mostrarDebug = true;
     
     // Nombres de los objetos de cámara que debemos buscar
-    private const string DINAMIC_CAMERA_NAME = "Dinamic Camera";
-    
-    void Start()
+    private const string DINAMIC_CAMERA_NAME = "Dinamic Camera";      
+      void Start()
     {
-        if (mostrarDebug) Debug.Log($"PosicionadorJugador inicialitzat en {gameObject.name}");
+        
+        Cortinilla cortinilla = FindObjectOfType<Cortinilla>();
+        if (cortinilla != null)
+        {
+            
+            cortinilla.ResetearCortinilla();
+            // Activamos la cortinilla (cierre)
+            cortinilla.MostrarCortinillaInversa();
+            
+        }
+        Debug.Log($"PosicionadorJugador inicialitzat en {gameObject.name}");
         
         // Al iniciar, comprobamos si hay una solicitud de teleport pendiente
         StartCoroutine(ComprovarTeleport());
+        
+        // Verificamos si hay un punto de aparición guardado
+        string lastSpawnPoint = PlayerPrefs.GetString("LastSpawnPoint", "");
+        if (mostrarDebug) Debug.Log($"PosicionadorJugador: LastSpawnPoint = '{lastSpawnPoint}'");
+        
+        if (!string.IsNullOrEmpty(lastSpawnPoint))
+        {
+            PlayerPrefs.DeleteKey("LastSpawnPoint");
+            PlayerPrefs.Save();
+        }
     }
     
     private IEnumerator ComprovarTeleport()
@@ -34,12 +53,13 @@ public class PosicionadorJugador : MonoBehaviour
         // Si hay un teleport pendiente, posicionar al jugador
         if (necessitaTeleport == 1)
         {
+            
             // Obtener las coordenadas guardadas
             float x = PlayerPrefs.GetFloat("DestiX", 0f);
             float y = PlayerPrefs.GetFloat("DestiY", 0f);
             float z = PlayerPrefs.GetFloat("DestiZ", 0f);
             Vector3 posicionFinal = new Vector3(x, y, z);
-            
+            Debug.Log($"POSICIONADOR JUGADOR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1111");
             if (mostrarDebug) Debug.Log($"Valors de teleport trobats: ({x}, {y}, {z})");
             
             // Desactivar el CharacterController temporalmente para evitar conflictos
@@ -76,7 +96,6 @@ public class PosicionadorJugador : MonoBehaviour
         }
     }
     
-    // Método para asignar la cámara al jugador
     private void AssignarCamera()
     {
         GameObject camara = GameObject.Find(DINAMIC_CAMERA_NAME);
@@ -99,8 +118,7 @@ public class PosicionadorJugador : MonoBehaviour
             if (mostrarDebug) Debug.LogWarning($"No se encontró la cámara: {DINAMIC_CAMERA_NAME}");
         }
     }
-    
-    // Método para iniciar un teleport desde TeleportJugador
+
     public void IniciarTeleport(Vector3 posicion, string escenaDestino)
     {
         if (mostrarDebug) Debug.Log($"Iniciando teleport a {posicion} en escena {escenaDestino}");

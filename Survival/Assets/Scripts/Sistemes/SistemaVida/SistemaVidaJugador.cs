@@ -7,11 +7,11 @@ public class SistemaVidaJugador : SistemaVida
     // Componentes UI y efectos
     [SerializeField] private VidaUI vidaUI;
     [SerializeField] private Cortinilla cortinilla;
-    [SerializeField] private float tempsReviure = 5f;
-    
+    [SerializeField] private float tempsReviure = 1f;
+
     // Propiedades internas para gestionar la vida
-    [SerializeField] private int vidaMaxima = 48;
-    [SerializeField] private int vidaActual = 24;
+    [SerializeField] private float vidaMaxima = 12f;
+    [SerializeField] private float vidaActual = 12f;
     
     // Eventos para comunicación (eliminados los duplicados con la clase base)
     public event Action OnVidaCanviada;
@@ -19,8 +19,8 @@ public class SistemaVidaJugador : SistemaVida
     // Referencias a componentes
     private Animator animator;
     
-    public int VidaActual => vidaActual;
-    public int VidaMaxima => vidaMaxima;
+    public float VidaActual => vidaActual;
+    public float VidaMaxima => vidaMaxima;
     
     public override void Awake()
     {
@@ -32,6 +32,13 @@ public class SistemaVidaJugador : SistemaVida
         // Buscar dependencias
         if (vidaUI == null) vidaUI = FindObjectOfType<VidaUI>();
         if (cortinilla == null) cortinilla = FindObjectOfType<Cortinilla>();
+
+        if (SistemaPerks.Instance != null && SistemaPerks.Instance.EstaDesbloquejada(3)) 
+        {
+            vidaMaxima = 20f; 
+            vidaActual = 20f; 
+            Debug.Log("Jugador inicia con perk de vida. Vida Máxima: 40, Vida Actual: 40");
+        }
     }
     
     private void Start()
@@ -44,7 +51,7 @@ public class SistemaVidaJugador : SistemaVida
         return vidaActual > 0;
     }
     
-    public void IncrementarVida(int quantitat)
+    public void IncrementarVida(float quantitat)
     {
         if (quantitat <= 0) return;
         
@@ -54,7 +61,7 @@ public class SistemaVidaJugador : SistemaVida
         NotificarCanviVida();
     }
     
-    public void DecrementarVida(int quantitat)
+    public void DecrementarVida(float quantitat, string font = "")
     {
         // Comprobación detallada con logs
         if (quantitat <= 0) {
@@ -74,9 +81,14 @@ public class SistemaVidaJugador : SistemaVida
         }
         
         // Log para depuración
-        Debug.Log($"Vida antes del daño: {vidaActual}");
+        if (!string.IsNullOrEmpty(font))
+            Debug.Log($"Vida antes del daño: {vidaActual} (Fuente: {font})");
+        else
+            Debug.Log($"Vida antes del daño: {vidaActual}");
         
-        vidaActual = Mathf.Max(vidaActual - quantitat, 0);
+        vidaActual = Mathf.Max(vidaActual - quantitat, 0f);
+
+        animator.SetTrigger("TrRepMal");
         
         // Log para depuración
         Debug.Log($"Vida después del daño: {vidaActual}, Cantidad de daño: {quantitat}");
@@ -84,8 +96,8 @@ public class SistemaVidaJugador : SistemaVida
         // Notificar cambios
         NotificarCanviVida();
         
-        // Activar invencibilidad usando el Singleton
-        if (InvencibilitatJugador.Instance != null)
+        // Activar invencibilidad usando el Singleton i si el perk de resistència està desbloquejat   
+        if (InvencibilitatJugador.Instance != null && SistemaPerks.Instance.EstaDesbloquejada(1))
         {
             Debug.Log("Activando invencibilidad después del daño");
             InvencibilitatJugador.Instance.ActivarInvencibilitat();
@@ -104,12 +116,6 @@ public class SistemaVidaJugador : SistemaVida
     
     public override IEnumerator Morir()
     {
-        // Mostrar cortinilla
-        if (cortinilla != null)
-        {
-            cortinilla.MostrarCortinilla();
-        }
-        
         // Configurar animación y estado
         if (animator != null)
         {
@@ -119,8 +125,43 @@ public class SistemaVidaJugador : SistemaVida
         // Notificar muerte para desactivar controles
         InvocarMuerte();
         
-        // Esperar tiempo de reanimación
+        // Siempre usamos la cortinilla gestionada desde el SistemaVidaJugador
+        bool usarEfectoCortinilla = true;
+        
+        // Buscamos la cortinilla si no la tenemos ya asignada
+        if (cortinilla == null)
+        {
+            cortinilla = FindObjectOfType<Cortinilla>();
+            if (cortinilla == null)
+            {
+                Debug.LogError("No se encontró la cortinilla en la escena. Asegúrate de que existe en UI/ImageCortinilla");
+            }
+        }
+        
+        // Mostrar cortinilla para cerrar la escena actual
+        if (cortinilla != null)
+        {
+            // Aseguramos que la cortinilla está lista para usarse
+            cortinilla.ResetearCortinilla();
+            // Activamos la cortinilla (cierre)
+            cortinilla.MostrarCortinilla();
+            Debug.Log("SistemaVidaJugador: Cortinilla activada al morir el jugador");
+            // Esperamos un momento para que se vea la animación de la cortinilla
+            yield return new WaitForSeconds(0.5f);
+        }
+        else
+        {
+            Debug.LogWarning("SistemaVidaJugador: No se pudo mostrar la cortinilla. Verificar que existe en la escena.");
+            yield return new WaitForSeconds(0.2f);
+        }
+        
+        // Esperar un momento antes de teleportar
         yield return new WaitForSeconds(tempsReviure);
+        
+        // IMPORTANTE: teleportamos pero NO deshacemos la cortinilla aquí
+        // ya que estaríamos intentando usar la cortinilla de la escena anterior
+        // La cortinilla se abrirá en la nueva escena mediante el PosicionadorJugador
+        TeleportarAlHub(usarEfectoCortinilla);
         
         // Revivir
         ReviureJugador();
@@ -140,10 +181,6 @@ public class SistemaVidaJugador : SistemaVida
         InvocarRevivir();
         
         // Mostrar cortinilla de nuevo (efecto visual)
-        if (cortinilla != null)
-        {
-            cortinilla.MostrarCortinilla();
-        }
         
         // Notificar cambios
         NotificarCanviVida();
@@ -167,5 +204,46 @@ public class SistemaVidaJugador : SistemaVida
     public override void SubscribeToQuanCanviVida(Action handler)
     {
         QuanCanviVida += handler;
+    }      
+    
+    public void TeleportarAlHub(bool usarCortinilla = true)
+    {
+        PosicionadorJugador posicionador = GetComponent<PosicionadorJugador>();
+
+        if (posicionador == null)
+        {
+            // Si no existe el componente, lo añadimos
+            posicionador = gameObject.AddComponent<PosicionadorJugador>();
+            Debug.Log("Se ha añadido automáticamente el componente PosicionadorJugador al jugador");
+        }
+          if (posicionador != null)
+        {
+            // Guardar la preferencia de usar cortinilla para el posicionador
+            if (SistemaPerks.Instance != null)
+            {
+                SistemaPerks.Instance.GuardarValor("UsarCortinilla", usarCortinilla ? "1" : "0");
+                
+                // Guardamos un tag identificativo del punto de spawn - usamos "Hub" como tag
+                SistemaPerks.Instance.GuardarValor("LastSpawnPoint", "Hub");
+                Debug.Log("Se guardó el punto de spawn a través de SistemaPerks");
+                  // También guardamos la posición del punto de spawn del Hub
+                SistemaPerks.Instance.GuardarPosicioTeleport(TPConstants.HUB_SPAWN_POINT);
+            }
+            else
+            {
+                Debug.LogWarning("No se encontró SistemaPerks, usando PlayerPrefs directamente como fallback");
+                PlayerPrefs.SetString("LastSpawnPoint", "Hub");
+                PlayerPrefs.SetString("UsarCortinilla", usarCortinilla ? "1" : "0");
+                PlayerPrefs.Save();
+            }
+            
+            // Iniciamos el teleport
+            posicionador.IniciarTeleport(TPConstants.HUB_SPAWN_POINT, TPConstants.HUB_SCENE);
+            Debug.Log($"Teleportando jugador al Hub... (Cortinilla: {(usarCortinilla ? "Activada" : "Desactivada")})");
+        }
+        else
+        {
+            Debug.LogError("No se pudo crear el componente PosicionadorJugador en el jugador");
+        }
     }
 }

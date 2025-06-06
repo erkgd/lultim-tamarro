@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class TeleportJugador : MonoBehaviour
 {
@@ -14,16 +15,26 @@ public class TeleportJugador : MonoBehaviour
         Engo,
         Ramio
     }
-    
+
     [Header("Destí")]
     [SerializeField] private TeleportDestination destinacioSeleccionada = TeleportDestination.Custom;
     [SerializeField] private string nomEscenaDestí = "Escena Principal";
     [SerializeField] private Vector3 posicioDestí;
-    
+
     [Header("Configuració")]
     [SerializeField] private string etiquetaJugador = "Player";
     [SerializeField] private bool mostrarDebug = true;
-    
+
+    // ***** NOU CAMP *****
+    [Header("Requisit de Perk")]
+    [Tooltip("Índex de la perk requerida per activar aquest teleport (-1 si no es requereix cap perk). Índexs: 0=Velocitat, 1=Resistència, 2=Atac, 3=Vida")]
+    [SerializeField] private int indexPerkRequerit = -1; // Per defecte, no es requereix cap perk
+
+    [Tooltip("Si està activat, el camí es tancarà si el jugador té la perk requerida, en comptes d'obrir-se")]
+    [SerializeField] private bool bloquejarSiTePerk = false;
+
+    private bool teletransportant = false; // Per evitar múltiples activacions
+
     private void OnValidate()
     {
         // Update destination values when selection changes in inspector
@@ -33,67 +44,138 @@ public class TeleportJugador : MonoBehaviour
                 nomEscenaDestí = TPConstants.PEDROSA_SCENE;
                 posicioDestí = TPConstants.PEDROSA_SPAWN_POINT;
                 break;
-            
+
             case TeleportDestination.Hub:
                 nomEscenaDestí = TPConstants.HUB_SCENE;
                 posicioDestí = TPConstants.HUB_SPAWN_POINT;
                 break;
-                
+
             case TeleportDestination.Tutorial:
                 nomEscenaDestí = TPConstants.TUTORIAL_SCENE;
                 posicioDestí = TPConstants.TUTORIAL_SPAWN_POINT;
                 break;
-                
+
             case TeleportDestination.Bosc:
                 nomEscenaDestí = TPConstants.BOSC_SCENE;
                 posicioDestí = TPConstants.BOSC_SPAWN_POINT;
                 break;
-                
+
             case TeleportDestination.Engo:
                 nomEscenaDestí = TPConstants.ENGO_SCENE;
                 posicioDestí = TPConstants.ENGO_SPAWN_POINT;
                 break;
-                
+
             case TeleportDestination.Ramio:
                 nomEscenaDestí = TPConstants.RAMIO_SCENE;
                 posicioDestí = TPConstants.RAMIO_SPAWN_POINT;
                 break;
-                
+
             case TeleportDestination.Custom:
                 // Do nothing, keep custom values
                 break;
         }
     }
-    
+
     void Start()
     {
-        if (mostrarDebug) Debug.Log("TeleportJugador inicialitzat a " + destinacioSeleccionada);
+        if (mostrarDebug) Debug.Log($"TeleportJugador inicialitzat a {destinacioSeleccionada}. Requereix perk: {indexPerkRequerit}");
 
         if (string.IsNullOrEmpty(nomEscenaDestí))
         {
-            Debug.LogError("El nom de l'escena de destí no pot estar buit.");
+            Debug.LogError($"TeleportJugador ({name}): El nom de l'escena de destí no pot estar buit.");
         }
-        
+
         // Verificar si las coordenadas del destino seleccionado son (0,0,0)
         if (posicioDestí == Vector3.zero && destinacioSeleccionada != TeleportDestination.Custom)
         {
-            Debug.LogWarning($"La posición de destino para {destinacioSeleccionada} es (0,0,0). Verifica TPConstants.cs");
+            Debug.LogWarning($"TeleportJugador ({name}): La posición de destino para {destinacioSeleccionada} es (0,0,0). Verifica TPConstants.cs");
         }
     }
-    
-    private void OnTriggerEnter(Collider algo)
+
+    private IEnumerator OnTriggerEnter(Collider algo)
     {
-        if (mostrarDebug) Debug.Log($"Colisión detectada con TeleportJugador por: {algo.name}");
+        if (teletransportant) yield break; // Evita execucions múltiples
+
+        if (mostrarDebug) Debug.Log($"TeleportJugador ({name}): Col·lisió detectada amb: {algo.name}");
+
         if (algo.CompareTag(etiquetaJugador))
         {
             if (algo.GetComponent<Jugador>() != null)
             {
-                if (mostrarDebug) Debug.Log($"Jugador válido detectado: {algo.name}, iniciando teleporte a {nomEscenaDestí} en posición {posicioDestí}");
-                TeletransportarJugador(algo.gameObject);
+                // ***** LÒGICA DE COMPROVACIÓ DE PERK MODIFICADA *****
+
+                bool potProcedir = false; // Indica si el teleport hauria de continuar
+
+                if (indexPerkRequerit < 0)
+                {
+                    // Si no es requereix/comprova cap perk, siempre es pot procedir
+                    potProcedir = true;
+                    if (mostrarDebug) Debug.Log($"TeleportJugador ({name}): No es comprova cap perk específica. Teleport permès.");
+                }
+                else
+                {
+                    // Es requereix comprovar una perk específica
+                    if (SistemaPerks.Instance != null)
+                    {
+                        bool teLaPerk = SistemaPerks.Instance.EstaDesbloquejada(indexPerkRequerit);
+
+                        if (bloquejarSiTePerk)
+                        {
+                            // Lògica INVERSA: es pot procedir si NO té la perk
+                            potProcedir = !teLaPerk;
+                            if (mostrarDebug) Debug.Log($"TeleportJugador ({name}): Mode BloquejarSiTePerk activat. Requereix NO tenir perk {indexPerkRequerit}. Estat actual: {(teLaPerk ? "TÉ PERK" : "NO TÉ PERK")}. Teleport {(potProcedir ? "permès" : "bloquejat")}.");
+                        }
+                        else
+                        {
+                            // Lògica NORMAL: es pot procedir si SÍ té la perk
+                            potProcedir = teLaPerk;
+                            if (mostrarDebug) Debug.Log($"TeleportJugador ({name}): Mode Normal activat. Requereix TENIR perk {indexPerkRequerit}. Estat actual: {(teLaPerk ? "TÉ PERK" : "NO TÉ PERK")}. Teleport {(potProcedir ? "permès" : "bloquejat")}.");
+                        }
+                    }
+                    else
+                    {
+                        // Error: no es troba el sistema de perks
+                        Debug.LogError($"TeleportJugador ({name}): SistemaPerks.Instance no trobat! No es pot comprovar la perk requerida {indexPerkRequerit}. Bloquejant teleport per seguretat.");
+                        potProcedir = false; // Bloqueja el teleport si falla el sistema
+                    }
+                }
+
+
+                // Si la condició es compleix (segons la lògica normal o inversa)
+                if (potProcedir)
+                {
+                    teletransportant = true; // Marquem que estem processant el teleport
+
+                    if (mostrarDebug) Debug.Log($"TeleportJugador ({name}): Jugador vàlid detectat: {algo.name}. Condició complerta. Iniciant teletransport a {nomEscenaDestí}...");
+
+                    // Gestió de la cortinilla
+                    Cortinilla cortinilla = FindObjectOfType<Cortinilla>();
+                    if (cortinilla != null)
+                    {
+                        cortinilla.ResetearCortinilla();
+                        cortinilla.MostrarCortinilla();
+                        if (mostrarDebug) Debug.Log($"TeleportJugador ({name}): Mostrant cortinilla...");
+                        yield return new WaitForSeconds(1.5f); // Temps per l'animació de la cortinilla
+                    }
+                    else
+                    {
+                        Debug.LogError($"TeleportJugador ({name}): No s'ha trobat la cortinilla a l'escena.");
+                        yield return new WaitForSeconds(0.2f); // Petita espera igualment
+                    }
+
+                    // Inicia el procés de canvi d'escena
+                    TeletransportarJugador(algo.gameObject);
+                }
+                else
+                {
+                    // La condició no s'ha complert
+                    if (mostrarDebug) Debug.Log($"TeleportJugador ({name}): Condició de la perk no complerta. Teleport bloquejat.");
+                    // Opcional: Feedback visual/sonor per indicar bloqueig
+                }
             }
             else
             {
-                Debug.Log("El objeto colisionado tiene la etiqueta de jugador pero no es un jugador válido.");
+                if (mostrarDebug) Debug.Log($"TeleportJugador ({name}): L'objecte {algo.name} té l'etiqueta correcta però no el component Jugador.");
             }
         }
     }
@@ -102,42 +184,52 @@ public class TeleportJugador : MonoBehaviour
     {
         if (jugador != null)
         {
-            // Verificar que la posición no sea (0,0,0) a menos que sea explícitamente esa
             if (posicioDestí == Vector3.zero && destinacioSeleccionada != TeleportDestination.Custom)
             {
-                Debug.LogWarning($"¡Advertencia! Teleportando a posición (0,0,0) desde TeleportDestination.{destinacioSeleccionada}");
+                Debug.LogWarning($"TeleportJugador ({name}): ¡Advertència! Teleportant a posició (0,0,0) des de TeleportDestination.{destinacioSeleccionada}");
             }
-            
-            if (mostrarDebug) Debug.Log($"Teleportando jugador a: {posicioDestí} en escena: {nomEscenaDestí}");
-            
-            // Usar el PosicionadorJugador si está disponible
+
+            if (mostrarDebug) Debug.Log($"TeleportJugador ({name}): Teleportant jugador a: {posicioDestí} en escena: {nomEscenaDestí}");
+
             PosicionadorJugador posicionador = jugador.GetComponent<PosicionadorJugador>();
+            if (posicionador == null)
+            {
+                 if (mostrarDebug) Debug.Log($"TeleportJugador ({name}): No s'ha trobat component PosicionadorJugador, afegint-lo automàticament");
+                posicionador = jugador.AddComponent<PosicionadorJugador>();
+            }
+
             if (posicionador != null)
             {
-                if (mostrarDebug) Debug.Log($"Usando PosicionadorJugador.IniciarTeleport");
-                posicionador.IniciarTeleport(posicioDestí, nomEscenaDestí);
-                return;
-            }
-            
-            // Método de respaldo sin componente PosicionadorJugador
-            if (mostrarDebug) Debug.Log($"No se encontró componente PosicionadorJugador, usando PlayerPrefs directamente");
-            
-            // Guardar en PlayerPrefs para que el jugador en la escena de destino lo use
-            PlayerPrefs.SetFloat("DestiX", posicioDestí.x);
-            PlayerPrefs.SetFloat("DestiY", posicioDestí.y);
-            PlayerPrefs.SetFloat("DestiZ", posicioDestí.z);
-            PlayerPrefs.SetInt("NecessitaTeleport", 1);
-            PlayerPrefs.Save();
-            
-            if (mostrarDebug) Debug.Log($"PlayerPrefs guardados: DestiX={posicioDestí.x}, DestiY={posicioDestí.y}, DestiZ={posicioDestí.z}, NecessitaTeleport=1");
+                 if (mostrarDebug) Debug.Log($"TeleportJugador ({name}): Utilitzant PosicionadorJugador.IniciarTeleport");
+                // Guardem la informació del teleport per a la següent escena
+                SistemaPerks.Instance?.GuardarPosicioTeleport(posicioDestí, true);
 
-            // Cargar la nueva escena
-            if (mostrarDebug) Debug.Log($"Cargando escena: {nomEscenaDestí}");
-            SceneManager.LoadScene(nomEscenaDestí);
+                // Si el destino es el HUB, avisamos a SistemaEndgame
+                if (nomEscenaDestí == TPConstants.HUB_SCENE && SistemaEndgame.Instance != null)
+                {
+                    SistemaEndgame.Instance.OnPlayerEnterHub();
+                }
+
+                // Carreguem l'escena directament. PosicionadorJugador a la nova escena s'encarregarà de la posició.
+                SceneManager.LoadScene(nomEscenaDestí);
+            }
+            else
+            {
+                Debug.LogError($"TeleportJugador ({name}): No s'ha pogut crear el component PosicionadorJugador, fallant al teleportar");
+                // Com a fallback, intentem carregar l'escena igualment
+                 SistemaPerks.Instance?.GuardarPosicioTeleport(posicioDestí, true);
+
+                if (nomEscenaDestí == TPConstants.HUB_SCENE && SistemaEndgame.Instance != null)
+                {
+                    SistemaEndgame.Instance.OnPlayerEnterHub();
+                }
+
+                SceneManager.LoadScene(nomEscenaDestí);
+            }
         }
         else
         {
-            Debug.LogError("El objeto jugador es nulo. No se puede teletransportar.");
+            Debug.LogError($"TeleportJugador ({name}): L'objecte jugador és nul. No es pot teletransportar.");
         }
     }
 }

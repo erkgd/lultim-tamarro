@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class SistemaVidaEnemic : SistemaVida
 {
-    [SerializeField] private int vidaMaxima = 2;
-    [SerializeField] private int vidaActual = 2;
+    [SerializeField] private float vidaMaxima = 2f;
+    [SerializeField] private float vidaActual = 2f;
     
     // Referencias
     private Animator animator;
@@ -13,10 +13,10 @@ public class SistemaVidaEnemic : SistemaVida
     
     // Eventos para comunicación
     public event Action OnIniciarAtac;
-    
+    public event Action QuanMoriEnemic;
     // Acceso a propiedades
-    public int VidaActual => vidaActual;
-    public int VidaMaxima => vidaMaxima;
+    public float VidaActual => vidaActual;
+    public float VidaMaxima => vidaMaxima;
     
     public override void Awake()
     {
@@ -32,29 +32,24 @@ public class SistemaVidaEnemic : SistemaVida
         return vidaActual > 0;
     }
     
-    public void DecrementarVida(int quantitat, string font = "")
+    public void DecrementarVida(float quantitat, string font = "")
     {
-        // Evitamos modificar la vida si ya está muriendo
         if (quantitat <= 0 || !EsViu() || animator.GetBool("senseVida")) 
             return;
         
-        vidaActual = Mathf.Max(vidaActual - quantitat, 0);
+        vidaActual = Mathf.Max(vidaActual - quantitat, 0f);
         
-        // Registrar fuente de daño
         if (!string.IsNullOrEmpty(font))
             Debug.Log($"Enemic {name} rep {quantitat} de dany de {font}. Vida restant: {vidaActual}");
         
-        // Activamos la animación de recibir daño
         if (vidaActual > 0 && animator != null)
             animator.SetTrigger("RepMal");
         
-        // Notificamos el cambio de vida
         NotificarCanviVida();
         
-        // Si la vida llega a 0, iniciamos la muerte
         if (vidaActual <= 0)
         {
-            vidaActual = 0;
+            vidaActual = 0f;
             StartCoroutine(Morir());
         }
     }
@@ -69,9 +64,11 @@ public class SistemaVidaEnemic : SistemaVida
         // En lugar de llamar directamente a Enemic, notificamos a través del evento
         OnIniciarAtac?.Invoke();
     }
-    
-    public override IEnumerator Morir()
+      public override IEnumerator Morir()
     {
+        // Notificar a los suscriptores de la muerte del enemigo
+        QuanMoriEnemic?.Invoke();
+
         // Configurar animación y estado
         if (animator != null)
         {
@@ -85,7 +82,14 @@ public class SistemaVidaEnemic : SistemaVida
             agent.enabled = false;
         }
         
-        // Notificar muerte
+        // Notificar muerte al sistema de contadores si existe
+        if (SistemaCounter.Instance != null)
+        {
+            // Obtener el tipo de enemigo - se determina en SistemaCounter
+            SistemaCounter.Instance.RegistrarEnemigoEliminado(0); // El tipo se detecta automáticamente en SistemaCounter
+        }
+        
+        // Notificar muerte (esto invoca OnMuerte de la clase base)
         InvocarMuerte();
         
         // Reproducir animación de muerte y esperar

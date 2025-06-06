@@ -9,7 +9,7 @@ public class Cortinilla : MonoBehaviour
     [SerializeField] private Material materialCortinilla;
 
     [Header("Configuració")]
-    [SerializeField] private float duradaEfecte = 1.5f;
+    [SerializeField] private float duradaEfecte = 2.0f;
     [SerializeField] private AnimationCurve corbaTransicio;
     [SerializeField] private bool inverseEffect = true; // Si és true, l'efecte va des de fora cap a dins (tancament)
 
@@ -18,6 +18,9 @@ public class Cortinilla : MonoBehaviour
     
     // Control para activar solo una vez
     private bool yaSeHaMostrado = false;
+
+    // Control para la cortinilla inversa
+    private bool cortinillaInversaActiva = false;
 
     private void Awake()
     {
@@ -70,6 +73,68 @@ public class Cortinilla : MonoBehaviour
     public void ResetearCortinilla()
     {
         yaSeHaMostrado = false;
+        cortinillaInversaActiva = false;
+    }
+
+    // Método público para mostrar la cortinilla en sentido inverso
+    public void MostrarCortinillaInversa()
+    {
+        // Si ya está activa la cortinilla inversa, no lo volvemos a hacer
+        if (cortinillaInversaActiva)
+        {
+            Debug.Log("Cortinilla: La cortinilla inversa ya está activa");
+            return;
+        }
+        
+        // Activamos el GameObject
+        if (imatgeCortinilla != null)
+        {
+            imatgeCortinilla.gameObject.SetActive(true);
+            StartCoroutine(AnimarCortinillaInversa());
+            
+            // Marcamos que ya está activa la cortinilla inversa
+            cortinillaInversaActiva = true;
+        }
+        else
+        {
+            Debug.LogError("Cortinilla: No s'ha trobat la imatge de la cortinilla");
+        }
+    }
+
+    // Corrutina para la animación inversa
+    private IEnumerator AnimarCortinillaInversa()
+    {
+        float tempsInici = Time.time;
+        float percentatgeCompletat = 0f;
+        
+        // Valor inicial y final del radio (inverso al normal)
+        // Para asegurar que la cortinilla cubra más espacio, usamos valores más extremos
+        float radiInicial = inverseEffect ? -0.3f : 1.3f; // Más allá del borde visible
+        float radiFinal = inverseEffect ? 1.3f : -0.3f;   // Más allá del borde visible
+        
+        // Establecemos el valor inicial
+        imatgeCortinilla.material.SetFloat(RadioProperty, radiInicial);
+        
+        // Animamos el radio
+        while (percentatgeCompletat < 1.0f)
+        {
+            percentatgeCompletat = (Time.time - tempsInici) / duradaEfecte;
+            percentatgeCompletat = Mathf.Clamp01(percentatgeCompletat);
+            
+            // Utilizamos la curva de transición para una animación más suave
+            float valorAnimacio = corbaTransicio.Evaluate(percentatgeCompletat);
+            float valorRadi = Mathf.Lerp(radiInicial, radiFinal, valorAnimacio);
+            
+            imatgeCortinilla.material.SetFloat(RadioProperty, valorRadi);
+            
+            yield return null;
+        }
+        
+        // Aseguramos que termina con el valor exacto
+        imatgeCortinilla.material.SetFloat(RadioProperty, radiFinal);
+        
+        // Opcional: desactivar la imagen al terminar la animación, dependiendo de la necesidad
+        imatgeCortinilla.gameObject.SetActive(false);
     }
 
     // Corrutina per a l'animació
@@ -79,8 +144,9 @@ public class Cortinilla : MonoBehaviour
         float percentatgeCompletat = 0f;
         
         // Valor inicial i final del radi
-        float radiInicial = inverseEffect ? 1f : 0f;
-        float radiFinal = inverseEffect ? 0f : 1f;
+        // Para asegurar que la cortinilla cubra más espacio, usamos valores más extremos
+        float radiInicial = inverseEffect ? 1.3f : -0.3f; // Más allá del borde visible
+        float radiFinal = inverseEffect ? -0.3f : 1.3f;   // Más allá del borde visible
         
         // Establim el valor inicial
         imatgeCortinilla.material.SetFloat(RadioProperty, radiInicial);

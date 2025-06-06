@@ -26,31 +26,38 @@ public class MovimentEnemic : MonoBehaviour
     [Header("Estat IA")]
     public AIState estatActual = AIState.PATRULLA;
     
+    // Estados del patrón State
+    private IEnemicState currentState;
+    private IEnemicState patrullaState;
+    private IEnemicState perseguirState;
+    private IEnemicState sospitaState;
+    
     private string nomCarpetaPunts;
     private float velocitatNormal;
     private float velocitatPersecucio;
     private float tempsEsperaPatrulla;
     private float rangPerseguir;
     private float tempsSospita;
-    private float rangAtacar;
-    private float tempsEntreAtacs;
+    private float rangAtacar;    private float tempsEntreAtacs;
     
     private Transform[] puntsPatrulla;
-    private int puntActual = 0;
-    private bool esperantEnPunt = false;
-    private float tempsUltimaVegadaVist;
-    private Vector3 ultimaPosicioVista;
-    private float comptadorAtacs = 0f;
-
-    // Propietats públiques requerides per IAEnemic
+    
+    // Propietats públiques requerides per IAEnemic y los estados
     public float VelocitatNormal => velocitatNormal;
     public float VelocitatPersecucio => velocitatPersecucio;
     public float RangPerseguir => rangPerseguir;
     public float RangAtacar => rangAtacar;
-    
-    private void Awake()
+    public float TempsEsperaPatrulla => tempsEsperaPatrulla;
+    public float TempsSospita => tempsSospita;
+    public float TempsEntreAtacs => tempsEntreAtacs;
+      private void Awake()
     {
         enemic = GetComponent<Enemic>();
+        
+        // Inicializar los estados
+        patrullaState = new PatrullaState();
+        perseguirState = new PerseguirState();
+        sospitaState = new SospitaState();
     }
     
     private void Start()
@@ -68,12 +75,9 @@ public class MovimentEnemic : MonoBehaviour
         // Busquem els punts de patrulla a la carpeta
         BuscarPuntsPatrulla();
         
-        // Inicialitzem variables
-        estatActual = AIState.PATRULLA;
-        tempsUltimaVegadaVist = tempsSospita;
-    }
-
-    public void ConfigurarMoviment(
+        // Iniciar en estado de patrulla
+        CanviarEstat(AIState.PATRULLA);
+    }    public void ConfigurarMoviment(
         string nomCarpetaPunts,
         float velocitatNormal,
         float velocitatPersecucio,
@@ -121,34 +125,17 @@ public class MovimentEnemic : MonoBehaviour
         }
     }
     
-    // Mètode que IAEnemic utilitza per iniciar la patrulla
+    // Mètodes que IAEnemic utilitza per controlar l'enemic
     public void IniciarPatrulla()
     {
-        if (puntsPatrulla == null || puntsPatrulla.Length == 0)
-            return;
-            
-        estatActual = AIState.PATRULLA;
-        agent.speed = velocitatNormal;
-        puntActual = 0;
-        agent.SetDestination(puntsPatrulla[0].position);
+        CanviarEstat(AIState.PATRULLA);
     }
     
-    // Mètode que IAEnemic utilitza per reprendre la patrulla
     public void ReprendrePatrulla()
     {
-        if (puntsPatrulla == null || puntsPatrulla.Length == 0)
-            return;
-            
-        estatActual = AIState.PATRULLA;
-        agent.speed = velocitatNormal;
-        
-        if (!esperantEnPunt)
-        {
-            agent.SetDestination(puntsPatrulla[puntActual].position);
-        }
+        CanviarEstat(AIState.PATRULLA);
     }
     
-    // Mètode que IAEnemic utilitza per anar a una posició específica
     public void AnarA(Vector3 destino)
     {
         if (agent == null) return;
@@ -158,15 +145,66 @@ public class MovimentEnemic : MonoBehaviour
         agent.SetDestination(destino);
     }
     
-    // Mètode que IAEnemic utilitza per perseguir al jugador
     public void Perseguir(Transform objectiu, float velocitat)
     {
         if (agent == null || objectiu == null) return;
         
-        estatActual = AIState.PERSEGUIR;
-        agent.isStopped = false;
-        agent.speed = velocitat;
-        agent.SetDestination(objectiu.position);
+        // Actualizar el jugador si es diferente
+        if (objectiu != jugador)
+        {
+            jugador = objectiu;
+        }
+        
+        CanviarEstat(AIState.PERSEGUIR);
+    }
+      // Métodos de acceso para los estados
+    public Transform GetJugador() => jugador;
+    public NavMeshAgent GetAgent() => agent;
+    public Enemic GetEnemic() => enemic;
+    public Transform[] GetPuntsPatrulla() => puntsPatrulla;
+    
+    /// <summary>
+    /// Obtiene la distancia al jugador
+    /// </summary>
+    public float GetDistanciaAlJugador()
+    {
+        if (jugador == null) return float.MaxValue;
+        return Vector3.Distance(transform.position, jugador.position);
+    }
+    
+    /// <summary>
+    /// Cambia el estado actual del enemigo
+    /// </summary>
+    public void CanviarEstat(AIState nouEstat)
+    {
+        // Salir del estado actual si existe
+        if (currentState != null)
+        {
+            currentState.ExitState(this);
+        }
+        
+        // Actualizar el estado actual
+        estatActual = nouEstat;
+        
+        // Asignar el nuevo estado
+        switch (nouEstat)
+        {
+            case AIState.PATRULLA:
+                currentState = patrullaState;
+                break;
+            case AIState.PERSEGUIR:
+                currentState = perseguirState;
+                break;
+            case AIState.SOSPITA:
+                currentState = sospitaState;
+                break;
+        }
+        
+        // Entrar en el nuevo estado
+        if (currentState != null)
+        {
+            currentState.EnterState(this);
+        }
     }
     
     private void Update()
@@ -182,156 +220,18 @@ public class MovimentEnemic : MonoBehaviour
             return;
         }
         
-        // Actualitzem el comptador d'atacs
-        if (comptadorAtacs > 0)
+        // Si no hi ha jugador i no estamos en patrulla, cambiamos a patrulla
+        if (jugador == null && estatActual != AIState.PATRULLA)
         {
-            comptadorAtacs -= Time.deltaTime;
-        }
-        
-        // Si no hi ha jugador, només patrullem
-        if (jugador == null)
-        {
-            if (estatActual == AIState.PATRULLA)
-            {
-                ActualitzarPatrulla();
-            }
+            CanviarEstat(AIState.PATRULLA);
             return;
         }
         
-        // Calculem la distància al jugador
-        float distanciaJugador = Vector3.Distance(transform.position, jugador.position);
-        
-        // Màquina d'estats
-        switch (estatActual)
+        // Actualizar el estado actual
+        if (currentState != null)
         {
-            case AIState.PATRULLA:
-                ActualitzarPatrulla();
-                
-                // Si detectem el jugador, començem a perseguir-lo
-                if (distanciaJugador <= rangPerseguir)
-                {
-                    estatActual = AIState.PERSEGUIR;
-                    agent.speed = velocitatPersecucio;
-                }
-                break;
-                
-            case AIState.PERSEGUIR:
-                // Verificar que el agente esté activo y en un NavMesh
-                if (agent != null && agent.isActiveAndEnabled && agent.isOnNavMesh)
-                {
-                    // Perseguim al jugador
-                    agent.SetDestination(jugador.position);
-                    
-                    // Si estem prou a prop, ataquem
-                    if (distanciaJugador <= rangAtacar && comptadorAtacs <= 0)
-                    {
-                        // Aturem temporalment
-                        agent.isStopped = true;
-                        
-                        // Activem l'atac
-                        enemic.Atacar();
-                        
-                        // Reiniciem el comptador
-                        comptadorAtacs = tempsEntreAtacs;
-                        
-                        // Reprenem el moviment després d'un moment
-                        StartCoroutine(ReanudarMoviment(0.5f));
-                    }
-                    
-                    // Si el jugador s'allunya massa, passem a sospita
-                    if (distanciaJugador > rangPerseguir)
-                    {
-                        estatActual = AIState.SOSPITA;
-                        agent.speed = velocitatNormal;
-                        ultimaPosicioVista = jugador.position;
-                        tempsUltimaVegadaVist = tempsSospita;
-                    }
-                }
-                break;
-                
-            case AIState.SOSPITA:
-                // Verificar que el agente esté activo y en un NavMesh
-                if (agent != null && agent.isActiveAndEnabled && agent.isOnNavMesh)
-                {
-                    // Anem a l'última posició coneguda
-                    if (agent.remainingDistance <= 0.5f || agent.destination == Vector3.zero)
-                    {
-                        agent.SetDestination(ultimaPosicioVista);
-                    }
-                    
-                    // Reduïm el temps de sospita
-                    tempsUltimaVegadaVist -= Time.deltaTime;
-                    
-                    // Si veiem el jugador de nou, tornem a perseguir
-                    if (distanciaJugador <= rangPerseguir)
-                    {
-                        estatActual = AIState.PERSEGUIR;
-                        agent.speed = velocitatPersecucio;
-                    }
-                    // Si s'esgota el temps, tornem a patrullar
-                    else if (tempsUltimaVegadaVist <= 0)
-                    {
-                        estatActual = AIState.PATRULLA;
-                    }
-                }
-                break;
+            currentState.UpdateState(this);
         }
     }
-    
-    private void ActualitzarPatrulla()
-    {
-        // Si no hi ha punts o estem esperant, no fem res
-        if (puntsPatrulla == null || puntsPatrulla.Length == 0 || esperantEnPunt)
-            return;
-        
-        // Verificar que el agente esté activo y en un NavMesh
-        if (agent != null && agent.isActiveAndEnabled && agent.isOnNavMesh)
-        {
-            // Si hem arribat al punt actual, avancem al següent
-            if (agent.remainingDistance <= 0.5f)
-            {
-                StartCoroutine(EsperarEnPunt());
-            }
-        }
-    }
-    
-    private IEnumerator EsperarEnPunt()
-    {
-        esperantEnPunt = true;
-        
-        // Verificar que el agente esté activo y en un NavMesh abans de detenirlo
-        if (agent != null && agent.isActiveAndEnabled && agent.isOnNavMesh)
-        {
-            // Aturem l'agent
-            agent.isStopped = true;
-        }
-        
-        // Esperem un moment
-        yield return new WaitForSeconds(tempsEsperaPatrulla);
-        
-        // Avancem al següent punt
-        puntActual = (puntActual + 1) % puntsPatrulla.Length;
-        
-        // Verificar que el agente esté activo y en un NavMesh
-        if (agent != null && agent.isActiveAndEnabled && agent.isOnNavMesh)
-        {
-            agent.SetDestination(puntsPatrulla[puntActual].position);
-            
-            // Reactivem l'agent
-            agent.isStopped = false;
-        }
-        
-        esperantEnPunt = false;
-    }
-    
-    private IEnumerator ReanudarMoviment(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        
-        // Verificar que el agente esté activo y en un NavMesh
-        if (agent != null && agent.isActiveAndEnabled && agent.isOnNavMesh)
-        {
-            agent.isStopped = false;
-        }
-    }
+      // Ya no necesitamos estos métodos porque se han movido a las clases de estado
 }

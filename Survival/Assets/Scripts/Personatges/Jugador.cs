@@ -9,15 +9,19 @@ public class Jugador : Personatge
 {
     [Header("Referències")]
     [SerializeField] private ParticleSystem efecteInvencibilitat;
+    [SerializeField] private SkinnedMeshRenderer[] meshRenderers;
+    [SerializeField] private Color colorPerkAtac = new Color(1f, 0.88f, 0f, 1f);
+    private Color colorOriginal;
     private CharacterController characterController;
     private Animator animator;
     private BoxCollider boxColliderAtac;
     private SistemaVidaJugador sistemaVida;
     
     // Variables para implementar las propiedades abstractas
-    [SerializeField] private int danyAtac = 1;
+    [SerializeField] private float danyAtac = 1f;
     [SerializeField] private float forcaKnockback = 5f;
     private bool atacant = false;
+    private bool perkAtacAplicat = false;
 
     // Componentes modularizados
     private MovimentJugador movimentJugador;
@@ -45,9 +49,9 @@ public class Jugador : Personatge
     [SerializeField] private float radiEfecte = 1.0f;
 
     // Implementación de propiedades abstractas
-    public override int VidaActual => sistemaVida.VidaActual;
-    public override int VidaMaxima => sistemaVida.VidaMaxima;
-    public override int Dany => danyAtac;
+    public override float VidaActual => sistemaVida.VidaActual;
+    public override float VidaMaxima => sistemaVida.VidaMaxima;
+    public override float Dany => danyAtac;
     public override float ForcaKnockback => forcaKnockback;
 
     public CharacterController CharacterController => characterController;
@@ -56,7 +60,18 @@ public class Jugador : Personatge
 
     // Propiedad para acceder al estado de ataque
     public bool Atacant { get => atacant; set => atacant = value; }
+
+    [Header("Àudio d'Atac")]
+    [SerializeField] private AudioClip soAtac;
+    [SerializeField, Range(0f, 3f)] private float volumAtac = 1f;
+
+    [Header("Àudio de Dany")]
+    [SerializeField] private AudioClip soDany;
+    [SerializeField, Range(0f, 3f)] private float volumDany = 1f;
     
+    // Variable per mantenir referència a l'àudio actual de dany
+    private GameObject audioDanyActual;
+
     protected override void Awake()
     {
         // Inicializar components
@@ -65,6 +80,26 @@ public class Jugador : Personatge
         boxColliderAtac = GetComponent<BoxCollider>();
         sistemaVida = GetComponent<SistemaVidaJugador>();
         
+        // Buscar todos los SkinnedMeshRenderer
+        if (meshRenderers == null || meshRenderers.Length == 0)
+        {
+            meshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
+            if (meshRenderers.Length == 0)
+            {
+                Debug.LogWarning("No s'han trobat SkinnedMeshRenderer en el personatge");
+            }
+            else
+            {
+                Debug.Log($"Trobats {meshRenderers.Length} SkinnedMeshRenderer en el personatge");
+            }
+        }
+
+        // Guardar el color original del primer mesh (asumimos que todos tienen el mismo color)
+        if (meshRenderers.Length > 0)
+        {
+            colorOriginal = meshRenderers[0].material.color;
+        }
+
         if (boxColliderAtac != null)
             boxColliderAtac.enabled = false;
 
@@ -83,6 +118,7 @@ public class Jugador : Personatge
 
         // Configurar AtacJugador
         atacJugador.ConfigurarAtac(rangAtacar, tempsEntreAtacs, tempsAtac, angleVisioAtac, danyAtac);
+        atacJugador.SetAudioAtac(soAtac, volumAtac);
 
         // Asegurarse de que exista el componente InvencibilitatJugador para el Singleton
         InvencibilitatJugador invencibilitat = GetComponent<InvencibilitatJugador>();
@@ -119,8 +155,41 @@ public class Jugador : Personatge
         sistemaVida.OnVidaCanviada += OnVidaCanviada;
         sistemaVida.OnMuerte += DesactivarControl;
         sistemaVida.OnRevivir += ActivarControl;
+
+        if (SistemaPerks.Instance != null)
+        {
+            if (SistemaPerks.Instance.EstaDesbloquejada(2) && !perkAtacAplicat)
+            {
+                AplicarPerkAtac();
+            }
+            SistemaPerks.Instance.OnPerkChanged += ComprovarPerkAtac;
+        }
     }
-    
+
+    private void ComprovarPerkAtac(int indexPerk)
+    {
+        if (indexPerk == 2 && !perkAtacAplicat)
+        {
+            AplicarPerkAtac();
+        }
+    }
+
+    private void AplicarPerkAtac()
+    {
+        danyAtac = Mathf.RoundToInt(danyAtac * 1.5f);
+        perkAtacAplicat = true;
+
+        // Aplicar el color a todos los meshes
+        foreach (var meshRenderer in meshRenderers)
+        {
+            if (meshRenderer != null && meshRenderer.material != null)
+            {
+                meshRenderer.material.color = colorPerkAtac;
+                Debug.Log($"Color actualitzat per {meshRenderer.name}");
+            }
+        }
+    }
+
     private void OnVidaCanviada()
     {
         NotificarCambiVida();
@@ -152,12 +221,15 @@ public class Jugador : Personatge
     }
 
     // Métodos que delegan al sistema de vida
-    public override void DecrementarVida(int quantitat, string font = "")
+    public override void DecrementarVida(float quantitat, string font = "")
     {
-        sistemaVida.DecrementarVida(quantitat);
+        sistemaVida.DecrementarVida(quantitat, font);
+        
+        // Reproduir l'àudio de dany
+        CrearAudioDany();
     }
     
-    public void IncrementarVida(int quantitat)
+    public void IncrementarVida(float quantitat)
     {
         sistemaVida.IncrementarVida(quantitat);
     }
@@ -194,14 +266,61 @@ public class Jugador : Personatge
         movimentJugador.AplicarKnockback(direccio, forca);
     }
     
-    // Asegurarnos de desuscribirse de los eventos al destruir el objeto
-    public void OnDestroy()
+    // Mètode per crear l'àudio de dany
+    private void CrearAudioDany()
+    {
+        if (soDany != null)
+        {
+            // Destruir l'àudio anterior si existeix
+            if (audioDanyActual != null)
+            {
+                Destroy(audioDanyActual);
+            }
+
+            // 1) Creem un GameObject temporal
+            audioDanyActual = new GameObject("AudioDanyTemp");
+            audioDanyActual.transform.position = transform.position;
+
+            // 2) Fiquem el AudioSource
+            AudioSource aSource = audioDanyActual.AddComponent<AudioSource>();
+            aSource.clip = soDany;
+            aSource.volume = volumDany;
+            aSource.spatialBlend = 0f; // 0 = 2D (sense roll-off)
+            aSource.Play();
+
+            // 3) Destruim el AudioSource quan termini
+            Destroy(audioDanyActual, soDany.length);
+        }
+    }
+    
+    private void OnDestroy()
     {
         if (sistemaVida != null)
         {
             sistemaVida.OnVidaCanviada -= OnVidaCanviada;
             sistemaVida.OnMuerte -= DesactivarControl;
             sistemaVida.OnRevivir -= ActivarControl;
+        }
+
+        if (SistemaPerks.Instance != null)
+        {
+            SistemaPerks.Instance.OnPerkChanged -= ComprovarPerkAtac;
+        }
+
+        // Netejar l'àudio de dany si existeix
+        if (audioDanyActual != null)
+        {
+            Destroy(audioDanyActual);
+            audioDanyActual = null;
+        }
+
+        // Restaurar el color original en todos los meshes
+        foreach (var meshRenderer in meshRenderers)
+        {
+            if (meshRenderer != null && meshRenderer.material != null)
+            {
+                meshRenderer.material.color = colorOriginal;
+            }
         }
     }
 }
