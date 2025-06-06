@@ -1,0 +1,1 @@
+# Aquest fitxer pot estar buit ( no cal codi )

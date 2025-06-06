@@ -1,0 +1,22 @@
+FROM python:3.13-slim AS api_tamarro
+
+# Directori de treball
+WORKDIR /app
+
+# Variables d'entorn per a Python (bona pràctica)
+ENV PYTHONDONTWRITEBYTECODE 1 
+ENV PYTHONUNBUFFERED 1      
+
+# Copiar i instal·lar dependències
+COPY api/requirements.txt /app/requirements.txt
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r /app/requirements.txt
+
+# Copiar codi de l'aplicació
+COPY api/ /app/api/
+
+# Exposar port (el port intern del contenidor on corre Uvicorn)
+EXPOSE 8080
+
+# Comanda d'execució
+CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8080", "--reload"] 

@@ -1,0 +1,28 @@
+-- Inicialització de la Base de Dades per a L'Últim Tamarro
+
+-- Crear la taula de puntuacions si encara no existeix
+CREATE TABLE IF NOT EXISTS puntuacions (
+    id SERIAL PRIMARY KEY,
+    nom_usuari VARCHAR(50) NOT NULL,
+    temps_jugat INTEGER NOT NULL,
+    enemics_derrotats INTEGER NOT NULL,
+    data_partida TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL
+);
+
+-- Crear índexs per millorar el rendiment de les consultes
+CREATE INDEX IF NOT EXISTS idx_puntuacions_nom_usuari ON puntuacions(nom_usuari);
+CREATE INDEX IF NOT EXISTS idx_puntuacions_temps_jugat ON puntuacions(temps_jugat);
+CREATE INDEX IF NOT EXISTS idx_puntuacions_enemics_derrotats ON puntuacions(enemics_derrotats);
+
+-- Inserir dades de prova
+INSERT INTO puntuacions (nom_usuari, temps_jugat, enemics_derrotats) VALUES
+    ('Arnau', 120, 15),
+    ('Laura', 90, 20),
+    ('Marc', 105, 18),
+    ('Júlia', 150, 25),
+    ('Pol', 135, 17),
+    ('Emma', 95, 22),
+    ('Sergi', 110, 19),
+    ('Marta', 125, 16),
+    ('Oriol', 100, 21),
+    ('Laia', 115, 23);
