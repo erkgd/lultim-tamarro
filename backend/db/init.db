@@ -1,28 +1,51 @@
 -- Inicialització de la Base de Dades per a L'Últim Tamarro
 
--- Crear la taula de puntuacions si encara no existeix
-CREATE TABLE IF NOT EXISTS puntuacions (
+-- Crear la taula de puntuacions per temps si encara no existeix
+CREATE TABLE IF NOT EXISTS puntuacions_temps (
     id SERIAL PRIMARY KEY,
     nom_usuari VARCHAR(50) NOT NULL,
     temps_jugat INTEGER NOT NULL,
+    data_partida TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL
+);
+
+-- Crear la taula de puntuacions per enemics derrotats si encara no existeix
+CREATE TABLE IF NOT EXISTS puntuacions_enemics (
+    id SERIAL PRIMARY KEY,
+    nom_usuari VARCHAR(50) NOT NULL,
     enemics_derrotats INTEGER NOT NULL,
     data_partida TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL
 );
 
 -- Crear índexs per millorar el rendiment de les consultes
-CREATE INDEX IF NOT EXISTS idx_puntuacions_nom_usuari ON puntuacions(nom_usuari);
-CREATE INDEX IF NOT EXISTS idx_puntuacions_temps_jugat ON puntuacions(temps_jugat);
-CREATE INDEX IF NOT EXISTS idx_puntuacions_enemics_derrotats ON puntuacions(enemics_derrotats);
+CREATE INDEX IF NOT EXISTS idx_temps_nom_usuari ON puntuacions_temps(nom_usuari);
+CREATE INDEX IF NOT EXISTS idx_temps_jugat ON puntuacions_temps(temps_jugat);
+CREATE INDEX IF NOT EXISTS idx_temps_data ON puntuacions_temps(data_partida);
 
--- Inserir dades de prova
-INSERT INTO puntuacions (nom_usuari, temps_jugat, enemics_derrotats) VALUES
-    ('Arnau', 120, 15),
-    ('Laura', 90, 20),
-    ('Marc', 105, 18),
-    ('Júlia', 150, 25),
-    ('Pol', 135, 17),
-    ('Emma', 95, 22),
-    ('Sergi', 110, 19),
-    ('Marta', 125, 16),
-    ('Oriol', 100, 21),
-    ('Laia', 115, 23);
+CREATE INDEX IF NOT EXISTS idx_enemics_nom_usuari ON puntuacions_enemics(nom_usuari);
+CREATE INDEX IF NOT EXISTS idx_enemics_derrotats ON puntuacions_enemics(enemics_derrotats);
+CREATE INDEX IF NOT EXISTS idx_enemics_data ON puntuacions_enemics(data_partida);
+
+-- Inserir dades de prova sincronitzades
+INSERT INTO puntuacions_temps (nom_usuari, temps_jugat, data_partida) VALUES
+    ('Arnau', 120, '2024-01-01 10:00:00+00'),
+    ('Laura', 90, '2024-01-01 11:00:00+00'),
+    ('Marc', 105, '2024-01-01 12:00:00+00'),
+    ('Júlia', 150, '2024-01-01 13:00:00+00'),
+    ('Pol', 135, '2024-01-01 14:00:00+00'),
+    ('Emma', 95, '2024-01-01 15:00:00+00'),
+    ('Sergi', 110, '2024-01-01 16:00:00+00'),
+    ('Marta', 125, '2024-01-01 17:00:00+00'),
+    ('Oriol', 100, '2024-01-01 18:00:00+00'),
+    ('Laia', 115, '2024-01-01 19:00:00+00');
+
+INSERT INTO puntuacions_enemics (nom_usuari, enemics_derrotats, data_partida) VALUES
+    ('Arnau', 15, '2024-01-01 10:00:00+00'),
+    ('Laura', 20, '2024-01-01 11:00:00+00'),
+    ('Marc', 18, '2024-01-01 12:00:00+00'),
+    ('Júlia', 25, '2024-01-01 13:00:00+00'),
+    ('Pol', 17, '2024-01-01 14:00:00+00'),
+    ('Emma', 22, '2024-01-01 15:00:00+00'),
+    ('Sergi', 19, '2024-01-01 16:00:00+00'),
+    ('Marta', 16, '2024-01-01 17:00:00+00'),
+    ('Oriol', 21, '2024-01-01 18:00:00+00'),
+    ('Laia', 23, '2024-01-01 19:00:00+00');
