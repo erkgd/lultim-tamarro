@@ -1,78 +1,149 @@
-from typing import List
+from typing import List, Dict, Any
+from datetime import datetime
 from . import schemas, models
 from .database import database # Importem la instància de connexió
+import sqlalchemy
 
 async def crear_puntuacio(puntuacio: schemas.PuntuacioCreate) -> schemas.Puntuacio:
     """
-    Crea un nou registre de puntuació a la base de dades.
+    Crea un nou registre de puntuació a ambdues taules de manera sincronitzada.
     """
-    query = models.puntuacions.insert().values(
-        nom_usuari=puntuacio.nom_usuari,
-        temps_jugat=puntuacio.temps_jugat,
-        enemics_derrotats=puntuacio.enemics_derrotats
-        # data_partida s'estableix per defecte per la BD
+    # Generem una data única per a ambdues insercions
+    data_partida = datetime.now()
+    
+    async with database.transaction():
+        # Inserir en puntuacions_temps
+        query_temps = models.puntuacions_temps.insert().values(
+            nom_usuari=puntuacio.nom_usuari,
+            temps_jugat=puntuacio.temps_jugat,
+            data_partida=data_partida
+        )
+        temps_id = await database.execute(query_temps)
+        
+        # Inserir en puntuacions_enemics amb la mateixa data
+        query_enemics = models.puntuacions_enemics.insert().values(
+            nom_usuari=puntuacio.nom_usuari,
+            enemics_derrotats=puntuacio.enemics_derrotats,
+            data_partida=data_partida
+        )
+        await database.execute(query_enemics)
+    
+    # Obtenir el registre complet mitjançant JOIN
+    puntuacio_completa = await _obtenir_puntuacio_per_id(temps_id)
+    
+    if puntuacio_completa is None:
+        raise Exception("No s'ha pogut recuperar la puntuació després de la creació.")
+    
+    return schemas.Puntuacio.model_validate(puntuacio_completa)
+
+async def _obtenir_puntuacio_per_id(id: int) -> Dict[str, Any] | None:
+    """
+    Funció auxiliar per obtenir una puntuació completa mitjançant JOIN.
+    """
+    query = sqlalchemy.select(
+        models.puntuacions_temps.c.id,
+        models.puntuacions_temps.c.nom_usuari,
+        models.puntuacions_temps.c.temps_jugat,
+        models.puntuacions_enemics.c.enemics_derrotats,
+        models.puntuacions_temps.c.data_partida
+    ).select_from(
+        models.puntuacions_temps.join(
+            models.puntuacions_enemics,
+            sqlalchemy.and_(
+                models.puntuacions_temps.c.nom_usuari == models.puntuacions_enemics.c.nom_usuari,
+                models.puntuacions_temps.c.data_partida == models.puntuacions_enemics.c.data_partida
+            )
+        )
+    ).where(models.puntuacions_temps.c.id == id)
+    
+    return await database.fetch_one(query)
+
+async def _obtenir_totes_puntuacions() -> List[Dict[str, Any]]:
+    """
+    Funció auxiliar per obtenir totes les puntuacions mitjançant JOIN.
+    """
+    query = sqlalchemy.select(
+        models.puntuacions_temps.c.id,
+        models.puntuacions_temps.c.nom_usuari,
+        models.puntuacions_temps.c.temps_jugat,
+        models.puntuacions_enemics.c.enemics_derrotats,
+        models.puntuacions_temps.c.data_partida
+    ).select_from(
+        models.puntuacions_temps.join(
+            models.puntuacions_enemics,
+            sqlalchemy.and_(
+                models.puntuacions_temps.c.nom_usuari == models.puntuacions_enemics.c.nom_usuari,
+                models.puntuacions_temps.c.data_partida == models.puntuacions_enemics.c.data_partida
+            )
+        )
     )
-    # Executa la consulta i obté l'ID de l'últim registre inserit
-    last_record_id = await database.execute(query)
-
-    # Retorna el registre complet creat (incloent id i data_partida per defecte)
-    # Per fer això, necessitem fer una altra consulta per obtenir el registre acabat d'inserir
-    created_query = models.puntuacions.select().where(models.puntuacions.c.id == last_record_id)
-    created_puntuacion_db = await database.fetch_one(created_query)
-
-    # Assegurem que created_puntuacion_db no és None abans de crear l'objecte Puntuacion
-    if created_puntuacion_db is None:
-        raise Exception("No s'ha pogut recuperar la puntuació després de la creació.") # O un error HTTP més específic
-
-    return schemas.Puntuacio.model_validate(created_puntuacion_db) # Pydantic V2
-
+    
+    return await database.fetch_all(query)
 
 async def obtenir_puntuacions_per_temps(limit: int = 10) -> List[schemas.Puntuacio]:
     """
-    Obté les 'limit' millors puntuacions ordenades per temps_jugado (ASC)
+    Obté les 'limit' millors puntuacions ordenades per temps_jugat (ASC)
     i després per enemics_derrotats (DESC) com a desempat.
     """
-    query = (
-        models.puntuacions.select()
-        .order_by(models.puntuacions.c.temps_jugat.asc(), models.puntuacions.c.enemics_derrotats.desc())
-        .limit(limit)
+    resultats_db = await _obtenir_totes_puntuacions()
+    
+    # Ordenar per temps_jugat ASC, després per enemics_derrotats DESC
+    resultats_ordenats = sorted(
+        resultats_db,
+        key=lambda x: (x['temps_jugat'], -x['enemics_derrotats'])
     )
-    resultats_db = await database.fetch_all(query)
-    return [schemas.Puntuacio.model_validate(row) for row in resultats_db] # Pydantic V2
+    
+    # Limitar els resultats
+    resultats_limitats = resultats_ordenats[:limit]
+    
+    return [schemas.Puntuacio.model_validate(row) for row in resultats_limitats]
 
 async def obtenir_puntuacions_per_enemics(limit: int = 10) -> List[schemas.Puntuacio]:
     """
     Obté les 'limit' millors puntuacions ordenades per enemics_derrotats (DESC)
     i després per temps_jugat (ASC) com a desempat.
     """
-    query = (
-        models.puntuacions.select()
-        .order_by(models.puntuacions.c.enemics_derrotats.desc(), models.puntuacions.c.temps_jugat.asc())
-        .limit(limit)
+    resultats_db = await _obtenir_totes_puntuacions()
+    
+    # Ordenar per enemics_derrotats DESC, després per temps_jugat ASC
+    resultats_ordenats = sorted(
+        resultats_db,
+        key=lambda x: (-x['enemics_derrotats'], x['temps_jugat'])
     )
-    resultats_db = await database.fetch_all(query)
-    return [schemas.Puntuacio.model_validate(row) for row in resultats_db] # Pydantic V2
+    
+    # Limitar els resultats
+    resultats_limitats = resultats_ordenats[:limit]
+    
+    return [schemas.Puntuacio.model_validate(row) for row in resultats_limitats]
 
 async def eliminar_puntuacio(id: int) -> bool:
     """
-    Elimina una puntuació de la base de dades segons el seu ID.
+    Elimina una puntuació de ambdues taules segons el seu ID.
     Retorna True si s'ha eliminat amb èxit, False si no s'ha trobat.
     """
     try:
-        query = models.puntuacions.delete().where(models.puntuacions.c.id == id)
-        files_afectades = await database.execute(query)
+        # Primer obtenim les dades de la puntuació per poder eliminar de ambdues taules
+        puntuacio_data = await _obtenir_puntuacio_per_id(id)
         
-        # Gestionar el cas on files_afectades podria ser None
-        if files_afectades is None:
-            # Si la BD no retorna el nombre de files afectades, comprovem manualment si existeix
-            check_query = models.puntuacions.select().where(models.puntuacions.c.id == id)
-            exists = await database.fetch_one(check_query)
-            return exists is None  # Si ja no existeix, l'operació va ser exitosa
+        if puntuacio_data is None:
+            return False
         
-        # Si tenim un valor numèric, comprovem si es va eliminar algun registre
-        return files_afectades > 0
+        async with database.transaction():
+            # Eliminar de puntuacions_temps
+            query_temps = models.puntuacions_temps.delete().where(models.puntuacions_temps.c.id == id)
+            await database.execute(query_temps)
+            
+            # Eliminar de puntuacions_enemics usant nom_usuari i data_partida
+            query_enemics = models.puntuacions_enemics.delete().where(
+                sqlalchemy.and_(
+                    models.puntuacions_enemics.c.nom_usuari == puntuacio_data['nom_usuari'],
+                    models.puntuacions_enemics.c.data_partida == puntuacio_data['data_partida']
+                )
+            )
+            await database.execute(query_enemics)
+        
+        return True
         
     except Exception as e:
-        # Registra l'error per a diagnòstic (podria enviar-se a un sistema de logging)
         print(f"Error al eliminar puntuació: {str(e)}")
         return False

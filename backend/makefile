@@ -14,6 +14,7 @@ init-mac:
 	podman machine start
 
 build:
+
 	podman-compose build
 
 up:

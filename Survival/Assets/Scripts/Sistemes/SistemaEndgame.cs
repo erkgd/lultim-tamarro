@@ -5,6 +5,7 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine.Networking;
 
 /// <summary>
 /// Sistema que gestiona el final del juego y envía estadísticas al servidor 
@@ -15,7 +16,7 @@ public class SistemaEndgame : MonoBehaviour
     // Singleton para acceso global
     public static SistemaEndgame Instance { get; private set; }
     
-    [Header("UI Elements")]
+    [Header("Elements UI")]
     [SerializeField] private GameObject rankingPanel;
     [SerializeField] private TMP_InputField inputNomJugador;
     [SerializeField] private Button botonEnviar;
@@ -24,23 +25,26 @@ public class SistemaEndgame : MonoBehaviour
     [SerializeField] private GameObject rankingItemPrefab;
     [SerializeField] private TMP_Text textoTiempo;
     [SerializeField] private TMP_Text textoEnemigos;
+    [SerializeField] private Transform contenedorRankingTemps;
+    [SerializeField] private Transform contenedorRankingEnemics;
 
-    [Header("Configuración")]
-    [SerializeField] private bool mostrarDebug = true;  // Mostrar mensajes de debug
+    [Header("Configuració")]
+    [SerializeField] private bool mostrarDebug = true;  // Mostrar missatges de debug
     [SerializeField] private string apiUrl = "http://localhost:8080";
 
-    // Endpoint para enviar los datos
+    // Endpoint per enviar les dades
     private string endpoint = "http://localhost:8080/puntuacions/";
 
-    // Tracking de estado
+    // Tracking de l'estat
     private bool todosPerksDesbloqueados = false;
     private bool datosEnviados = false;
     private bool rankingEnviado = false;
+    private bool puntuacionEnviada = false;
     
     // Evento para notificar cuando se completa el juego
     public event Action OnJuegoCompletado;
     
-    [Header("Estadísticas en tiempo real")]
+    [Header("Estadístiques en temps real")]
     [SerializeField] private float tempsTranscorregut;
     [SerializeField] private int enemicsDerrotats;
 
@@ -59,7 +63,7 @@ public class SistemaEndgame : MonoBehaviour
         }
 
         if (mostrarDebug)
-            Debug.Log("SistemaEndgame: Sistema inicializado.");
+            Debug.Log("SistemaEndgame: Sistema iniciat.");
     }
     private void Start()
     {
@@ -74,7 +78,7 @@ public class SistemaEndgame : MonoBehaviour
         }
         
         if (mostrarDebug)
-            Debug.Log("SistemaEndgame: Sistema iniciado.");
+            Debug.Log("SistemaEndgame: Sistema iniciat.");
     }
 
     private void Update()
@@ -93,7 +97,7 @@ public class SistemaEndgame : MonoBehaviour
     {
         if (SistemaPerks.Instance == null)
         {
-            Debug.LogWarning("SistemaEndgame: SistemaPerks no encontrado.");
+            Debug.LogWarning("SistemaEndgame: SistemaPerks no trobat.");
             return false;
         }
 
@@ -103,7 +107,7 @@ public class SistemaEndgame : MonoBehaviour
             if (!SistemaPerks.Instance.EstaDesbloquejada(i))
             {
                 if (mostrarDebug)
-                    Debug.Log($"SistemaEndgame: Perk {SistemaPerks.Instance.NomPerk(i)} aún no desbloqueado.");
+                    Debug.Log($"SistemaEndgame: Perk {SistemaPerks.Instance.NomPerk(i)} encara no desbloquejat.");
                 return false;
             }
         }
@@ -112,29 +116,29 @@ public class SistemaEndgame : MonoBehaviour
     }
 
     /// <summary>
-    /// Envía los datos de tiempo y enemigos al servidor
+    /// Envia les dades de temps i enemics al servidor
     /// </summary>
     private void EnviarDatosAlServidor()
     {
-        // Obtener referencia a SistemaCrono
+        // Obtén la referencia a SistemaCrono
         SistemaCrono cronometro = FindObjectOfType<SistemaCrono>();
         if (cronometro == null)
         {
-            Debug.LogError("SistemaEndgame: No se pudo encontrar SistemaCrono.");
+            Debug.LogError("SistemaEndgame: No s'ha trobat SistemaCrono.");
             return;
         }
         
-        // Obtener el tiempo transcurrido
+        // Obtén el temps transcorregut
         float tiempoJuego = cronometro.GetElapsedTime();
         
-        // Obtener conteo de enemigos
+        // Obtén el conteo d'enemics
         int enemigosEliminados = 0;
         if (SistemaCounter.Instance != null)
         {
             enemigosEliminados = SistemaCounter.Instance.ObtenerTotalEnemigos();
         }        else
         {
-            Debug.LogWarning("SistemaEndgame: SistemaCounter no encontrado.");
+            Debug.LogWarning("SistemaEndgame: SistemaCounter no trobat.");
         }
         
         // Crear objeto de datos para enviar
@@ -148,21 +152,21 @@ public class SistemaEndgame : MonoBehaviour
         string jsonData = JsonUtility.ToJson(datos);
         
         // Log detallado del objeto y la URL antes de enviar
-        Debug.Log($"[SistemaEndgame] Enviando datos a {endpoint}:");
+        Debug.Log($"[SistemaEndgame] Enviant dades a {endpoint}:");
         Debug.Log($"[SistemaEndgame] JSON: {jsonData}");
         Debug.Log($"[SistemaEndgame] nom_usuari: {datos.nom_usuari}, temps_jugat: {datos.temps_jugat}, enemics_derrotats: {datos.enemics_derrotats}");
         
         if (mostrarDebug)
-            Debug.Log($"SistemaEndgame: Enviando datos al servidor: {jsonData}");
+            Debug.Log($"SistemaEndgame: Enviant dades al servidor: {jsonData}");
         
-        // Enviar datos usando HttpSystem
+        // Enviar dades usant HttpSystem
         if (HttpSystem.Instance != null)
         {
             HttpSystem.Instance.PostRequest(endpoint, jsonData, OnDatosEnviados);
         }
         else
         {
-            Debug.LogError("SistemaEndgame: HttpSystem no encontrado.");
+            Debug.LogError("SistemaEndgame: HttpSystem no trobat.");
         }
     }
     
@@ -174,39 +178,39 @@ public class SistemaEndgame : MonoBehaviour
         if (respuesta != null)
         {
             datosEnviados = true;
-            Debug.Log($"SistemaEndgame: Datos enviados correctamente. Respuesta: {respuesta}");
+            Debug.Log($"SistemaEndgame: Dades enviades correctament. Resposta: {respuesta}");
         }
         else
         {
-            Debug.LogError("SistemaEndgame: Error al enviar datos al servidor.");
+            Debug.LogError("SistemaEndgame: Error en enviar dades al servidor.");
         }
     }
 
-    // Llama a este método cuando el jugador complete el juego
+    // Quan el jugador completi el joc
     public void MostrarPanelRanking()
     {
         Debug.Log("[SistemaEndgame][LOG] -> MostrarPanelRanking llamado. rankingPanel=" + (rankingPanel != null) + ", rankingEnviado=" + rankingEnviado);
         if (rankingPanel != null && !rankingEnviado)
         {
-            // PAUSAR EL CRONÓMETRO
+            // PAUSAR EL CRONÒMETRE
             if (SistemaCrono.Instance != null)
                 SistemaCrono.Instance.PausarCronometro();
 
             rankingPanel.SetActive(true);
-            Debug.Log("[SistemaEndgame][LOG] -> rankingPanel.SetActive(true) ejecutado");
+            Debug.Log("[SistemaEndgame][LOG] -> rankingPanel.SetActive(true) executat");
             ActualizarEstadisticas();
-            Debug.Log("[SistemaEndgame][LOG] -> ActualizarEstadisticas llamado");
-            Debug.Log("[SistemaEndgame] Panel de ranking ACTIVADO");
+            Debug.Log("[SistemaEndgame][LOG] -> ActualizarEstadisticas anomenats");
+            Debug.Log("[SistemaEndgame] Panel de ranking ACTIVAT");
         }
         else
         {
-            Debug.Log("[SistemaEndgame][LOG] -> No se puede activar el panel de ranking (ya enviado o panel nulo)");
+            Debug.Log("[SistemaEndgame][LOG] -> No es pot activar el panel de ranking (ja enviat o panel nul)");
         }
     }
 
     private void ActualizarEstadisticas()
     {
-        Debug.Log("[SistemaEndgame][LOG] -> ActualizarEstadisticas ejecutado");
+        Debug.Log("[SistemaEndgame][LOG] -> ActualizarEstadisticas executat");
         float tiempo = 0f;
         if (SistemaCrono.Instance != null)
             tiempo = SistemaCrono.Instance.GetElapsedTime();
@@ -224,9 +228,14 @@ public class SistemaEndgame : MonoBehaviour
 
     private void EnviarPuntuacion()
     {
+        if (puntuacionEnviada)
+        {
+            Debug.LogWarning("La puntuació ja ha estat enviada. No es pot enviar més d'una vegada.");
+            return;
+        }
         if (string.IsNullOrEmpty(inputNomJugador.text))
         {
-            Debug.LogWarning("Por favor, introduce un nombre de jugador");
+            Debug.LogWarning("Si us plau, introdueix un nom de jugador");
             return;
         }
 
@@ -243,88 +252,100 @@ public class SistemaEndgame : MonoBehaviour
     private IEnumerator EnviarPuntuacionAlServidor(Puntuacio puntuacion)
     {
         string json = JsonUtility.ToJson(puntuacion);
-        Debug.Log("JSON enviado: " + json);
-        using (UnityEngine.Networking.UnityWebRequest www = new UnityEngine.Networking.UnityWebRequest($"{apiUrl}/puntuacions/", "POST"))
+        Debug.Log("JSON enviat: " + json);
+        using (UnityWebRequest www = new UnityWebRequest($"{apiUrl}/puntuacions/", "POST"))
         {
             www.SetRequestHeader("Content-Type", "application/json");
-            www.uploadHandler = new UnityEngine.Networking.UploadHandlerRaw(System.Text.Encoding.UTF8.GetBytes(json));
-            www.downloadHandler = new UnityEngine.Networking.DownloadHandlerBuffer();
+            www.uploadHandler = new UploadHandlerRaw(System.Text.Encoding.UTF8.GetBytes(json));
+            www.downloadHandler = new DownloadHandlerBuffer();
 
             yield return www.SendWebRequest();
 
-            if (www.result != UnityEngine.Networking.UnityWebRequest.Result.Success)
+            if (www.result != UnityWebRequest.Result.Success)
             {
-                Debug.LogError($"Error al enviar puntuación: {www.error}\n{www.downloadHandler.text}");
+                Debug.LogError($"Error en enviar puntuació: {www.error}\n{www.downloadHandler.text}");
             }
             else
             {
-                // Tras enviar, obtener el ranking y mostrarlo por consola
-                using (UnityEngine.Networking.UnityWebRequest getRanking = UnityEngine.Networking.UnityWebRequest.Get($"{apiUrl}/puntuacions/temps"))
+                puntuacionEnviada = true;
+                // Després d'enviar, obtén el ranking i mostra-lo per la consola
+                using (UnityWebRequest getRanking = UnityWebRequest.Get($"{apiUrl}/puntuacions/temps"))
                 {
                     yield return getRanking.SendWebRequest();
-                    if (getRanking.result == UnityEngine.Networking.UnityWebRequest.Result.Success)
+                    if (getRanking.result == UnityWebRequest.Result.Success)
                     {
                         string rankingJson = getRanking.downloadHandler.text;
-                        Debug.Log("[DEBUG] JSON ranking recibido tras enviar: " + rankingJson);
+                        Debug.Log("[DEBUG] JSON ranking rebut després d'enviar: " + rankingJson);
                         var puntuaciones = JsonHelper.FromJson<Puntuacio>(rankingJson);
                         Debug.Log("[DEBUG] --- TOP RANKING ---");
                         for (int i = 0; i < puntuaciones.Length; i++)
                         {
-                            Debug.Log($"[DEBUG] Puesto {i+1}: Nombre={puntuaciones[i].nom_usuari}, Tiempo={puntuaciones[i].temps_jugat}, Enemics={puntuaciones[i].enemics_derrotats}");
+                            Debug.Log($"[DEBUG] Puesto {i+1}: Nom={puntuaciones[i].nom_usuari}, Temps={puntuaciones[i].temps_jugat}, Enemics={puntuaciones[i].enemics_derrotats}");
                         }
                     }
                     else
                     {
-                        Debug.LogError("[DEBUG] Error al obtener ranking tras enviar: " + getRanking.error);
+                        Debug.LogError("[DEBUG] Error en obtenir el ranking després d'enviar: " + getRanking.error);
                     }
                 }
                 // Lógica original
-                StartCoroutine(ObtenerYMostrarRanking());
+                StartCoroutine(ObtenerYMostrarRankingTemps());
+                StartCoroutine(ObtenerYMostrarRankingEnemics());
                 rankingEnviado = true;
             }
         }
     }
 
-    private IEnumerator ObtenerYMostrarRanking()
+    private IEnumerator ObtenerYMostrarRankingTemps()
     {
-        Debug.Log("Obteniendo ranking de la API...");
-        using (UnityEngine.Networking.UnityWebRequest www = UnityEngine.Networking.UnityWebRequest.Get($"{apiUrl}/puntuacions/temps"))
+        using (UnityWebRequest www = UnityWebRequest.Get($"{apiUrl}/puntuacions/temps"))
         {
             yield return www.SendWebRequest();
-
-            Debug.Log("Resultado petición ranking: " + www.result + " | Código: " + www.responseCode);
-            Debug.Log("Texto recibido: " + www.downloadHandler.text);
-
-            if (www.result == UnityEngine.Networking.UnityWebRequest.Result.Success)
+            if (www.result == UnityWebRequest.Result.Success)
             {
-                string json = www.downloadHandler.text;
-                Debug.Log("JSON recibido: " + json);
-                // Usar JsonHelper para parsear el array
-                var puntuaciones = JsonHelper.FromJson<Puntuacio>(json);
-                MostrarRanking(new List<Puntuacio>(puntuaciones));
+                var puntuaciones = JsonHelper.FromJson<Puntuacio>(www.downloadHandler.text);
+                MostrarRanking(contenedorRankingTemps, puntuaciones);
             }
             else
             {
-                Debug.LogError($"Error al obtener ranking: {www.error}");
+                Debug.LogError("Error obtenint ranking temps: " + www.error);
             }
         }
     }
 
-    private void MostrarRanking(List<Puntuacio> puntuaciones)
+    private IEnumerator ObtenerYMostrarRankingEnemics()
     {
-        Debug.Log("Mostrando ranking. Elementos recibidos: " + puntuaciones.Count);
-
-        foreach (Transform child in rankingContainer)
+        using (UnityWebRequest www = UnityWebRequest.Get($"{apiUrl}/puntuacions/enemics"))
         {
-            Destroy(child.gameObject);
+            yield return www.SendWebRequest();
+            if (www.result == UnityWebRequest.Result.Success)
+            {
+                var puntuaciones = JsonHelper.FromJson<Puntuacio>(www.downloadHandler.text);
+                MostrarRanking(contenedorRankingEnemics, puntuaciones);
+            }
+            else
+            {
+                Debug.LogError("Error obtenint ranking enemics: " + www.error);
+            }
+        }
+    }
+
+    private void MostrarRanking(Transform contenedor, Puntuacio[] puntuaciones)
+    {
+        Debug.Log("Mostrant ranking. Elements rebuts: " + puntuaciones.Length);
+
+        foreach (Transform child in contenedor)
+        {
+            if (child.name != "TituloRankingTemps" && child.name != "TituloRankingEnemics")
+                Destroy(child.gameObject);
         }
 
-        int max = Mathf.Min(10, puntuaciones.Count);
+        int max = Mathf.Min(10, puntuaciones.Length);
         for (int i = 0; i < max; i++)
         {
             var puntuacion = puntuaciones[i];
             Debug.Log($"Instanciando ranking: {puntuacion.nom_usuari}, tiempo: {puntuacion.temps_jugat}, enemigos: {puntuacion.enemics_derrotats}");
-            GameObject item = Instantiate(rankingItemPrefab, rankingContainer);
+            GameObject item = Instantiate(rankingItemPrefab, contenedor);
             var textos = item.GetComponentsInChildren<TMPro.TMP_Text>(true);
 
             TMPro.TMP_Text textNom = null;
@@ -345,7 +366,7 @@ public class SistemaEndgame : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("El prefab ItemRanking no tiene los textos esperados por nombre (TextNom, TextTemps, TextEnemics).");
+                Debug.LogWarning("El prefab ItemRanking no té els textos esperats per nom (TextNom, TextTemps, TextEnemics).");
             }
         }
     }
@@ -363,28 +384,28 @@ public class SistemaEndgame : MonoBehaviour
     {
         Debug.Log("[SistemaEndgame][LOG] -> OnPlayerEnterHub llamado. todosPerksDesbloqueados=" + todosPerksDesbloqueados + ", rankingEnviado=" + rankingEnviado);
         
-        // Comprobar si todos los perks están desbloqueados
+        // Comprobar si tots els perks estan desbloqueados
         bool todosDesbloqueados = ComprobarTodosPerksDesbloqueados();
         Debug.Log("[SistemaEndgame][LOG] -> ComprobarTodosPerksDesbloqueados() = " + todosDesbloqueados);
         
-        // Si todos los perks están desbloqueados y aún no se ha mostrado el ranking
+        // Si tots els perks estan desbloqueados i encara no s'ha mostrat el ranking
         if (todosDesbloqueados && !rankingEnviado)
         {
             todosPerksDesbloqueados = true;
-            Debug.Log("[SistemaEndgame][LOG] -> Condición para mostrar ranking CUMPLIDA. Llamando a MostrarRankingConDelay...");
+            Debug.Log("[SistemaEndgame][LOG] -> Condició per mostrar ranking CUMPLIDA. Llamant a MostrarRankingConDelay...");
             StartCoroutine(MostrarRankingConDelay());
         }
         else
         {
-            Debug.Log("[SistemaEndgame][LOG] -> No se cumplen las condiciones para mostrar el ranking. todosDesbloqueados=" + todosDesbloqueados + ", rankingEnviado=" + rankingEnviado);
+            Debug.Log("[SistemaEndgame][LOG] -> No es compleixen les condicions per mostrar el ranking. todosDesbloqueados=" + todosDesbloqueados + ", rankingEnviado=" + rankingEnviado);
         }
     }
 
     private IEnumerator MostrarRankingConDelay()
     {
-        Debug.Log("[SistemaEndgame][LOG] -> MostrarRankingConDelay iniciado. Esperando 1 segundo...");
+        Debug.Log("[SistemaEndgame][LOG] -> MostrarRankingConDelay iniciat. Esperant 1 segon...");
         yield return new WaitForSeconds(1f);
-        Debug.Log("[SistemaEndgame][LOG] -> Llamando a MostrarPanelRanking...");
+        Debug.Log("[SistemaEndgame][LOG] -> Llamant a MostrarPanelRanking...");
         MostrarPanelRanking();
     }
 
@@ -393,13 +414,13 @@ public class SistemaEndgame : MonoBehaviour
         if (rankingPanel != null)
         {
             rankingPanel.SetActive(false);
-            Debug.Log("[SistemaEndgame] Panel de ranking CERRADO");
+            Debug.Log("[SistemaEndgame] Panel de ranking TANCAT");
         }
     }
 }
 
 /// <summary>
-/// Clase para serializar los datos que se enviarán al servidor
+/// Classe per serialitzar les dades que es enviaran al servidor
 /// </summary>
 [Serializable]
 public class EndgameData
